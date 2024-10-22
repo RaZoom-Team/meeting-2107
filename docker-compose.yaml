@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backend:
+    container_name: mt2107_backend
+    build: ./backend
+    restart: always
+    ports:
+      - "8022:80"
+    environment:
+      IS_PROD: 1
+      PYTHONUNBUFFERED: "TRUE"
+    env_file:
+      - .env
+    volumes:
+      - /var/lib/docker/volumes/meeting2107/backend:/app/data
