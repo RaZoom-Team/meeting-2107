@@ -1,5 +1,5 @@
 from sqlalchemy import BigInteger, Column, String
-from sqlmodel import Field, Relationship, SQLModel, UUID
+from sqlmodel import Field, Relationship, SQLModel
 
 from config import API_URL, CLASS_LITERAL
 

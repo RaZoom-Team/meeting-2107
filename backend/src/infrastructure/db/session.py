@@ -10,9 +10,9 @@ from config import DB_URL
 
 engine: AsyncEngine = create_async_engine(DB_URL, pool_size = 100, max_overflow = 0)
 
-async def init_models():
-    async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.create_all)
+# async def init_models():
+#     async with engine.begin() as conn:
+#         await conn.run_sync(SQLModel.metadata.create_all)
 
 def get_session():
     session = AsyncSession(engine, expire_on_commit=False, autoflush=False)
