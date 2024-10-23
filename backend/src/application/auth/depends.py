@@ -1,4 +1,4 @@
-from fastapi import Depends, Request
+from fastapi import Depends, Header, Request
 import hashlib
 import hmac
 import json
@@ -11,8 +11,8 @@ from infrastructure.exc import AuthDataException
 from infrastructure.exc.auth import UnregisteredException
 
 
-async def get_userid(request: Request) -> int:
-    tg = dict(urllib.parse.parse_qsl(request.headers.get("Tg-Authorization")))
+async def get_userid(auth: str = Header(alias="Tg-Authorization", description="Telegram Init Data")) -> int:
+    tg = dict(urllib.parse.parse_qsl(auth))
     if not tg.get("hash"): raise AuthDataException
     hash = tg.pop('hash')
     params = "\n".join([f"{k}={v}" for k, v in sorted(tg.items(), key=lambda x: x[0])])

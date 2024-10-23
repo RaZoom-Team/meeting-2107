@@ -2,7 +2,6 @@ from contextlib import asynccontextmanager
 from typing import Callable, Coroutine
 from fastapi import FastAPI, APIRouter, Request
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.exc import IntegrityError, PendingRollbackError
 
 from infrastructure.db import get_session
 from infrastructure.db.session import CTX_SESSION
@@ -42,7 +41,7 @@ def create_app(
             CTX_SESSION.set(session)
             try:
                 response = await coro(request)
-            except (IntegrityError, PendingRollbackError) as err:
+            except Exception as err:
                 await session.rollback()
                 raise err
         return response

@@ -6,7 +6,7 @@ from PIL import Image
 
 from domain.attachment import AttachmentRepository
 from infrastructure.db import Attachment
-from infrastructure.exc import InvalidImageException
+from infrastructure.exc import InvalidImageException, NotFound
 
 
 class AttachmentService:
@@ -31,3 +31,10 @@ class AttachmentService:
         atch = await self.repo.insert(id = str(uuid.uuid4()), filetype = "jpeg", user_id = user_id)
         await self.save_file(file, atch.id, atch.filetype)
         return atch
+    
+    async def download_file(self, id: str) -> tuple[bytes, str]:
+        atch = await self.repo.get(id)
+        if not atch: raise NotFound()
+
+        async with aiofiles.open(f"data/{atch.id}.{atch.filetype}", "rb") as f:
+            return await f.read(), atch.filetype

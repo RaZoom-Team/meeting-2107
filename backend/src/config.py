@@ -50,3 +50,7 @@ CLASS_LITERAL = Literal[
     "9И",
     "9Н",
 ]
+
+# ----- [[ OTHER ]] -----
+
+API_URL = os.environ.get("API_URL")
