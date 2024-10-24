@@ -1,3 +1,4 @@
+from typing import Optional
 from sqlalchemy import BigInteger, Column, String
 from sqlmodel import Field, Relationship, SQLModel
 
@@ -13,8 +14,10 @@ class User(SQLModel, table = True):
     literal: CLASS_LITERAL = Field(sa_type=String)
     male: bool
     is_active: bool = Field(default=True)
+    focus_id: int | None = Field(foreign_key="users.id")
 
     attachments: list["Attachment"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
+    focus_user: Optional["User"] = Relationship(sa_relationship_kwargs={"remote_side": "User.id"})
 
 class View(SQLModel, table = True):
     __tablename__ = "views"

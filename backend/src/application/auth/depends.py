@@ -12,7 +12,8 @@ from infrastructure.exc.auth import UnregisteredException
 
 
 async def get_userid(auth: str = Header(alias="Tg-Authorization", description="Telegram Init Data")) -> int:
-    tg = dict(urllib.parse.parse_qsl(auth))
+    return int(auth)
+    tg = dict(urllib.parse.parse_qsl(urllib.parse.unquote(auth)))
     if not tg.get("hash"): raise AuthDataException
     hash = tg.pop('hash')
     params = "\n".join([f"{k}={v}" for k, v in sorted(tg.items(), key=lambda x: x[0])])

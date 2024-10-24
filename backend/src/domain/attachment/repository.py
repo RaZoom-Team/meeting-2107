@@ -1,5 +1,6 @@
+from sqlalchemy import ScalarResult
 from sqlmodel import select, insert
-from infrastructure.db import BaseRepository, Attachment
+from infrastructure.db import BaseRepository, Attachment, User
 
 
 class AttachmentRepository(BaseRepository):
@@ -9,11 +10,11 @@ class AttachmentRepository(BaseRepository):
         res = await self.session.exec(query)
         return res.first()
     
-    async def insert(self, id: str, filetype: str, user_id: int) -> Attachment:
-        query = insert(Attachment).values(
+    async def insert(self, id: str, filetype: str, user: User) -> Attachment:
+        atch = Attachment(
             id = id,
             filetype = filetype,
-            user_id = user_id
-        ).returning(Attachment)
-        res = await self.session.exec(query)
-        return res.scalar_one()
+            user = user
+        )
+        self.session.add(atch)
+        return atch

@@ -1,7 +1,8 @@
 from application.attachment.service import AttachmentService
 from config import MAX_AVATAR_SIZE
 from domain.user import BaseUser, UserRepository
-from infrastructure.db.tables import User
+from domain.views.repository import ViewRepository
+from infrastructure.db import CTX_SESSION, User
 from infrastructure.exc import AlreadyRegisteredException, FileSizeException
 
 
@@ -24,5 +25,17 @@ class UserService:
             literal = data.literal,
             male = data.male
         )
-        await AttachmentService().upload(avatar, user_id)
+        await AttachmentService().upload(avatar, user)
+        await self.select_focus(user)
         return user
+    
+    async def select_focus(self, user: User) -> User | None:
+        user.focus_user = None
+        focus = await self.repo.get_noviewed(user)
+        if not focus:
+            del_count = await ViewRepository().drop_user(user)
+            if not del_count: return None
+            focus = await self.repo.get_noviewed(user)
+        await ViewRepository().insert(user, focus)
+        user.focus_user = focus
+        return focus

@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, File
+from fastapi import APIRouter, Body, Depends, File, Form
 
 from application.auth import get_user, get_userid
 from application.user import UserService
 from config import MAX_AVATAR_SIZE
-from domain.user import UserDTO, BaseUser
+from domain.user import FullUserDTO, BaseUser
 from infrastructure.db import User, CTX_SESSION
 
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.get("")
-async def get_user_info(user: User = Depends(get_user)) -> UserDTO:
+async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
     """
     Получение информации о текущем пользователей
     """
@@ -25,7 +25,7 @@ async def get_user_info(user: User = Depends(get_user)) -> UserDTO:
         401: {"description": "Invalid Telegram Data"}
     }
 )
-async def register_user(avatar: bytes = File(), data: BaseUser = Depends(), user_id: int = Depends(get_userid)) -> UserDTO:
+async def register_user(avatar: bytes = File(), data: BaseUser = Depends(), user_id: int = Depends(get_userid)) -> FullUserDTO:
     """
     Регистрация пользователя
     """
