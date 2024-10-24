@@ -15,24 +15,26 @@ class User(SQLModel, table = True):
     male: bool
     is_active: bool = Field(default=True)
     focus_id: int | None = Field(foreign_key="users.id")
+    focus_is_liked: bool = Field(default=False)
 
     attachments: list["Attachment"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
     focus_user: Optional["User"] = Relationship(sa_relationship_kwargs={"remote_side": "User.id"})
 
-class View(SQLModel, table = True):
-    __tablename__ = "views"
+class Action(SQLModel):
 
     id: int = Field(primary_key=True)
     user_id: int = Field(foreign_key="users.id", index = True)
     target_id: int = Field(foreign_key="users.id")
 
-class Like(SQLModel, table = True):
+class View(Action, table = True):
+    __tablename__ = "views"
+
+class Like(Action, table = True):
     __tablename__ = "likes"
 
-    id: int = Field(primary_key=True)
-    user_id: int = Field(foreign_key="users.id")
-    target_id: int = Field(foreign_key="users.id")
     is_mutually: bool = Field(default=False)
+    user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.user_id"})
+    target_user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.target_id"})
 
 class Attachment(SQLModel, table = True):
     __tablename__ = "attachments"

@@ -17,4 +17,6 @@ class AttachmentRepository(BaseRepository):
             user = user
         )
         self.session.add(atch)
+        await self.session.flush()
+        await self.session.refresh(user)
         return atch

@@ -16,6 +16,9 @@ async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
     """
     Получение информации о текущем пользователей
     """
+    if not user.focus_user and user.is_active:
+        await UserService().select_focus(user)
+        await CTX_SESSION.get().commit()
     return user
 
 @router.post(
@@ -40,6 +43,14 @@ async def patch_user(data: PatchUser, user: User = Depends(get_user)) -> FullUse
     Редактирование пользователя
     """
     for field, value in data.model_dump().items():
-        if value: setattr(user, field, value)
+        if value is not None and getattr(user, field) != value:
+            setattr(user, field, value)
+            if field == "male":
+                await UserService().select_focus(user)
+            if field == "is_active":
+                if not value: 
+                    user.focus_user = None
+                else:
+                    await UserService().select_focus(user)
     await CTX_SESSION.get().commit()
     return user

@@ -26,6 +26,7 @@ class FullUserDTO(UserDTO):
     id: int = Field(description="ID пользователя", examples=[1000000000])
     is_active: bool = Field(description="Активна-ли анкета")
     focus_user: UserDTO | None = Field(description="Текущая просматриваемая анкета")
+    focus_is_liked: bool = Field(description="Является-ли текущая анкета вашим ответом на лайк пользователя")
 
 @partial_model
 class PatchUser(BaseUser):

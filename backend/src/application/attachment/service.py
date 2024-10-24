@@ -30,7 +30,7 @@ class AttachmentService:
             raise InvalidImageException
 
     async def upload(self, file: bytes, user: User) -> Attachment:
-        atch = await self.repo.insert(id = uuid.uuid4().hex, filetype = "jpeg", user = user)
+        atch = await self.repo.insert(id = str(uuid.uuid4()), filetype = "jpeg", user = user)
         await self.save_file(file, atch.id, atch.filetype)
         return atch
     

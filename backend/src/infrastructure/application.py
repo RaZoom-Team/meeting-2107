@@ -39,11 +39,7 @@ def create_app(
     async def session_middleware(request: Request, coro):
         async with get_session() as session:
             CTX_SESSION.set(session)
-            try:
-                response = await coro(request)
-            except Exception as err:
-                await session.rollback()
-                raise err
+            response = await coro(request)
         return response
 
     return app
