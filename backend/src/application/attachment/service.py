@@ -19,7 +19,7 @@ class AttachmentService:
         try:
             img_data = io.BytesIO()
             with Image.open(io.BytesIO(file)) as img:
-                img.convert("RGB")
+                img = img.convert("RGB")
                 img.save(img_data, filetype, optimize=True, quality=95)
             if not os.path.exists("data"):
                 os.mkdir("data")
@@ -30,7 +30,7 @@ class AttachmentService:
             raise InvalidImageException
 
     async def upload(self, file: bytes, user: User) -> Attachment:
-        atch = await self.repo.insert(id = str(uuid.uuid4()), filetype = "jpeg", user = user)
+        atch = await self.repo.insert(id = uuid.uuid4().hex, filetype = "jpeg", user = user)
         await self.save_file(file, atch.id, atch.filetype)
         return atch
     

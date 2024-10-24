@@ -2,12 +2,13 @@ from pydantic import BaseModel, Field, field_validator
 
 from config import API_URL, CLASS_LITERAL
 from infrastructure.db import Attachment
+from infrastructure.utils import partial_model
 
 
 class BaseUser(BaseModel):
-    name: str = Field(max_length=64, examples=["Иван"], description="Имя")
-    surname: str = Field(max_length=64, examples=["Иванов"], description="Фамилия")
-    desc: str = Field(max_length=128, examples=["Главный айтишник класса"], description="Описание")
+    name: str = Field(max_length=21, examples=["Иван"], description="Имя")
+    surname: str = Field(max_length=21, examples=["Иванов"], description="Фамилия")
+    desc: str = Field(max_length=64, examples=["Главный айтишник класса"], description="Описание")
     literal: CLASS_LITERAL = Field(description="Класс")
     male: bool = Field(description="Пол (мужчина или нет)")
 
@@ -22,5 +23,10 @@ class UserDTO(BaseUser):
         return attachments
 
 class FullUserDTO(UserDTO):
+    id: int = Field(description="ID пользователя", examples=[1000000000])
     is_active: bool = Field(description="Активна-ли анкета")
     focus_user: UserDTO | None = Field(description="Текущая просматриваемая анкета")
+
+@partial_model
+class PatchUser(BaseUser):
+    is_active: bool = Field(description="Активна-ли анкета")

@@ -4,6 +4,7 @@ from application.auth import get_user, get_userid
 from application.user import UserService
 from config import MAX_AVATAR_SIZE
 from domain.user import FullUserDTO, BaseUser
+from domain.user.models import PatchUser
 from infrastructure.db import User, CTX_SESSION
 
 
@@ -30,5 +31,15 @@ async def register_user(avatar: bytes = File(), data: BaseUser = Depends(), user
     Регистрация пользователя
     """
     user = await UserService().register(user_id, data, avatar)
+    await CTX_SESSION.get().commit()
+    return user
+
+@router.patch("")
+async def patch_user(data: PatchUser, user: User = Depends(get_user)) -> FullUserDTO:
+    """
+    Редактирование пользователя
+    """
+    for field, value in data.model_dump().items():
+        if value: setattr(user, field, value)
     await CTX_SESSION.get().commit()
     return user
