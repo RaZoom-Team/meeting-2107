@@ -1,3 +1,4 @@
+from application.tg.service import TelegramService
 from infrastructure.exc import FocusNotSelected
 from infrastructure.db import Like, User
 from application.user import UserService
@@ -20,6 +21,11 @@ class LikeService:
         else:
             if status:
                 await self.repo.insert(user, user.focus_user)
+                await TelegramService().send_message(
+                    "🥰 Твоя анкета кому-то понравилась"
+                    "\n⚡️ Скорее заходи в приложение и посмотри кто это!",
+                    user_id = user.focus_user.id
+                )
         await UserService().select_focus(user)
 
     async def answer_like(self, like: Like, status: bool) -> None:
@@ -27,6 +33,16 @@ class LikeService:
             like.is_mutually = True
             like2 = await self.repo.insert(like.target_user, like.user)
             like2.is_mutually = True
+            await TelegramService().send_message(
+                f"❤️‍🔥 Ты взаимно лайкнул(-а) {like.user.name} {like.user.surname} из {like.user.literal}!"
+                f"\n💬 Скорее переходите в <a href='tg://user?id={like.user.id}'>ЛС</a> и общайтесь",
+                user_id = like.target_user.id
+            )
+            await TelegramService().send_message(
+                f"❤️‍🔥 {like.target_user.name} {like.target_user.surname} из {like.target_user.literal} взаимно лайкнул(-а) тебя!"
+                f"\n💬 Скорее переходите в <a href='tg://user?id={like.target_user.id}'>ЛС</a> и общайтесь",
+                user_id = like.user.id
+            )
         else:
             await self.repo.delete(like)
 

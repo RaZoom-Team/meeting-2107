@@ -1,5 +1,6 @@
+from datetime import datetime
 from typing import Optional
-from sqlalchemy import BigInteger, Column, String, false
+from sqlalchemy import TIMESTAMP, BigInteger, Column, String, false, text
 from sqlmodel import Field, Relationship, SQLModel
 
 from config import API_URL, CLASS_LITERAL
@@ -14,8 +15,13 @@ class User(SQLModel, table = True):
     literal: CLASS_LITERAL = Field(sa_type=String)
     male: bool
     is_active: bool = Field(default=True)
-    focus_id: int | None = Field(foreign_key="users.id")
+    focus_id: int | None = Field(sa_type=BigInteger(), foreign_key="users.id")
     focus_is_liked: bool = Field(default=False, sa_column_kwargs={"server_default": false()})
+    created_at: Optional[datetime] = Field(sa_column=Column(
+        TIMESTAMP(timezone=True),
+        nullable=False,
+        server_default=text("CURRENT_TIMESTAMP"),
+    ))
 
     attachments: list["Attachment"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
     focus_user: Optional["User"] = Relationship(sa_relationship_kwargs={"remote_side": "User.id"})
@@ -23,8 +29,8 @@ class User(SQLModel, table = True):
 class Action(SQLModel):
 
     id: int = Field(primary_key=True)
-    user_id: int = Field(foreign_key="users.id", index = True)
-    target_id: int = Field(foreign_key="users.id")
+    user_id: int = Field(sa_type=BigInteger(), foreign_key="users.id", index = True, ondelete="cascade")
+    target_id: int = Field(sa_type=BigInteger(), foreign_key="users.id", ondelete="cascade")
 
 class View(Action, table = True):
     __tablename__ = "views"
@@ -33,15 +39,25 @@ class Like(Action, table = True):
     __tablename__ = "likes"
 
     is_mutually: bool = Field(default=False, sa_column_kwargs={"server_default": false()})
-    user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.user_id"})
-    target_user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.target_id"})
+    user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.user_id", "lazy": "selectin"})
+    target_user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.target_id", "lazy": "selectin"})
+    created_at: Optional[datetime] = Field(sa_column=Column(
+        TIMESTAMP(timezone=True),
+        nullable=False,
+        server_default=text("CURRENT_TIMESTAMP"),
+    ))
 
 class Attachment(SQLModel, table = True):
     __tablename__ = "attachments"
 
     id: str = Field(sa_type=String, primary_key=True)
-    user_id: int = Field(foreign_key="users.id", index = True)
+    user_id: int = Field(sa_type=BigInteger(), foreign_key="users.id", index = True, ondelete="cascade")
     filetype: str
+    created_at: Optional[datetime] = Field(sa_column=Column(
+        TIMESTAMP(timezone=True),
+        nullable=False,
+        server_default=text("CURRENT_TIMESTAMP"),
+    ))
 
     user: User = Relationship(back_populates="attachments")
 

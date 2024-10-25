@@ -38,7 +38,7 @@ async def register_user(avatar: bytes = File(), data: BaseUser = Depends(), user
     return user
 
 @router.patch("")
-async def patch_user(data: PatchUser, user: User = Depends(get_user)) -> FullUserDTO:
+async def edit_user(data: PatchUser, user: User = Depends(get_user)) -> FullUserDTO:
     """
     Редактирование пользователя
     """
@@ -52,5 +52,19 @@ async def patch_user(data: PatchUser, user: User = Depends(get_user)) -> FullUse
                     user.focus_user = None
                 else:
                     await UserService().select_focus(user)
+    await CTX_SESSION.get().commit()
+    return user
+
+@router.patch(
+    "/avatar",
+    responses={
+        400: {"description": "Exceeded max file size (limit %s KB) / Invalid image file" % (MAX_AVATAR_SIZE / 1024)},
+    }
+)
+async def update_avatar(avatar: bytes = File(), user: User = Depends(get_user)) -> FullUserDTO:
+    """
+    Обновление аватара пользователя
+    """
+    await UserService().update_avatar(user, avatar)
     await CTX_SESSION.get().commit()
     return user

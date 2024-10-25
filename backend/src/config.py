@@ -18,6 +18,8 @@ DB_URL = f"{DB_DRIVER}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 # ----- [[ TELEGRAM ]] -----
 
 TG_TOKEN = os.environ.get("TG_TOKEN")
+TG_ADMIN_CHAT = int(os.environ.get("TG_ADMIN_CHAT"))
+TG_API_URL = "https://api.telegram.org/bot" + TG_TOKEN
 
 # ----- [[ SETTINGS ]] -----
 

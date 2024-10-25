@@ -28,6 +28,12 @@ class AttachmentService:
                 await f.write(img_data.read())
         except OSError:
             raise InvalidImageException
+        
+    async def delete_file(self, attachment: Attachment) -> None:
+        try:
+            os.remove(f"data/{attachment.id}.{attachment.filetype}")
+        except OSError:
+            pass
 
     async def upload(self, file: bytes, user: User) -> Attachment:
         atch = await self.repo.insert(id = str(uuid.uuid4()), filetype = "jpeg", user = user)
@@ -40,3 +46,7 @@ class AttachmentService:
 
         async with aiofiles.open(f"data/{atch.id}.{atch.filetype}", "rb") as f:
             return await f.read(), atch.filetype
+
+    async def delete(self, attachment: Attachment) -> None:
+        await self.delete_file(attachment)
+        await self.repo.delete(attachment)

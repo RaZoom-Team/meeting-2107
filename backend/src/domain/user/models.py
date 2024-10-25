@@ -6,8 +6,8 @@ from infrastructure.utils import partial_model
 
 
 class BaseUser(BaseModel):
-    name: str = Field(max_length=21, examples=["Иван"], description="Имя")
-    surname: str = Field(max_length=21, examples=["Иванов"], description="Фамилия")
+    name: str = Field(min_length=3, max_length=21, examples=["Иван"], description="Имя")
+    surname: str = Field(min_length=3, max_length=21, examples=["Иванов"], description="Фамилия")
     desc: str = Field(max_length=64, examples=["Главный айтишник класса"], description="Описание")
     literal: CLASS_LITERAL = Field(description="Класс")
     male: bool = Field(description="Пол (мужчина или нет)")
@@ -31,3 +31,6 @@ class FullUserDTO(UserDTO):
 @partial_model
 class PatchUser(BaseUser):
     is_active: bool = Field(description="Активна-ли анкета")
+
+class ReportUser(BaseModel):
+    reason: str = Field(min_length=3, max_length=64)
