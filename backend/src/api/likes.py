@@ -2,9 +2,8 @@ from fastapi import APIRouter, Body, Depends
 
 from application.auth import get_user
 from application.likes import LikeService
-from application.user.service import UserService
-from domain.user import UserDTO, FullUserDTO
-from domain.user.models import ReportUser
+from application.user import UserService
+from domain.user import FullUserDTO, FriendUserDTO, ReportUser
 from infrastructure.db import User, CTX_SESSION
 
 router = APIRouter(prefix="/user/likes", tags=["Likes"])
@@ -38,7 +37,7 @@ async def report_user(report: ReportUser, user: User = Depends(get_user)) -> Ful
     return user
 
 @router.get("")
-async def get_likes(user: User = Depends(get_user)) -> list[UserDTO]:
+async def get_likes(user: User = Depends(get_user)) -> list[FriendUserDTO]:
     """
     Получение всех взаимных лайков
     """

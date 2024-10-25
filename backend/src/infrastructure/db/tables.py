@@ -9,6 +9,7 @@ class User(SQLModel, table = True):
     __tablename__ = "users"
 
     id: int = Field(sa_column=Column(BigInteger(), primary_key=True, autoincrement=False))
+    username: str
     name: str
     surname: str
     desc: str

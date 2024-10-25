@@ -36,7 +36,7 @@ class UserRepository(BaseRepository):
         res = await self.session.exec(query)
         return res.first()
 
-    async def insert(self, id: int, name: str, surname: str, male: bool, desc: str, literal: CLASS_LITERAL) -> User:
+    async def insert(self, id: int, username: str, name: str, surname: str, male: bool, desc: str, literal: CLASS_LITERAL) -> User:
         # query = insert(User).values(
         #     id = id,
         #     name = name,
@@ -49,6 +49,7 @@ class UserRepository(BaseRepository):
         # return res.scalar_one()
         user = User(
             id = id,
+            username = username,
             name = name,
             surname = surname,
             male = male,

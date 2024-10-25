@@ -5,6 +5,7 @@ from domain.user import BaseUser, UserRepository
 from domain.views import ViewRepository
 from infrastructure.db import User
 from infrastructure.exc import AlreadyRegisteredException, FileSizeException
+from infrastructure.exc.auth import UsernameRequired
 from infrastructure.exc.likes import FocusNotSelected
 
 
@@ -13,14 +14,17 @@ class UserService:
     def __init__(self) -> None:
         self.repo = UserRepository()
 
-    async def register(self, user_id: int, data: BaseUser, avatar: bytes) -> User:
-        if await self.repo.get(user_id):
+    async def register(self, userdata: dict, data: BaseUser, avatar: bytes) -> User:
+        if await self.repo.get(userdata['id']):
             raise AlreadyRegisteredException
+        if not userdata.get("username", None):
+            raise UsernameRequired
         if len(avatar) > MAX_AVATAR_SIZE:
             raise FileSizeException
         
         user = await self.repo.insert(
-            id = user_id,
+            id = userdata['id'],
+            username = userdata['username'],
             name = data.name,
             surname = data.surname,
             desc = data.desc,
@@ -31,7 +35,7 @@ class UserService:
         await self.select_focus(user)
         await TelegramService().send_to_chat(
             "<b>Новый пользователь</b>"
-            f"\n<b>Имя:</b> <a href=\"tg://user?id={user_id}\">{user.name} {user.surname}</a> <b>(<code>{user.id}</code>)</b>"
+            f"\n<b>Имя:</b> <a href=\"t.me/{user.username}\">{user.name} {user.surname}</a> <b>(<code>{user.id}</code>)</b>"
             f"\n<b>Класс:</b> {user.literal}"
             f"\n<b>Описание:</b> <i>{user.desc}</i>"
         )
@@ -63,8 +67,8 @@ class UserService:
         target = user.focus_user
         await TelegramService().send_to_chat(
             "<b>🆘 Новый репорт</b>"
-            f"\n<b>Отправитель:</b> <a href='tg://user?id={user.id}'>{user.name} {user.surname}</a> <b>(<code>{user.id}</code>)</b>"
-            f"\n<b>Нарушитель:</b> <a href='tg://user?id={target.id}'>{target.name} {target.surname}</a> <b>(<code>{target.id}</code>)</b>"
+            f"\n<b>Отправитель:</b> <a href='t.me/{user.username}'>{user.name} {user.surname}</a> <b>(<code>{user.id}</code>)</b>"
+            f"\n<b>Нарушитель:</b> <a href='t.me/{user.username}'>{target.name} {target.surname}</a> <b>(<code>{target.id}</code>)</b>"
             f"\n<b>Причина:</b> {reason}"
         )
         await self.select_focus(user)

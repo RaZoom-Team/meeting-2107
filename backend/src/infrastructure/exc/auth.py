@@ -10,3 +10,7 @@ class AuthDataException(HTTPException):
 class UnregisteredException(HTTPException):
     def __init__(self) -> None:
         super().__init__(401, "This account is not registered")
+
+class UsernameRequired(HTTPException):
+    def __init__(self) -> None:
+        super().__init__(401, "Username required")

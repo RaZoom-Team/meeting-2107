@@ -19,4 +19,4 @@ class TelegramService:
         asyncio.ensure_future(self._send_message(text, chat_id=chat_id, user_id=user_id))
 
     async def send_to_chat(self, text: str) -> None:
-        self.send_message(text, chat_id = TG_ADMIN_CHAT)
+        await self.send_message(text, chat_id = TG_ADMIN_CHAT)

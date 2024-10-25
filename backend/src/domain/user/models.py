@@ -21,6 +21,9 @@ class UserDTO(BaseUser):
         if attachments and isinstance(attachments[0], Attachment):
             return [atch.url for atch in attachments]
         return attachments
+    
+class FriendUserDTO(UserDTO):
+    username: str = Field(description="Username пользователя", examples=["exampleuser"])
 
 class FullUserDTO(UserDTO):
     id: int = Field(description="ID пользователя", examples=[1000000000])

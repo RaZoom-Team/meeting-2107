@@ -35,12 +35,12 @@ class LikeService:
             like2.is_mutually = True
             await TelegramService().send_message(
                 f"❤️‍🔥 Ты взаимно лайкнул(-а) {like.user.name} {like.user.surname} из {like.user.literal}!"
-                f"\n💬 Скорее переходите в <a href='tg://user?id={like.user.id}'>ЛС</a> и общайтесь",
+                f"\n💬 Скорее переходите в <a href='t.me/{like.user.username}'>ЛС</a> и общайтесь",
                 user_id = like.target_user.id
             )
             await TelegramService().send_message(
                 f"❤️‍🔥 {like.target_user.name} {like.target_user.surname} из {like.target_user.literal} взаимно лайкнул(-а) тебя!"
-                f"\n💬 Скорее переходите в <a href='tg://user?id={like.target_user.id}'>ЛС</a> и общайтесь",
+                f"\n💬 Скорее переходите в <a href='t.me/{like.target_user.username}'>ЛС</a> и общайтесь",
                 user_id = like.user.id
             )
         else:
