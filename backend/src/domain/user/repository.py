@@ -13,7 +13,10 @@ class UserRepository(BaseRepository):
         return res.first()
     
     async def get_liked(self, user: User) -> User | None:
-        query = select(User).join(Like, Like.user_id == User.id).filter((Like.target_id == user.id) & (Like.is_mutually == False)).limit(1)
+        query = select(User) \
+        .join(Like, Like.user_id == User.id) \
+        .filter((Like.target_id == user.id) & (Like.is_mutually == False) & User.is_active) \
+        .limit(1)
         res = await self.session.exec(query)
         return res.first()
 

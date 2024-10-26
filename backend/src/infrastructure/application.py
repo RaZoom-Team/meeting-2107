@@ -3,8 +3,8 @@ from typing import Callable, Coroutine
 from fastapi import FastAPI, APIRouter, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from infrastructure.db import get_session
-from infrastructure.db.session import CTX_SESSION
+from infrastructure.db import get_session, CTX_SESSION
+from infrastructure.exc import HTTPError
 
 def create_app(
         routers: list[APIRouter],
@@ -21,7 +21,8 @@ def create_app(
             await task()
 
     app = FastAPI(lifespan=lifespan, responses = {
-        401: {"description": "Invalid Telegram Data / This account is not registered"}
+        400: {"description": "Invalid Telegram Data (2000)"},
+        401: {"description": "This account is not registered (3000) / Username required (2001)"}
     })
 
     for router in routers:
@@ -34,6 +35,7 @@ def create_app(
         allow_headers = ["*"],
         allow_credentials = True
     )
+    app.add_exception_handler(HTTPError, HTTPError.handler)
 
     @app.middleware("http")
     async def session_middleware(request: Request, coro):

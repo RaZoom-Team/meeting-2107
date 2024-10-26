@@ -9,6 +9,7 @@ from config import MAX_AVATAR_SIZE, TG_TOKEN
 from domain.user import FullUserDTO, BaseUser
 from domain.user.models import PatchUser
 from infrastructure.db import User, CTX_SESSION
+from infrastructure.exc.user import VerifyRestrictionsException
 
 
 router = APIRouter(prefix="/user", tags=["User"])
@@ -27,9 +28,9 @@ async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
 @router.post(
     "",
     responses={
-        403: {"description": "Already registered"},
-        400: {"description": "Exceeded max file size (limit %s KB) / Invalid image file" % (MAX_AVATAR_SIZE / 1024)},
-        401: {"description": "Invalid Telegram Data"}
+        403: {"description": "Already registered (3001)"},
+        400: {"description": "Exceeded max file size (limit %s KB) (2002) / Invalid image file (2003)" % (MAX_AVATAR_SIZE / 1024)},
+        401: {"description": "undefined in endpoint"}
     }
 )
 async def register_user(avatar: bytes = File(), data: BaseUser = Depends(), userdata: dict = Depends(get_userdata)) -> FullUserDTO:
@@ -40,13 +41,20 @@ async def register_user(avatar: bytes = File(), data: BaseUser = Depends(), user
     await CTX_SESSION.get().commit()
     return user
 
-@router.patch("")
+@router.patch(
+    "",
+    responses = {
+        403: {"description": "Verify can not change name, surname, literal and male (3002)"}
+    }
+)
 async def edit_user(data: PatchUser, user: User = Depends(get_user)) -> FullUserDTO:
     """
     Редактирование пользователя
     """
     for field, value in data.model_dump().items():
         if value is not None and getattr(user, field) != value:
+            if user.verify and field in ["name", "username", "male", "literal"]:
+                raise VerifyRestrictionsException
             setattr(user, field, value)
             if field == "male":
                 await UserService().select_focus(user)
@@ -61,7 +69,7 @@ async def edit_user(data: PatchUser, user: User = Depends(get_user)) -> FullUser
 @router.patch(
     "/avatar",
     responses={
-        400: {"description": "Exceeded max file size (limit %s KB) / Invalid image file" % (MAX_AVATAR_SIZE / 1024)},
+        400: {"description": "Exceeded max file size (limit %s KB) (2002) / Invalid image file (2003)" % (MAX_AVATAR_SIZE / 1024)},
     }
 )
 async def update_avatar(avatar: bytes = File(), user: User = Depends(get_user)) -> FullUserDTO:

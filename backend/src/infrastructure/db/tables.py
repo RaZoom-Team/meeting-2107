@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from sqlalchemy import TIMESTAMP, BigInteger, Column, String, false, text
+from sqlalchemy import TIMESTAMP, BigInteger, Column, String, false, text, true
 from sqlmodel import Field, Relationship, SQLModel
 
 from config import API_URL, CLASS_LITERAL
@@ -15,9 +15,10 @@ class User(SQLModel, table = True):
     desc: str
     literal: CLASS_LITERAL = Field(sa_type=String)
     male: bool
-    is_active: bool = Field(default=True)
+    is_active: bool = Field(sa_column_kwargs={"server_default": true()})
+    verify: bool = Field(sa_column_kwargs={"server_default": false()})
     focus_id: int | None = Field(sa_type=BigInteger(), foreign_key="users.id")
-    focus_is_liked: bool = Field(default=False, sa_column_kwargs={"server_default": false()})
+    focus_is_liked: bool = Field(sa_column_kwargs={"server_default": false()})
     created_at: Optional[datetime] = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
@@ -39,7 +40,7 @@ class View(Action, table = True):
 class Like(Action, table = True):
     __tablename__ = "likes"
 
-    is_mutually: bool = Field(default=False, sa_column_kwargs={"server_default": false()})
+    is_mutually: bool = Field(sa_column_kwargs={"server_default": false()})
     user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.user_id", "lazy": "selectin"})
     target_user: User = Relationship(sa_relationship_kwargs={"foreign_keys": "Like.target_id", "lazy": "selectin"})
     created_at: Optional[datetime] = Field(sa_column=Column(

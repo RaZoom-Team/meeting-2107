@@ -19,7 +19,7 @@ class LikeService:
             if like.target_user == user:
                 await self.answer_like(like, status)
         else:
-            if status:
+            if status and user.focus_user.is_active:
                 await self.repo.insert(user, user.focus_user)
                 await TelegramService().send_message(
                     "🥰 Твоя анкета кому-то понравилась"

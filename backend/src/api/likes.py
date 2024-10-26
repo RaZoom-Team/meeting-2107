@@ -11,7 +11,7 @@ router = APIRouter(prefix="/user/likes", tags=["Likes"])
 @router.post(
     "",
     responses={
-        403: {"description": "Focus user not selected"}
+        403: {"description": "Focus user not selected (3003)"}
     }
 )
 async def send_like(status: bool = Body(embed=True), user: User = Depends(get_user)) -> FullUserDTO:
@@ -25,7 +25,7 @@ async def send_like(status: bool = Body(embed=True), user: User = Depends(get_us
 @router.post(
     "/report",
     responses={
-        403: {"description": "Focus user not selected"}
+        403: {"description": "Focus user not selected (3003)"}
     }
 )
 async def report_user(report: ReportUser, user: User = Depends(get_user)) -> FullUserDTO:

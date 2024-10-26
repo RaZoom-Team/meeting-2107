@@ -14,6 +14,7 @@ class BaseUser(BaseModel):
 
 class UserDTO(BaseUser):
     attachments: list[str] = Field(examples=[[f"{API_URL}/attachments/abcde1234567890"]], description="Вложения пользователя")
+    verify: bool = Field(description="Верифицирован-ли пользователь")
 
     @field_validator("attachments", mode="before")
     @classmethod

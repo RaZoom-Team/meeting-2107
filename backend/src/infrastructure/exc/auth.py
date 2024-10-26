@@ -1,16 +1,14 @@
-from typing import Any, Dict
-from typing_extensions import Annotated, Doc
-from fastapi import HTTPException
+from .basic import ErrorCode, HTTPError
 
 
-class AuthDataException(HTTPException):
+class AuthDataException(HTTPError):
     def __init__(self) -> None:
-        super().__init__(401, "Invalid Telegram Data")
+        super().__init__(400, ErrorCode.E2000_INVALID_TDATA, "Invalid Telegram Data")
 
-class UnregisteredException(HTTPException):
+class UnregisteredException(HTTPError):
     def __init__(self) -> None:
-        super().__init__(401, "This account is not registered")
+        super().__init__(401, ErrorCode.E3000_UNREGISTERED, "This account is not registered")
 
-class UsernameRequired(HTTPException):
+class UsernameRequired(HTTPError):
     def __init__(self) -> None:
-        super().__init__(401, "Username required")
+        super().__init__(400, ErrorCode.E2001_USERNAME_REQ, "Username required")

@@ -1,8 +1,6 @@
-from typing import Any, Dict
-from typing_extensions import Annotated, Doc
-from fastapi import HTTPException
+from .basic import ErrorCode, HTTPError
 
 
-class FocusNotSelected(HTTPException):
+class FocusNotSelected(HTTPError):
     def __init__(self) -> None:
-        super().__init__(403, "Focus user not selected")
+        super().__init__(403, ErrorCode.E3003_FOCUS_NOTSELECTED, "Focus user not selected")
