@@ -40,16 +40,6 @@ class UserRepository(BaseRepository):
         return res.first()
 
     async def insert(self, id: int, username: str, name: str, surname: str, male: bool, desc: str, literal: CLASS_LITERAL) -> User:
-        # query = insert(User).values(
-        #     id = id,
-        #     name = name,
-        #     surname = surname,
-        #     male = male,
-        #     desc = desc,
-        #     literal = literal
-        # ).returning(User)
-        # res = await self.session.exec(query)
-        # return res.scalar_one()
         user = User(
             id = id,
             username = username,

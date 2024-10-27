@@ -2,8 +2,9 @@ import asyncio
 from logging.config import fileConfig
 import os, sys
 
-os.chdir(os.path.join(os.getcwd(), "src/"))
-sys.path.insert(0, '')
+if not os.environ.get("IS_PROD"):
+    os.chdir(os.path.join(os.getcwd(), "src/"))
+    sys.path.insert(0, '')
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
@@ -21,8 +22,10 @@ config = context.config
 
 config.set_main_option('sqlalchemy.url', DB_URL)
 
-os.chdir(os.path.join(os.getcwd(), "../"))
-sys.path.insert(0, '')
+
+if not os.environ.get("IS_PROD"):
+    os.chdir(os.path.join(os.getcwd(), "../"))
+    sys.path.insert(0, '')
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

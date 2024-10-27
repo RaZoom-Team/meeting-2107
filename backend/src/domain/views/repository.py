@@ -10,9 +10,6 @@ class ViewRepository(BaseRepository):
         return res.rowcount
     
     async def insert(self, user: User, target: User) -> View:
-        # query = insert(View).values(user_id = user.id, target_id = target.id).returning(View)
-        # res = await self.session.exec(query)
-        # return res.scalar_one()
         view = View(
             user_id = user.id,
             target_id = target.id
