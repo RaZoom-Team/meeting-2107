@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import (
 
 from config import DB_URL
 
-engine: AsyncEngine = create_async_engine(DB_URL, pool_size = 100, max_overflow = 0)
+engine: AsyncEngine = create_async_engine(DB_URL, pool_size = 200, max_overflow = 0, pool_recycle=600)
 
 # async def init_models():
 #     async with engine.begin() as conn:

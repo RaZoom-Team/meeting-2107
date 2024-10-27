@@ -20,6 +20,7 @@ services:
   db:
     image: postgres:alpine
     container_name: mt2107_db
+    command: -c 'max_connections=1000'
     volumes:
       - pgdata:/var/lib/postgresql/data/
     expose:

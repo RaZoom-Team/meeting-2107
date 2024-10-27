@@ -1,8 +1,10 @@
-from fastapi import Depends, Header, Request
+from fastapi import Depends, Header, Request, Security
 import hashlib
 import hmac
 import json
 import urllib.parse
+
+from fastapi.security import APIKeyHeader
 
 from config import TG_TOKEN
 from domain.user.repository import UserRepository
@@ -11,7 +13,10 @@ from infrastructure.db.session import CTX_SESSION
 from infrastructure.exc import AuthDataException
 from infrastructure.exc.auth import UnregisteredException, UsernameRequired
 
-async def get_userdata(auth: str = Header(alias="Tg-Authorization", description="Telegram Init Data")) -> dict:
+
+tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")
+
+async def get_userdata(auth: str = Security(tg_auth)) -> dict:
     tg = dict(urllib.parse.parse_qsl(urllib.parse.unquote(auth)))
     if not tg.get("hash"): raise AuthDataException
     hash = tg.pop('hash')
