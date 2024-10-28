@@ -7,6 +7,7 @@ from infrastructure.db import User
 from infrastructure.exc import AlreadyRegisteredException, FileSizeException
 from infrastructure.exc.auth import UsernameRequired
 from infrastructure.exc.likes import FocusNotSelected
+from infrastructure.exc.user import VerifyRestrictionsException
 
 
 class UserService:
@@ -72,3 +73,17 @@ class UserService:
             f"\n<b>Причина:</b> {reason}"
         )
         await self.select_focus(user)
+
+    async def edit_user(self, user: User, data: BaseUser) -> None:
+        for field, value in data.model_dump().items():
+            if value is not None and getattr(user, field) != value:
+                if user.verify and field in ["name", "username", "male", "literal"]:
+                    raise VerifyRestrictionsException
+                setattr(user, field, value)
+                if field == "male":
+                    await self.select_focus(user)
+                if field == "is_active":
+                    if not value: 
+                        user.focus_user = None
+                    else:
+                        await self.select_focus(user)

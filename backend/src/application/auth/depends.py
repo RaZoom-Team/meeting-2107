@@ -7,11 +7,10 @@ import urllib.parse
 from fastapi.security import APIKeyHeader
 
 from config import TG_TOKEN
-from domain.user.repository import UserRepository
-from infrastructure.db import User
-from infrastructure.db.session import CTX_SESSION
-from infrastructure.exc import AuthDataException
-from infrastructure.exc.auth import UnregisteredException, UsernameRequired
+from domain.user import UserRepository
+from application.user import UserService
+from infrastructure.db import User, CTX_SESSION
+from infrastructure.exc import AuthDataException, UnregisteredException, UsernameRequired
 
 
 tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")
@@ -45,5 +44,8 @@ async def get_user(userdata: dict = Depends(get_userdata)) -> User:
         raise UsernameRequired
     if user.username != username:
         user.username = username
+        await CTX_SESSION.get().commit()
+    if not user.focus_user and user.is_active:
+        await UserService().select_focus(user)
         await CTX_SESSION.get().commit()
     return user
