@@ -8,6 +8,7 @@ from infrastructure.db import User, CTX_SESSION
 
 router = APIRouter(prefix="/user/likes", tags=["Likes"])
 
+
 @router.post(
     "",
     responses={
@@ -22,6 +23,7 @@ async def send_like(status: bool = Body(embed=True), user: User = Depends(get_us
     await CTX_SESSION.get().commit()
     return user
 
+
 @router.post(
     "/report",
     responses={
@@ -35,6 +37,7 @@ async def report_user(report: ReportUser, user: User = Depends(get_user)) -> Ful
     await UserService().report_focus(user, report.reason)
     await CTX_SESSION.get().commit()
     return user
+
 
 @router.get("")
 async def get_likes(user: User = Depends(get_user)) -> list[FriendUserDTO]:

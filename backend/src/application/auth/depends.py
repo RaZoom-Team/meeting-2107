@@ -1,4 +1,4 @@
-from fastapi import Depends, Header, Request, Security
+from fastapi import Depends, Security
 import hashlib
 import hmac
 import json
@@ -15,9 +15,11 @@ from infrastructure.exc import AuthDataException, UnregisteredException, Usernam
 
 tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")
 
+
 async def get_userdata(auth: str = Security(tg_auth)) -> dict:
     tg = dict(urllib.parse.parse_qsl(urllib.parse.unquote(auth)))
-    if not tg.get("hash"): raise AuthDataException
+    if not tg.get("hash"):
+        raise AuthDataException
     hash = tg.pop('hash')
     params = "\n".join([f"{k}={v}" for k, v in sorted(tg.items(), key=lambda x: x[0])])
     truth_hash = hmac.new(
@@ -25,17 +27,21 @@ async def get_userdata(auth: str = Security(tg_auth)) -> dict:
         params.encode(),
         hashlib.sha256
     ).hexdigest()
-    if hash != truth_hash: raise AuthDataException
+    if hash != truth_hash:
+        raise AuthDataException
 
     user = json.loads(tg['user'])
     return user
 
+
 async def get_userid(userdata: dict = Depends(get_userdata)) -> int:
     return userdata['id']
 
+
 async def get_user(userdata: dict = Depends(get_userdata)) -> User:
     user = await UserRepository().get(userdata['id'])
-    if not user: raise UnregisteredException
+    if not user:
+        raise UnregisteredException
 
     username = userdata.get("username", None)
     if not username:

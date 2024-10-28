@@ -6,14 +6,14 @@ from domain.likes import LikeRepository
 
 
 class LikeService:
-    
+
     def __init__(self) -> None:
         self.repo = LikeRepository()
 
     async def answer_focus(self, user: User, status: bool) -> None:
         if not user.focus_user:
             raise FocusNotSelected
-        
+
         like = await self.repo.get_byuser(user, user.focus_user)
         if like:
             if like.target_user == user:
@@ -34,13 +34,13 @@ class LikeService:
             like2 = await self.repo.insert(like.target_user, like.user)
             like2.is_mutually = True
             await TelegramService().send_message(
-                f"❤️‍🔥 Ты взаимно лайкнул(-а) {like.user.name} {like.user.surname} из {like.user.literal}!"
-                f"\n💬 Скорее переходите в <a href='t.me/{like.user.username}'>ЛС</a> и общайтесь",
+                f"❤️‍🔥 Ты взаимно лайкнул(-а) {like.user.fullname} из {like.user.literal}!"
+                f"\n💬 Скорее переходите в {like.user.custom_mention("ЛС")} и общайтесь",
                 user_id = like.target_user.id
             )
             await TelegramService().send_message(
-                f"❤️‍🔥 {like.target_user.name} {like.target_user.surname} из {like.target_user.literal} взаимно лайкнул(-а) тебя!"
-                f"\n💬 Скорее переходите в <a href='t.me/{like.target_user.username}'>ЛС</a> и общайтесь",
+                f"❤️‍🔥 {like.target_user.fullname} из {like.target_user.literal} взаимно лайкнул(-а) тебя!"
+                f"\n💬 Скорее переходите в {like.target_user.custom_mention("ЛС")} и общайтесь",
                 user_id = like.user.id
             )
         else:
