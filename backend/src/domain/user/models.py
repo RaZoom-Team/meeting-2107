@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from pydantic import BaseModel, Field, field_validator
 
 from config import API_URL, CLASS_LITERAL
@@ -8,17 +9,25 @@ from infrastructure.utils import partial_model
 class BaseUser(BaseModel):
     name: str = Field(min_length=3, max_length=21, examples=["Иван"], description="Имя")
     surname: str = Field(min_length=3, max_length=21, examples=["Иванов"], description="Фамилия")
-    desc: str = Field(max_length=64, examples=["Главный айтишник класса"], description="Описание")
+    desc: str = Field(max_length=300, examples=["Главный айтишник класса"], description="Описание")
     literal: CLASS_LITERAL = Field(description="Класс")
     male: bool = Field(description="Пол (мужчина или нет)")
 
+    @field_validator("name", "surname")
+    @staticmethod
+    def name_validator(val):
+        if " " in val:
+            raise HTTPException(422, "name and surname should be one word")
+        return val
+
+    
 class UserDTO(BaseUser):
     attachments: list[str] = Field(examples=[[f"{API_URL}/attachments/abcde1234567890"]], description="Вложения пользователя")
     verify: bool = Field(description="Верифицирован-ли пользователь")
 
     @field_validator("attachments", mode="before")
     @classmethod
-    def test_validator(cls, attachments: list[str] | list[Attachment]):
+    def attachments_refactor(cls, attachments: list[str] | list[Attachment]):
         if attachments and isinstance(attachments[0], Attachment):
             return [atch.url for atch in attachments]
         return attachments

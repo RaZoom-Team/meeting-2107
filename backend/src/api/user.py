@@ -21,7 +21,6 @@ async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
     """
     return user
 
-
 @router.post(
     "",
     responses={

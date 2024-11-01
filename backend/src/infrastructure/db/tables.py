@@ -22,12 +22,16 @@ class User(SQLModel, table=True):
     male: bool
     is_active: bool = Field(sa_column_kwargs={"server_default": true()})
     verify: bool = Field(sa_column_kwargs={"server_default": false()})
-    focus_id: int | None = Field(sa_type=BigInteger(), foreign_key="users.id")
+    focus_id: int | None = Field(
+        sa_type=BigInteger(),
+        foreign_key="users.id",
+        ondelete="cascade"
+    )
     focus_is_liked: bool = Field(sa_column_kwargs={"server_default": false()})
     created_at: Optional[datetime] = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
+        server_default=text("now()"),
     ))
 
     attachments: list["Attachment"] = Relationship(
@@ -85,7 +89,7 @@ class Like(Action, table=True):
     created_at: Optional[datetime] = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
+        server_default=text("now()"),
     ))
 
 
@@ -103,7 +107,7 @@ class Attachment(SQLModel, table=True):
     created_at: Optional[datetime] = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
+        server_default=text("now()"),
     ))
 
     user: User = Relationship(back_populates="attachments")
