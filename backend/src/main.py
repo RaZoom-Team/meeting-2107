@@ -9,5 +9,6 @@ app = create_app(
         AttachmentRouter,
         SystemRouter
     ],
-    root_path=ROOT_PATH
+    root_path=ROOT_PATH,
+    ignoring_log_endpoints=[("/system/ping", "GET")]
 )
