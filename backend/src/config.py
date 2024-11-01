@@ -56,3 +56,4 @@ CLASS_LITERAL = Literal[
 # ----- [[ OTHER ]] -----
 
 API_URL = os.environ.get("API_URL")
+ROOT_PATH = os.environ.get("ROOT_PATH", "")

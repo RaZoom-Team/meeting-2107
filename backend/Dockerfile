@@ -10,4 +10,9 @@ COPY ./alembic.ini /app/alembic.ini
 COPY ./entry.sh /app/entry.sh
 RUN chmod +x /app/entry.sh
 
-ENTRYPOINT [ "./entry.sh" ]
+RUN apt-get -y update; apt-get -y install curl
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+ENTRYPOINT [ "sh", "entry.sh" ]

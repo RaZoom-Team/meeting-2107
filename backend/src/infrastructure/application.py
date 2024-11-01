@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 from typing import Callable, Coroutine
 from fastapi import FastAPI, APIRouter, Request
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from infrastructure.db import get_session, CTX_SESSION
 from infrastructure.exc import HTTPError
@@ -9,7 +10,8 @@ from infrastructure.exc import HTTPError
 def create_app(
         routers: list[APIRouter],
         startup_tasks: list[Callable[[], Coroutine]] = [],
-        shutdown_tasks: list[Callable[[], Coroutine]] = []
+        shutdown_tasks: list[Callable[[], Coroutine]] = [],
+        root_path: str = ""
     ):
 
     @asynccontextmanager
@@ -22,8 +24,8 @@ def create_app(
 
     app = FastAPI(lifespan=lifespan, responses = {
         400: {"description": "Invalid Telegram Data (2000)"},
-        401: {"description": "This account is not registered (3000) / Username required (2001)"}
-    })
+        401: {"description": "This account is not registered (3000) / Username required (2001)"},
+    }, root_path=root_path)
 
     for router in routers:
         app.include_router(router)
@@ -34,6 +36,10 @@ def create_app(
         allow_methods = ["*"],
         allow_headers = ["*"],
         allow_credentials = True
+    )
+    app.add_middleware(
+        ProxyHeadersMiddleware,
+        trusted_hosts = ["*"] # Direct access not allowed to API
     )
     app.add_exception_handler(HTTPError, HTTPError.handler)
 
