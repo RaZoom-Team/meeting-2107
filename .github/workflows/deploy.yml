@@ -16,7 +16,7 @@ jobs:
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2.3.1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Generate auth hosts
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
