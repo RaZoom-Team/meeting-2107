@@ -28,7 +28,9 @@ class User(SQLModel, table=True):
         ondelete="cascade"
     )
     focus_is_liked: bool = Field(sa_column_kwargs={"server_default": false()})
-    created_at: Optional[datetime] = Field(sa_column=Column(
+    is_banned: bool = Field(sa_column_kwargs={"server_default": false()})
+    ban_reason: Optional[str]
+    created_at: datetime = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
         server_default=text("now()"),
@@ -86,7 +88,7 @@ class Like(Action, table=True):
         "foreign_keys": "Like.target_id",
         "lazy": "selectin"
     })
-    created_at: Optional[datetime] = Field(sa_column=Column(
+    created_at: datetime = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
         server_default=text("now()"),
@@ -104,7 +106,7 @@ class Attachment(SQLModel, table=True):
         ondelete="cascade"
     )
     filetype: str
-    created_at: Optional[datetime] = Field(sa_column=Column(
+    created_at: datetime = Field(sa_column=Column(
         TIMESTAMP(timezone=True),
         nullable=False,
         server_default=text("now()"),

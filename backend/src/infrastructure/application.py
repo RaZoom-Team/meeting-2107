@@ -31,6 +31,7 @@ def create_app(
         responses = {
             400: {"description": "Invalid Telegram Data (2000)"},
             401: {"description": "This account is not registered (3000) / Username required (2001)"},
+            403: {"description": "Subscription to channel required (3004) / Your account has been banned (3005)"}
         }, 
         root_path = root_path
     )

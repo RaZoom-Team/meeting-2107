@@ -1,13 +1,12 @@
 from application.attachment import AttachmentService
-from application.tg.service import TelegramService
+from application.tg import TelegramService
 from config import MAX_AVATAR_SIZE
 from domain.user import BaseUser, UserRepository
 from domain.views import ViewRepository
 from infrastructure.db import User
-from infrastructure.exc import AlreadyRegisteredException, FileSizeException
 from infrastructure.exc.auth import UsernameRequired
 from infrastructure.exc.likes import FocusNotSelected
-from infrastructure.exc.user import VerifyRestrictionsException
+from infrastructure.exc.user import AlreadyRegisteredException, FileSizeException, BannedException, SubscriptionRequiredException, VerifyRestrictionsException
 
 
 class UserService:
@@ -94,3 +93,20 @@ class UserService:
                         user.focus_user = None
                     else:
                         await self.select_focus(user)
+
+    async def check_user(self, user: User, username: str) -> None:
+        if not username:
+            user.is_active = False
+            raise UsernameRequired
+        if user.username != username:
+            user.username = username
+        if not user.focus_user and user.is_active:
+            await self.select_focus(user)
+        if user.is_banned:
+            user.is_active = False
+            raise BannedException(user.ban_reason)
+        
+    async def check_user_subcription(self, user: User) -> None:
+        if not await TelegramService().check_subscribed(user.id):
+            user.is_active = False
+            raise SubscriptionRequiredException

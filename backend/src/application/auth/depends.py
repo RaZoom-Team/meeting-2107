@@ -1,16 +1,15 @@
 from fastapi import Depends, Security
+from fastapi.security import APIKeyHeader
 import hashlib
 import hmac
 import json
 import urllib.parse
 
-from fastapi.security import APIKeyHeader
-
-from config import TG_TOKEN
+from config import TG_CHANNEL_ID, TG_TOKEN
 from domain.user import UserRepository
 from application.user import UserService
 from infrastructure.db import User, CTX_SESSION
-from infrastructure.exc import AuthDataException, UnregisteredException, UsernameRequired
+from infrastructure.exc import AuthDataException, UnregisteredException
 
 
 tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")
@@ -44,14 +43,9 @@ async def get_user(userdata: dict = Depends(get_userdata)) -> User:
         raise UnregisteredException
 
     username = userdata.get("username", None)
-    if not username:
-        user.is_active = False
+    try:
+        await UserService().check_user(user, username)
+    finally:
         await CTX_SESSION.get().commit()
-        raise UsernameRequired
-    if user.username != username:
-        user.username = username
-        await CTX_SESSION.get().commit()
-    if not user.focus_user and user.is_active:
-        await UserService().select_focus(user)
-        await CTX_SESSION.get().commit()
+    
     return user

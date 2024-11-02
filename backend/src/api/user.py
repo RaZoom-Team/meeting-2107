@@ -17,19 +17,23 @@ router = APIRouter(prefix="/user", tags=["User"])
 @router.get("")
 async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
     """
-    Получение информации о текущем пользователей
+    Получение информации о текущем пользователе
     """
+    try:
+        await UserService().check_user_subcription(user)
+    finally:
+        await CTX_SESSION.get().commit()
     return user
 
 @router.post(
     "",
     responses={
-        403: {"description": "Already registered (3001)"},
         400: {
             "description": "Exceeded max file size (limit %s KB) (2002) / Invalid image file (2003)"
             % {MAX_AVATAR_SIZE / 1024}
         },
-        401: {"description": "undefined in endpoint"}
+        401: {"description": "undefined in endpoint"},
+        403: {"description": "Already registered (3001) / Subscription to channel required (3004) / Your account has been banned (3005)"}
     }
 )
 async def register_user(

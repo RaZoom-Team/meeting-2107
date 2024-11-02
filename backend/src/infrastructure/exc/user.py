@@ -1,4 +1,6 @@
-from config import MAX_AVATAR_SIZE
+from urllib.parse import quote
+
+from config import MAX_AVATAR_SIZE, TG_CHANNEL_ID
 from infrastructure.exc.basic import ErrorCode, HTTPError
 
 
@@ -17,3 +19,11 @@ class InvalidImageException(HTTPError):
 class VerifyRestrictionsException(HTTPError):
     def __init__(self) -> None:
         super().__init__(403, ErrorCode.E3002_VERIFY_RESTRICTION, "Verify can not change name, surname, literal and male")
+
+class SubscriptionRequiredException(HTTPError):
+    def __init__(self) -> None:
+        super().__init__(403, ErrorCode.E3004_SUBSCRIPTION_REQ, "Subscription to channel required", headers={"X-Channel": TG_CHANNEL_ID})
+
+class BannedException(HTTPError):
+    def __init__(self, reason: str) -> None:
+        super().__init__(403, ErrorCode.E3005_BANNED, "Your account has been banned", headers={"X-Reason": quote(reason)})
