@@ -19,16 +19,16 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Generate auth hosts
-        run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ${{ vars.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Sync with server
-        run: rsync -avz --exclude='.env' ./ $SERVER_USER@$SERVER_HOST:$SERVER_DIR
+        run: rsync -avz --exclude='.env' ./ ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }}:${{ vars.SERVER_DIR }}
 
       - name: Build and run
         env:
-          SERVER_USER: $SERVER_USER
-          SERVER_HOST: $SERVER_HOST
-          SERVER_DIR: $SERVER_DIR
+          SERVER_USER: ${{ vars.SERVER_USER }}
+          SERVER_HOST: ${{ vars.SERVER_HOST }}
+          SERVER_DIR: ${{ vars.SERVER_DIR }}
         run: |
           ssh $SERVER_USER@$SERVER_HOST << EOF
             cd $SERVER_DIR
