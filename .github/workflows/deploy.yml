@@ -10,23 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.7.0
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2.3.1
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Generate auth hosts
+        run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+
       - name: Sync with server
-        run: |
-          rsync -avz --exclude='.env' ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_DIR }}
+        run: rsync -avz --exclude='.env' ./ $SERVER_USER@$SERVER_HOST:$SERVER_DIR
 
       - name: Build and run
         env:
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
-          SERVER_DIR: ${{ secrets.SERVER_DIR }}
+          SERVER_USER: $SERVER_USER
+          SERVER_HOST: $SERVER_HOST
+          SERVER_DIR: $SERVER_DIR
         run: |
           ssh $SERVER_USER@$SERVER_HOST << EOF
             cd $SERVER_DIR
