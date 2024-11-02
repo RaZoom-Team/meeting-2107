@@ -1,6 +1,6 @@
 from urllib.parse import quote
 
-from config import MAX_AVATAR_SIZE, TG_CHANNEL_ID
+from config import MAX_AVATAR_SIZE, TG_CHANNEL_LINK
 from infrastructure.exc.basic import ErrorCode, HTTPError
 
 
@@ -22,7 +22,7 @@ class VerifyRestrictionsException(HTTPError):
 
 class SubscriptionRequiredException(HTTPError):
     def __init__(self) -> None:
-        super().__init__(403, ErrorCode.E3004_SUBSCRIPTION_REQ, "Subscription to channel required", headers={"X-Channel": TG_CHANNEL_ID})
+        super().__init__(403, ErrorCode.E3004_SUBSCRIPTION_REQ, "Subscription to channel required", headers={"X-Channel": TG_CHANNEL_LINK})
 
 class BannedException(HTTPError):
     def __init__(self, reason: str) -> None:

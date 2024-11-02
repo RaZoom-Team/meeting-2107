@@ -20,6 +20,7 @@ DB_URL = f"{DB_DRIVER}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 TG_TOKEN = os.environ.get("TG_TOKEN")
 TG_ADMIN_CHAT = os.environ.get("TG_ADMIN_CHAT")
 TG_CHANNEL_ID = os.environ.get("TG_CHANNEL_ID") # Dont use in .env, if you dont want this requirement
+TG_CHANNEL_LINK = os.environ.get("TG_CHANNEL_LINK")
 TG_API_URL = "https://api.telegram.org/bot" + TG_TOKEN
 
 # ----- [[ SETTINGS ]] -----
