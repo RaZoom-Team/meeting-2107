@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+env:
+  SERVER_USER: ${{ vars.SERVER_USER }}
+  SERVER_HOST: ${{ vars.SERVER_HOST }}
+  SERVER_DIR: ${{ vars.SERVER_DIR }}
+
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
@@ -14,10 +19,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up SSH
-        uses: shimataro/ssh-key-action@v2
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Generate auth hosts
         run: ssh-keyscan -H ${{ vars.SERVER_HOST }} >> ~/.ssh/known_hosts
@@ -25,13 +29,16 @@ jobs:
       - name: Sync with server
         run: rsync -avz --exclude='.env' ./ ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }}:${{ vars.SERVER_DIR }}
 
-      - name: Build and run
-        env:
-          SERVER_USER: ${{ vars.SERVER_USER }}
-          SERVER_HOST: ${{ vars.SERVER_HOST }}
-          SERVER_DIR: ${{ vars.SERVER_DIR }}
+      - name: Build
         run: |
           ssh $SERVER_USER@$SERVER_HOST << EOF
             cd $SERVER_DIR
-            docker compose up -d --build
+            docker compose build
+          EOF
+
+      - name: Run
+        run: |
+          ssh $SERVER_USER@$SERVER_HOST << EOF
+            cd $SERVER_DIR
+            docker compose up -d
           EOF
