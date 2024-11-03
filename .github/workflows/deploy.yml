@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 env:
   SERVER_USER: ${{ vars.SERVER_USER }}
@@ -65,7 +64,7 @@ jobs:
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
-          BUILD_NAME: ${{ github.action }}
+          BUILD_NAME: ${{ github.event.head_commit.message }}
         run: python3 ./utils/send_result.py success
 
   fail-report:
@@ -84,5 +83,5 @@ jobs:
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
-          BUILD_NAME: ${{ github.action }}
+          BUILD_NAME: ${{ github.event.head_commit.message }}
         run: python3 ./utils/send_result.py fail
