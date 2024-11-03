@@ -30,8 +30,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Auth SSH
-        uses: ./.github/.actions/ssh_auth
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+  
+      - name: Generate auth hosts
+        run: ssh-keyscan -H ${{ vars.SERVER_HOST }} >> ~/.ssh/known_hosts
+  
+      - name: Check connection
+        run: ssh ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }} whoami
 
       - name: Sync with server
         run: rsync -avz --exclude='.env' ./ ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }}:${{ vars.SERVER_DIR }}
@@ -62,13 +70,11 @@ jobs:
   fail-report:
     runs-on: self-hosted
     if: failure()
+    needs: [build, build-and-run]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Auth SSH
-        uses: ./.github/.actions/ssh_auth
 
       - name: Download report req
         run: pip install -r ./utils/requirements.txt
