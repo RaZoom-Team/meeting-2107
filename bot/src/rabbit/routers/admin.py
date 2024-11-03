@@ -15,6 +15,14 @@ async def msg(ban: BannedUser) -> None:
         text = "🚫 Пользователь заблокирован" if ban.success else "❕ Неверный пользователь"
     )
 
+@router.subscriber("unbanned")
+async def msg(ban: BannedUser) -> None:
+    await bot.send_message(
+        chat_id = TG_ADMIN_CHAT,
+        reply_to_message_id = ban.msg_id,
+        text = "⛓️‍💥 Пользователь разблокирован" if ban.success else "❕ Неверный пользователь"
+    )
+
 @router.subscriber("verified")
 async def msg(ban: VerifiedUser) -> None:
     await bot.send_message(

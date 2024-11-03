@@ -6,7 +6,7 @@ from domain.views import ViewRepository
 from infrastructure.db import User
 from infrastructure.exc.auth import UsernameRequired
 from infrastructure.exc.likes import FocusNotSelected
-from infrastructure.exc.user import AlreadyRegisteredException, FileSizeException, BannedException, SubscriptionRequiredException, VerifyRestrictionsException
+from infrastructure.exc.user import AlreadyRegisteredException, AlreadyVerifiedException, FileSizeException, BannedException, SubscriptionRequiredException, VerifyRestrictionsException
 
 
 class UserService:
@@ -34,7 +34,7 @@ class UserService:
         await AttachmentService().upload(avatar, user)
         await self.select_focus(user)
         await TelegramService().send_media_to_chat(
-            "<b>Новый пользователь</b>"
+            "<b>👤 Новый пользователь</b>"
             f"\n<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
             f"\n<b>Класс:</b> {user.literal}"
             f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
@@ -47,6 +47,7 @@ class UserService:
         if not user.is_active:
             return
 
+        user.is_active = True
         user.focus_user = None
         user.focus_is_liked = False
         focus = await self.repo.get_noviewed(user)
@@ -58,6 +59,18 @@ class UserService:
         await ViewRepository().insert(user, focus)
         user.focus_user = focus
         return focus
+    
+    async def send_verify_request(self, user: User) -> None:
+        if user.verify:
+            raise AlreadyVerifiedException()
+        await TelegramService().send_media_to_chat(
+            "<b>🔰 Новый запрос на верификацию</b>"
+            f"\n<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
+            f"\n<b>Класс:</b> {user.literal}"
+            f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
+            f"\n<b>Описание:</b> <i>{user.desc}</i>",
+            [attachment.url for attachment in user.attachments]
+        )
 
     async def update_avatar(self, user: User, avatar: bytes) -> None:
         if len(avatar) > MAX_AVATAR_SIZE:
@@ -118,3 +131,7 @@ class UserService:
         user.is_banned = True
         user.ban_reason = reason
         user.is_active = False
+
+    async def unban(self, user: User) -> None:
+        user.is_banned = False
+        user.ban_reason = None

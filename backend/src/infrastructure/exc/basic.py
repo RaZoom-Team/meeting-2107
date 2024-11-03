@@ -17,6 +17,7 @@ class ErrorCode(Enum):
     E3003_FOCUS_NOTSELECTED = 3003 # 403
     E3004_SUBSCRIPTION_REQ = 3004 # 403
     E3005_BANNED = 3005 # 403
+    E3006_ALREADY_VERIFY = 3006 # 403
 
 class HTTPError(Exception):
 

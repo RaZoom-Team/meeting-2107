@@ -48,7 +48,11 @@ class PatchUser(BaseUser):
 class ReportUser(BaseModel):
     reason: str = Field(min_length=3, max_length=64)
 
-class BanUser(BaseModel):
+class UnbanUser(BaseModel):
+    msg_id: int
+    user_id: int
+
+class BanUser(UnbanUser):
     msg_id: int
     user_id: int
     reason: str

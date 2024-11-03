@@ -40,15 +40,13 @@ services:
     env_file:
       - .env
     depends_on:
-      backend:
-        condition: service_healthy
       rabbitmq:
         condition: service_healthy
         restart: true
     deploy:
       resources:
         limits:
-          cpus: '0.1'
+          cpus: '0.3'
           memory: 256M
 
   db:

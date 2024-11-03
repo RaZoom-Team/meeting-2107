@@ -1,9 +1,11 @@
 from pydantic import BaseModel
 
 
-class BanUser(BaseModel):
+class UnbanUser(BaseModel):
     msg_id: int
     user_id: int
+
+class BanUser(UnbanUser):
     reason: str
 
 class BannedUser(BaseModel):

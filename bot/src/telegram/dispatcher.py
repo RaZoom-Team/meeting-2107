@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
 
-from .handlers import AdminRouter
+from .handlers import AdminHandler
 
 
 dp = Dispatcher()
-dp.include_router(AdminRouter)
+dp.include_router(AdminHandler)

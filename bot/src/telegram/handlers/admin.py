@@ -3,12 +3,12 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from config import TG_ADMIN_CHAT
-from models.admin import BanUser, VerifyUser
+from models.admin import BanUser, UnbanUser, VerifyUser
 from rabbit.broker import broker
 
-router = Router()
+handler = Router()
 
-@router.message(Command("ban"), F.chat.id == TG_ADMIN_CHAT)
+@handler.message(Command("ban"), F.chat.id == TG_ADMIN_CHAT)
 async def ban(msg: Message):
     args = msg.text.split()[1:]
     if len(args) < 2 or not args[0].isdigit():
@@ -19,7 +19,17 @@ async def ban(msg: Message):
         "adm_ban"
     )
 
-@router.message(Command("verify"), F.chat.id == TG_ADMIN_CHAT)
+@handler.message(Command("unban"), F.chat.id == TG_ADMIN_CHAT)
+async def ban(msg: Message):
+    args = msg.text.split()[1:]
+    if len(args) < 1 or not args[0].isdigit():
+        return msg.reply("❕ Use: /unban [USER_ID]")
+    await broker.publish(
+        UnbanUser(msg_id = msg.message_id, user_id = args[0]),
+        "adm_unban"
+    )
+
+@handler.message(Command("verify"), F.chat.id == TG_ADMIN_CHAT)
 async def ban(msg: Message):
     args = msg.text.split()[1:]
     if len(args) < 1 or not args[0].isdigit():
@@ -29,7 +39,7 @@ async def ban(msg: Message):
         "adm_verify"
     )
 
-@router.message(Command("unverify"), F.chat.id == TG_ADMIN_CHAT)
+@handler.message(Command("unverify"), F.chat.id == TG_ADMIN_CHAT)
 async def ban(msg: Message):
     args = msg.text.split()[1:]
     if len(args) < 1 or not args[0].isdigit():

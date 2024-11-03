@@ -32,7 +32,7 @@ async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
             "description": "Exceeded max file size (limit %s KB) (2002) / Invalid image file (2003)"
             % (MAX_AVATAR_SIZE / 1024)
         },
-        401: {"description": "undefined in endpoint"},
+        401: {"description": "Username required (2001)"},
         403: {"description": "Already registered (3001) / Subscription to channel required (3004) / Your account has been banned (3005)"}
     }
 )
@@ -81,6 +81,15 @@ async def update_avatar(avatar: bytes = File(), user: User = Depends(get_user)) 
     await CTX_SESSION.get().commit()
     return user
 
+@router.post(
+    "/verify",
+    responses={
+        403: {"description": "You already verified (3006)"}
+    }
+)
+async def send_verify(user: User = Depends(get_user)) -> FullUserDTO:
+    await UserService().send_verify_request(user)
+    return user
 
 ######################
 #     TEST ONLY

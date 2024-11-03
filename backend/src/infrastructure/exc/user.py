@@ -27,3 +27,7 @@ class SubscriptionRequiredException(HTTPError):
 class BannedException(HTTPError):
     def __init__(self, reason: str) -> None:
         super().__init__(403, ErrorCode.E3005_BANNED, "Your account has been banned", headers={"X-Reason": quote(reason)})
+
+class AlreadyVerifiedException(HTTPError):
+    def __init__(self) -> None:
+        super().__init__(403, ErrorCode.E3006_ALREADY_VERIFY, "You already verified")

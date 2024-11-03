@@ -1,1 +1,1 @@
-from .admin import router as AdminRouter
+from .admin import handler as AdminHandler
