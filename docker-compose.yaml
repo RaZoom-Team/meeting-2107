@@ -23,13 +23,13 @@ services:
       test: ["CMD-SHELL", "curl -f http://backend/system/ping || exit 1"]
       interval: 60s
       retries: 5
-      start_period: 10s
+      start_period: 5s
       timeout: 10s
-    deploy:
-      resources:
-        limits:
-          cpus: 0.7
-          limits: 600M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.7'
+    #       memory: 800M
 
   bot:
     build: ./bot
@@ -48,8 +48,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.1
-          memory: 50M
+          cpus: '0.1'
+          memory: 256M
 
   db:
     image: postgres:alpine
@@ -71,7 +71,7 @@ services:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
       interval: 10s
       retries: 5
-      start_period: 30s
+      start_period: 5s
       timeout: 10s
     restart: unless-stopped
 
@@ -96,13 +96,9 @@ services:
     healthcheck:
       test: rabbitmq-diagnostics check_port_connectivity
       interval: 30s
-      timeout: 30s
-      retries: 10
-    deploy:
-      resources:
-        limits:
-          cpus: 0.05
-          memory: 80M
+      start_period: 5s
+      timeout: 5s
+      retries: 3
 
 volumes:
   pgdata:
