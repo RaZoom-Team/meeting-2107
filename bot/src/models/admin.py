@@ -19,4 +19,4 @@ class VerifyUser(BaseModel):
 
 class VerifiedUser(BaseModel):
     msg_id: int
-    sucess: bool
+    success: bool
