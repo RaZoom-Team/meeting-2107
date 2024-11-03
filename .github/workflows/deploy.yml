@@ -58,8 +58,8 @@ jobs:
             docker compose up -d
           EOF
 
-      - name: Download report req
-        run: pip install -r ./utils/requirements.txt
+      # - name: Download report req
+      #   run: pip install -r ./utils/requirements.txt
       
       - name: Send report
         env:
@@ -76,8 +76,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download report req
-        run: pip install -r ./utils/requirements.txt
+      # - name: Download report req
+      #   run: pip install -r ./utils/requirements.txt
 
       - name: Send report
         env:
