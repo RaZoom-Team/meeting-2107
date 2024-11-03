@@ -38,7 +38,7 @@ jobs:
         run: ssh-keyscan -H ${{ vars.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Check connection
-        run: ssh $SERVER_USER@$SERVER_HOST whoami
+        run: ssh ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }} whoami
 
       - name: Sync with server
         run: rsync -avz --exclude='.env' ./ ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }}:${{ vars.SERVER_DIR }}
