@@ -49,7 +49,7 @@ async def register_user(
     return user
 
 
-@router.patch()
+@router.patch("")
 async def edit_user(data: PatchUser, user: User = Depends(get_user)) -> FullUserDTO:
     """
     Редактирование пользователя
