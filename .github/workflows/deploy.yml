@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
   SERVER_USER: ${{ vars.SERVER_USER }}
