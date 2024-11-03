@@ -49,12 +49,7 @@ async def register_user(
     return user
 
 
-@router.patch(
-    "",
-    responses = {
-        403: {"description": "Verify can not change name, surname, literal and male (3002)"}
-    }
-)
+@router.patch()
 async def edit_user(data: PatchUser, user: User = Depends(get_user)) -> FullUserDTO:
     """
     Редактирование пользователя

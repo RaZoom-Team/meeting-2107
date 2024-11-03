@@ -100,7 +100,7 @@ class UserService:
                     "male",
                     "literal"
                 ]:
-                    raise VerifyRestrictionsException
+                    user.verify = False
                 setattr(user, field, value)
                 if field == "male":
                     await self.select_focus(user)
