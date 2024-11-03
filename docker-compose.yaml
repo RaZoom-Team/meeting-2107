@@ -25,6 +25,11 @@ services:
       retries: 5
       start_period: 10s
       timeout: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: 0.7
+          limits: 600M
 
   bot:
     build: ./bot
@@ -40,6 +45,11 @@ services:
       rabbitmq:
         condition: service_healthy
         restart: true
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 50M
 
   db:
     image: postgres:alpine
@@ -88,6 +98,11 @@ services:
       interval: 30s
       timeout: 30s
       retries: 10
+    deploy:
+      resources:
+        limits:
+          cpus: 0.05
+          memory: 80M
 
 volumes:
   pgdata:
