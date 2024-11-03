@@ -6,8 +6,8 @@ from telegram.bot import bot
 
 logging.basicConfig(level=logging.INFO)
 
-async def run():
-    asyncio.ensure_future(dp.start_polling(bot))
-    await app.run()
+async def main():
+    await asyncio.gather(app.run(), dp.start_polling(bot))
 
-asyncio.run(run())
+if __name__ == "__main__":
+    asyncio.run(main())
