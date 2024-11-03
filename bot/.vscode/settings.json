@@ -1,0 +1,9 @@
+{
+    "python.autoComplete.extraPaths": [
+        "./src"
+    ],
+    "python.analysis.extraPaths": [
+        "./src"
+    ],
+    "python.defaultInterpreterPath": "../.venv-bot/Scripts/python.exe"
+}

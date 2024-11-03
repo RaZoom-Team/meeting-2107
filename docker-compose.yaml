@@ -1,7 +1,7 @@
 services:
   backend:
-    container_name: mt2107_backend
     build: ./backend
+    container_name: mt2107_backend
     restart: unless-stopped
     expose:
       - 80
@@ -16,12 +16,30 @@ services:
       db:
         condition: service_healthy
         restart: true
+      rabbitmq:
+        condition: service_healthy
+        restart: true
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend/system/ping || exit 1"]
       interval: 60s
       retries: 5
       start_period: 10s
       timeout: 10s
+
+  bot:
+    build: ./bot
+    container_name: mt2107_bot
+    restart: unless-stopped
+    environment:
+      IS_PROD: 1
+    env_file:
+      - .env
+    depends_on:
+      backend:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+        restart: true
 
   db:
     image: postgres:alpine
@@ -60,6 +78,16 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:alpine
+    container_name: mt2107_rabbit
+    restart: unless-stopped
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 30s
+      timeout: 30s
+      retries: 10
 
 volumes:
   pgdata:

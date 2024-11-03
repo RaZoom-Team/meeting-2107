@@ -33,11 +33,13 @@ class UserService:
         )
         await AttachmentService().upload(avatar, user)
         await self.select_focus(user)
-        await TelegramService().send_to_chat(
+        await TelegramService().send_media_to_chat(
             "<b>Новый пользователь</b>"
             f"\n<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
             f"\n<b>Класс:</b> {user.literal}"
-            f"\n<b>Описание:</b> <i>{user.desc}</i>"
+            f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
+            f"\n<b>Описание:</b> <i>{user.desc}</i>",
+            [attachment.url for attachment in user.attachments]
         )
         return user
 
@@ -110,3 +112,8 @@ class UserService:
         if not await TelegramService().check_subscribed(user.id):
             user.is_active = False
             raise SubscriptionRequiredException
+        
+    async def ban(self, user: User, reason: str) -> None:
+        user.is_banned = True
+        user.ban_reason = reason
+        user.is_active = False

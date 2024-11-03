@@ -23,6 +23,10 @@ TG_CHANNEL_ID = os.environ.get("TG_CHANNEL_ID") # Dont use in .env, if you dont 
 TG_CHANNEL_LINK = os.environ.get("TG_CHANNEL_LINK")
 TG_API_URL = "https://api.telegram.org/bot" + TG_TOKEN
 
+# ----- [[ TELEGRAM ]] -----
+
+RABBIT_URL = os.environ.get("RABBIT_URL")
+
 # ----- [[ SETTINGS ]] -----
 
 MAX_AVATAR_SIZE = 1024 * 1024 * 3 # Bytes

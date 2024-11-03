@@ -30,7 +30,7 @@ async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
     responses={
         400: {
             "description": "Exceeded max file size (limit %s KB) (2002) / Invalid image file (2003)"
-            % {MAX_AVATAR_SIZE / 1024}
+            % (MAX_AVATAR_SIZE / 1024)
         },
         401: {"description": "undefined in endpoint"},
         403: {"description": "Already registered (3001) / Subscription to channel required (3004) / Your account has been banned (3005)"}
@@ -69,7 +69,7 @@ async def edit_user(data: PatchUser, user: User = Depends(get_user)) -> FullUser
     responses={
         400: {
             "description": "Exceeded max file size (limit %s KB) (2002) / Invalid image file (2003)"
-            % {MAX_AVATAR_SIZE / 1024}
+            % (MAX_AVATAR_SIZE / 1024)
         },
     }
 )

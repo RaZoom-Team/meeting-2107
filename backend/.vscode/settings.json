@@ -5,9 +5,5 @@
     "python.analysis.extraPaths": [
         "./backend/src"
     ],
-    "flake8.args": [
-        "--ignore=E251",
-        "--max-line-length=110",
-        "--per-file-ignores=__init__.py:F403,F401"
-    ]
+    "python.defaultInterpreterPath": "../.venv/Scripts/python.exe"
 }

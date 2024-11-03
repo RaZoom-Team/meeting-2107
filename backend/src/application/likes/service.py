@@ -24,7 +24,7 @@ class LikeService:
                 await TelegramService().send_message(
                     "🥰 Твоя анкета кому-то понравилась"
                     "\n⚡️ Скорее заходи в приложение и посмотри кто это!",
-                    user_id = user.focus_user.id
+                    chat_id = user.focus_user.id
                 )
         await UserService().select_focus(user)
 
@@ -36,12 +36,12 @@ class LikeService:
             await TelegramService().send_message(
                 f"❤️‍🔥 У вас взаимная симпатия с {like.user.fullname} из {like.user.literal}!"
                 f"\n💬 Скорее переходите в {like.user.custom_mention("ЛС")} и общайтесь",
-                user_id = like.target_user.id
+                chat_id = like.target_user.id
             )
             await TelegramService().send_message(
                 f"❤️‍🔥 У вас взаимная симпатия с {like.target_user.fullname} из {like.target_user.literal}!"
                 f"\n💬 Скорее переходите в {like.target_user.custom_mention("ЛС")} и общайтесь",
-                user_id = like.user.id
+                chat_id = like.user.id
             )
         else:
             await self.repo.delete(like)
