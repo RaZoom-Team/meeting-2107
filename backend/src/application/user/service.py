@@ -69,11 +69,12 @@ class UserService:
         if not user.focus_user:
             raise FocusNotSelected
         target = user.focus_user
-        await TelegramService().send_to_chat(
+        await TelegramService().send_media_to_chat(
             "<b>🆘 Новый репорт</b>"
             f"\n<b>Отправитель:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
             f"\n<b>Нарушитель:</b> {target.mention} <b>(<code>{target.id}</code>)</b>"
-            f"\n<b>Причина:</b> {reason}"
+            f"\n<b>Причина:</b> {reason}",
+            [attachment.url for attachment in target.attachments]
         )
         await self.select_focus(user)
 
