@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "meeting-2107",
+			"path": "."
+		},
+		{
+			"name": "backend",
+			"path": "backend"
+		},
+		{
+			"name": "bot",
+			"path": "bot"
+		}
+	],
+	"settings": {}
+}

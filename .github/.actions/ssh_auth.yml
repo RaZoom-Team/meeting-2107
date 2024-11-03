@@ -1,0 +1,14 @@
+name: 'SSH Auth'
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Generate auth hosts
+      run: ssh-keyscan -H ${{ vars.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Check connection
+      run: ssh ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }} whoami
