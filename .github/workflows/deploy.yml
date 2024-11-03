@@ -65,7 +65,7 @@ jobs:
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
-          BUILD_NAME: ${{ github.event_name }}
+          BUILD_NAME: ${{ github.action }}
         run: python3 ./utils/send_result.py success
 
   fail-report:
@@ -84,5 +84,5 @@ jobs:
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
-          BUILD_NAME: ${{ github.event_name }}
+          BUILD_NAME: ${{ github.action }}
         run: python3 ./utils/send_result.py fail
