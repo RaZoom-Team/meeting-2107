@@ -9,7 +9,7 @@ from telegram.utlls import send_media
 
 router = RabbitRouter("tg_")
 
-@router.subscriber("msg")
+@router.subscriber("msg", retry=3)
 async def sendmsg(msg: SendMessage | SendAdminMessage) -> None:
     try:
         await bot.send_message(
@@ -19,7 +19,7 @@ async def sendmsg(msg: SendMessage | SendAdminMessage) -> None:
         )
     except: pass
 
-@router.subscriber("media")
+@router.subscriber("media", retry=3)
 async def sendmedia(msg: SendMediaMessage | SendAdminMediaMessage) -> None:
     await send_media(
         chat_id = msg.chat_id if msg.chat_id != -1 else TG_ADMIN_CHAT,

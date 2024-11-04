@@ -45,7 +45,7 @@ async def ban_user(data: GetUser) -> GetUserResponse:
         return GetUserResponse(msg_id = data.msg_id, success = False, text = "", attachments = [])
     return GetUserResponse(
         text =
-            f"\n<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
+            f"<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
             f"\n<b>Класс:</b> {user.literal}"
             f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
             f"\n<b>Описание:</b> <i>{user.desc}</i>"
