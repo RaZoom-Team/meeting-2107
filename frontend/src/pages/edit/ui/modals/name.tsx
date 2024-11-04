@@ -32,8 +32,10 @@ export function ModalName({nowName, nowSur, is_open, close_hook}: Props) {
     <div className={styles['content']}>
         <TextInput label="Имя" value={name} size="l" onChange={e => setName(e.target.value)}></TextInput>
         <TextInput label="Фамилия" value={surname} size="l" onChange={e => setSur(e.target.value)}></TextInput>
-        <Button onClick={onDesc} width="max" size="l">Применить</Button>
-        <Button onClick={close_hook} width="max" view="outlined" size="l">Закрыть</Button>
+        <div className={styles['button-list']}>
+            <Button onClick={onDesc} width="max" size="l">Применить</Button>
+            <Button onClick={close_hook} width="max" view="outlined" size="l">Закрыть</Button>
+        </div>
     </div>
 </Sheet>
 }
