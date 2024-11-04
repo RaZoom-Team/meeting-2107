@@ -39,10 +39,10 @@ async def ban_user(data: VerifyUser) -> TelegramRequestResponse:
 
 @router.subscriber("user")
 @router.publisher("user-res")
-async def ban_user(data: GetUser) -> TelegramRequestResponse:
+async def ban_user(data: GetUser) -> GetUserResponse:
     user = await UserRepository().get(data.user_id)
     if not user:
-        return TelegramRequestResponse(msg_id = data.msg_id, success = False)
+        return GetUserResponse(msg_id = data.msg_id, success = False, text = "", attachments = [])
     return GetUserResponse(
         text =
             f"\n<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
