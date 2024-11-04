@@ -39,6 +39,21 @@ async def ban(msg: Message):
         "adm_verify"
     )
 
+@handler.message(Command("denyverify"), F.chat.id == TG_ADMIN_CHAT)
+async def ban(msg: Message):
+    args = msg.text.split()[1:]
+    if len(args) < 2 or not args[0].isdigit():
+        return msg.reply("❕ Use: /denyverify [USER_ID] [REASON]")
+    user_id, reason = args[0], ' '.join(args[1:])
+    try:
+        await msg.bot.send_message(
+            chat_id = user_id,
+            text = f"⛔️ Вам отказано в верификации\n{reason}"
+        )
+        await msg.reply("✅ В верификации отказано")
+    except:
+        await msg.reply("❗️ Сообщение не было доставлено")
+
 @handler.message(Command("unverify"), F.chat.id == TG_ADMIN_CHAT)
 async def ban(msg: Message):
     args = msg.text.split()[1:]

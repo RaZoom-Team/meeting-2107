@@ -87,7 +87,7 @@ async def send_verify(user: User = Depends(get_user)) -> FullUserDTO:
     return user
 
 ######################
-#     TEST ONLY
+#     TEST ONLY      #
 ######################
 
 @router.post("/getauth")
