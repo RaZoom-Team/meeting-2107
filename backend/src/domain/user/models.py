@@ -67,6 +67,6 @@ class GetUser(TelegramRequest):
 class TelegramRequestResponse(TelegramRequest):
     success: bool
 
-class GetUserResponse(GetUser, TelegramRequestResponse):
+class GetUserResponse(TelegramRequestResponse):
     text: str
     attachments: list[str]

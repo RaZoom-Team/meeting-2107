@@ -49,6 +49,7 @@ async def ban_user(data: GetUser) -> TelegramRequestResponse:
             f"\n<b>Класс:</b> {user.literal}"
             f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
             f"\n<b>Описание:</b> <i>{user.desc}</i>",
+        msg_id = data.msg_id,
         attachments = [attachment.url for attachment in user.attachments],
         success = True
     )
