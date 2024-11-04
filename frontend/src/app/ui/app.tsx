@@ -5,6 +5,7 @@ import { UserContext } from '../providers'
 import { editIcon, feedIcon, historyIcon, NavBar, NavIcon } from '../../shared'
 import { Router } from '../router/router'
 import { ReactNotifications } from 'react-notifications-component'
+import { ThemeProvider, ToasterComponent, ToasterProvider } from '@gravity-ui/uikit'
 
 export type Page = 'feed' | 'history' | 'edit'
 
@@ -26,11 +27,18 @@ export function App() {
       {src: historyIcon, hook: () => setPage('history'), active: page == 'history'},
     ]
 
-    return <main data-theme={user.male ? 'blue' : 'pink'} className={styles['main']}>
-      <ReactNotifications></ReactNotifications>
-      <NavBar buttons={buttons}/>
-      <Router page={page} focus={user.focus_user}/>
+    return <ThemeProvider theme='dark'>
+            <ToasterProvider>
+          <ToasterComponent mobile={true}></ToasterComponent>
+
+      <main data-theme={user.male ? 'blue' : 'pink'} className={styles['main']}>
+        <ReactNotifications></ReactNotifications>
+        <NavBar buttons={buttons}/>
+        <Router page={page} focus={user.focus_user}/>
     </main>
+    </ToasterProvider>
+    </ThemeProvider>
+
   }
 }
 

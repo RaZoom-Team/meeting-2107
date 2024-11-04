@@ -15,6 +15,7 @@ interface Props {
 
 export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_verify}: Props) {
     const {add, remove} = useToaster()
+
     const contentVerify = 
     <div className={styles['toaster-container']}>
         <Text>Данные этого пользователя подтверждены администрацией  <Icon data={SealCheck}></Icon></Text>
@@ -46,7 +47,7 @@ export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_veri
     <ToasterComponent></ToasterComponent>
 
     return (
-        <div className={styles['bg']} style={{ background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${avatar})`}}>
+        <div className={styles['bg']} style={{ background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${avatar}) no-repeat center center`}}>
             <div className={styles['card']}>
                 <div className={styles['overlay']}>
                     <div className={styles['upper-container']}>

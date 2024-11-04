@@ -14,9 +14,12 @@
   --bg-main: radial-gradient(58.01% 47.04% at 50% 50%,rgb(99, 7, 33),rgb(19, 19, 19) 100%);
   --font-system: Roboto;
   --font-card: Roboto;
-
-  --photo-form-size-w: 290px;
-  --photo-form-size-h: 552px;
+  --scale-photo: 0.7;
+  --photo-form-size-w: calc(300px * var(--scale-photo));
+  --photo-form-size-h: calc(552px * var(--scale-photo));
+  
+  --photo-buttons-size: 58px;
+  --photo-buttons-icon-size: 26px;
 
   --bg-auth: linear-gradient(180.00deg, rgba(24, 24, 24, 0.69),rgba(10, 10, 10, 0.83) 100%),rgb(35, 35, 35);
   --pink: rgb(255, 108, 166);

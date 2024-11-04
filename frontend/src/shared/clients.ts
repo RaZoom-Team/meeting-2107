@@ -11,7 +11,7 @@ const test = "10"
 
 
 UserClient.interceptors.request.use(config => {
-    config.headers['Tg-Authorization'] = ramchike;
+    config.headers['Tg-Authorization'] = zoom;
     return config
 })
 

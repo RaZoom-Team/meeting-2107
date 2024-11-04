@@ -45,7 +45,7 @@ export function Feed({focus}: Props) {
                     newData.current = null
                     setLike(false)
                     const tlGet = gsap.timeline()
-                    tlGet.fromTo(card.current, {x: 500}, {x: 0, duration: 0.8, ease: 'power1'})
+                    tlGet.fromTo(card.current, {x: 500, y: 0}, {x: 0, duration: 0.8, ease: 'power1'})
                     tlGet.fromTo(card.current, {scale: 0.8}, {x: 0, scale: 1, duration: 0.4, ease: 'power1', onComplete: () => setBg(true)})
                 }
                 const tlSend = gsap.timeline({onComplete: afterData})
