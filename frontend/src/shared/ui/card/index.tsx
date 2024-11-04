@@ -18,7 +18,7 @@ export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_veri
     const contentVerify = 
     <div className={styles['toaster-container']}>
         <Text>Данные этого пользователя подтверждены администрацией  <Icon data={SealCheck}></Icon></Text>
-        <Button size='l' onClick={() => remove('verify')}>Понятно</Button>
+        <Button className={styles['button']} size='l' onClick={() => remove('verify')}>Понятно</Button>
     </div>
 
     const contentLike = 

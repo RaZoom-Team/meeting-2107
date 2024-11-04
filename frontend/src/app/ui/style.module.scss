@@ -6,10 +6,12 @@
         --bg-main: radial-gradient(58.01% 47.04% at 50% 50%,rgb(2, 0, 73),rgb(8, 8, 8) 100%);
         --text-color: var(--white-blue);
         --overlay-color: var(--blue-overlay);
+        --status-color: var(--opacity-blue);
     }
     &[data-theme="pink"] {
         --main-color: var(--pink);
         --text-color: var(--white-pink);
         --overlay-color: var(--pink-overlay);
+        --status-color: var(--opacity-pink);
     }
 }
