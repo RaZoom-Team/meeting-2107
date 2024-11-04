@@ -9,6 +9,9 @@ env:
   SERVER_USER: ${{ vars.SERVER_USER }}
   SERVER_HOST: ${{ vars.SERVER_HOST }}
   SERVER_DIR: ${{ vars.SERVER_DIR }}
+  TG_TOKEN: ${{ secrets.TG_TOKEN }}
+  TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
+  BUILD_NAME: ${{ github.event.head_commit.message }}
 
 jobs:
   build:
@@ -50,6 +53,9 @@ jobs:
             docker compose build
           EOF
 
+      - name: Send run report
+        run: python3 ./utils/send_result.py run
+      
       - name: Run
         run: |
           ssh $SERVER_USER@$SERVER_HOST << EOF
@@ -61,10 +67,6 @@ jobs:
       #   run: pip install -r ./utils/requirements.txt
       
       - name: Send report
-        env:
-          TG_TOKEN: ${{ secrets.TG_TOKEN }}
-          TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
-          BUILD_NAME: ${{ github.event.head_commit.message }}
         run: python3 ./utils/send_result.py success
 
   fail-report:
@@ -80,8 +82,4 @@ jobs:
       #   run: pip install -r ./utils/requirements.txt
 
       - name: Send report
-        env:
-          TG_TOKEN: ${{ secrets.TG_TOKEN }}
-          TG_CHAT_ID: ${{ vars.TG_CHAT_ID }}
-          BUILD_NAME: ${{ github.event.head_commit.message }}
         run: python3 ./utils/send_result.py fail
