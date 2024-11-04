@@ -31,7 +31,7 @@ export function CropWidget({img, setImg, onComplete}: Props): ReactElement {
         onComplete();
     }
 
-    const onCropComplete = (croppedArea, croppedAreaPixels: Area) => {
+    const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
         setArea(croppedAreaPixels)
     }
 

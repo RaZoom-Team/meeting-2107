@@ -35,7 +35,7 @@ export function History() {
             </div>
         }  
     }
-    const test = ''
+    
     if (user) {
         const test = <div className={styles['list-user']}>
         <div className={styles['list-element']} key={Math.random().toString(16)}>
