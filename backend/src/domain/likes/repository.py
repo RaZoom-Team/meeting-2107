@@ -1,4 +1,4 @@
-from sqlmodel import select, delete, insert
+from sqlmodel import desc, select, delete, insert
 
 from infrastructure.db import BaseRepository, Like, User
 
@@ -19,7 +19,7 @@ class LikeRepository(BaseRepository):
         return res.first()
     
     async def get_mutually(self, user: User) -> list[User]:
-        query = select(User).join_from(Like, Like.target_user).filter((Like.user_id == user.id) & (Like.is_mutually == True))
+        query = select(User).join_from(Like, Like.target_user).filter((Like.user_id == user.id) & (Like.is_mutually == True)).order_by(desc(Like.created_at))
         res = await self.session.exec(query)
         return res.all()
 

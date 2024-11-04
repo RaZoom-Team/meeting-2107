@@ -10,7 +10,7 @@ from telegram.utlls import send_media
 router = RabbitRouter("adm_")
 
 @router.subscriber("banned")
-async def msg(res: TelegramRequestResponse) -> None:
+async def banned(res: TelegramRequestResponse) -> None:
     await bot.send_message(
         chat_id = TG_ADMIN_CHAT,
         reply_to_message_id = res.msg_id,
@@ -18,7 +18,7 @@ async def msg(res: TelegramRequestResponse) -> None:
     )
 
 @router.subscriber("unbanned")
-async def msg(res: TelegramRequestResponse) -> None:
+async def unbanned(res: TelegramRequestResponse) -> None:
     await bot.send_message(
         chat_id = TG_ADMIN_CHAT,
         reply_to_message_id = res.msg_id,
@@ -26,7 +26,7 @@ async def msg(res: TelegramRequestResponse) -> None:
     )
 
 @router.subscriber("verified")
-async def msg(res: TelegramRequestResponse) -> None:
+async def verified(res: TelegramRequestResponse) -> None:
     await bot.send_message(
         chat_id = TG_ADMIN_CHAT,
         reply_to_message_id = res.msg_id,
@@ -34,7 +34,7 @@ async def msg(res: TelegramRequestResponse) -> None:
     )
 
 @router.subscriber("user-res")
-async def msg(res: TelegramRequestResponse | GetUserResponse) -> None:
+async def get_user(res: GetUserResponse) -> None:
     if not res.success:
         return await bot.send_message(
             chat_id = TG_ADMIN_CHAT,
@@ -44,6 +44,5 @@ async def msg(res: TelegramRequestResponse | GetUserResponse) -> None:
     await send_media(
         chat_id = TG_ADMIN_CHAT,
         text = res.text,
-        parse_mode = "markdown",
         files = res.attachments
     )

@@ -22,4 +22,4 @@ class TelegramRequestResponse(TelegramRequest):
 
 class GetUserResponse(TelegramRequestResponse):
     text: str
-    attachments: str
+    attachments: list[str]
