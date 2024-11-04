@@ -35,6 +35,12 @@ async def msg(res: TelegramRequestResponse) -> None:
 
 @router.subscriber("user-res")
 async def msg(res: TelegramRequestResponse | GetUserResponse) -> None:
+    if not res.success:
+        return await bot.send_message(
+            chat_id = TG_ADMIN_CHAT,
+            reply_to_message_id = res.msg_id,
+            text = "❕ Неверный пользователь"
+        )
     await send_media(
         chat_id = TG_ADMIN_CHAT,
         text = res.text,
