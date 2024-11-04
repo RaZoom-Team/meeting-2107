@@ -1,5 +1,6 @@
-import { FocusUser, User } from "../../../entities";
+import { User } from "../../../entities";
 import { UserClient } from "../../../shared";
+import { UserLove } from "../model/model";
 
 export async function likeSend (status: boolean): Promise<User | null> {
     return UserClient.post('/likes', {status})
@@ -12,7 +13,7 @@ export async function likeSend (status: boolean): Promise<User | null> {
     })
 }
 
-export async function getLikes (): Promise<FocusUser[]> {
+export async function getLikes (): Promise<UserLove[]> {
     return UserClient.get('/likes')
     .then(response => {
         return response.data;

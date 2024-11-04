@@ -26,7 +26,7 @@ export function App() {
       {src: historyIcon, hook: () => setPage('history'), active: page == 'history'},
     ]
 
-    return <main className={styles['main']}>
+    return <main data-theme={user.male ? 'blue' : 'pink'} className={styles['main']}>
       <ReactNotifications></ReactNotifications>
       <NavBar buttons={buttons}/>
       <Router page={page} focus={user.focus_user}/>

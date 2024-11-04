@@ -1,4 +1,15 @@
 .main {
     background: var(--bg-main);
     height: 100svh;
+    &[data-theme="blue"] {
+        --main-color: var(--blue);
+        --bg-main: radial-gradient(58.01% 47.04% at 50% 50%,rgb(2, 0, 73),rgb(8, 8, 8) 100%);
+        --text-color: var(--white-blue);
+        --overlay-color: var(--blue-overlay);
+    }
+    &[data-theme="pink"] {
+        --main-color: var(--pink);
+        --text-color: var(--white-pink);
+        --overlay-color: var(--pink-overlay);
+    }
 }

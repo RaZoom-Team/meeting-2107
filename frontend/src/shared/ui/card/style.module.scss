@@ -61,7 +61,7 @@
         align-items: baseline;
         font-weight: 400;
         font-family: var(--font-card);
-        color: var(--pink);
+        color: var(--main-color);
         font-size: 24px;
         z-index: 2;
         letter-spacing: 1px;
@@ -87,14 +87,14 @@
         }
 
         .section-text {
-            color: var(--white-pink);
+            color: var(--text-color);
             font-weight: 300;
             width: 100%;
         }
 
         .section-title {
             font-weight: 400;
-            color: var(--pink);
+            color: var(--main-color);
             font-size: 24px;
         }
 
@@ -125,7 +125,7 @@
 
     &:hover {
         .overlay {
-            background-color: #210012cb; 
+            background-color: var(--overlay-color); 
         }
         
         .about {

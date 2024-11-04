@@ -68,13 +68,13 @@ body {
 
                 .active-like, .active-close {
                     svg path {
-                        fill: var(--pink);
+                        fill: var(--main-color);
                     }
                     animation: like-animation 0.2s;
                 }
                 .active-close {
                     svg {
-                        stroke: var(--pink);
+                        stroke: var(---main-color);
                     }
                 }
             }

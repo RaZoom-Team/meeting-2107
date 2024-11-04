@@ -15,7 +15,7 @@ export function ModalReport({is_open, close_hook, func_hook, content, content_ho
     return <Sheet title='Жалоба' visible={is_open} onClose={close_hook}>
         <div className={styles['content']}>
             <TextInput view='normal' value={content} onChange={(e) => content_hook(e.target.value)} size="l" type="text" placeholder="Напишите сюда причину жалобы" autoFocus={true}></TextInput>
-            <Button width='max' onClick={func_hook} size="l" view="action">Пожаловаться</Button>
+            <Button width='max' onClick={func_hook} size="l" view='normal'>Пожаловаться</Button>
         </div>
     </Sheet>
 }
