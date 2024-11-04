@@ -75,6 +75,7 @@ class UserService:
     async def update_avatar(self, user: User, avatar: bytes) -> None:
         if len(avatar) > MAX_AVATAR_SIZE:
             raise FileSizeException
+        user.verify = False
         await AttachmentService().delete(user.attachments[0])
         await AttachmentService().upload(avatar, user)
 
