@@ -1,0 +1,27 @@
+.button {
+    width: 205px;
+    height: 38px;
+    padding: 4px;
+    font-family: Roboto Condensed;
+    font-size: 16px;
+    transition: all 0.5s ease;
+    transition: color 0s;
+    background-color: var(--main-color);
+    border-radius: 4px;
+    transition: background-color 1s ease;
+    &[data-active="YES"] {
+        color: black;
+        border: none;
+    }
+    &[data-active="NO"] {
+        opacity: 0;
+    }
+    &[data-style="outfill"] {
+        background-color: transparent;
+        color: var(--main-color);
+        border: 0.5px solid var(--main-color)
+    }
+    &[data-style="fill"] {
+        box-shadow: var(--shadow-color);
+    }
+}

@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@font-face {
+  font-family: "LeMurmure";
+  src: url('../shared/assets/fonts/le-murmure.otf') format('opentype');
+}
+
+:root {
+
+  --bg-main: radial-gradient(58.01% 47.04% at 50% 50%,rgb(99, 7, 33),rgb(19, 19, 19) 100%);
+  --font-system: Roboto;
+  --font-card: Roboto;
+
+  --photo-form-size-w: 290px;
+  --photo-form-size-h: 552px;
+
+  --bg-auth: linear-gradient(180.00deg, rgba(24, 24, 24, 0.69),rgba(10, 10, 10, 0.83) 100%),rgb(35, 35, 35);
+  --pink: rgb(255, 108, 166);
+  --white-pink: rgb(255, 198, 221);
+  --blue: rgb(113, 108, 255);
+  --white: rgb(255, 255, 255);
+  --bg-input: rgb(9, 9, 9);
+  --button-color: rgb(34, 31, 33);
+  --main-color: var(--white);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-system);
+
+}
+
+#root {
+  height: 100vh;
+}
+  

@@ -1,0 +1,23 @@
+.textarea {
+    resize: none;
+
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: 400;
+    width: 298px;
+    height: 150px;
+    padding: 8px;
+    padding-left: 10px;
+    border-radius: 12px;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: var(--bg-input);
+    color: var(--main-color);
+    transition: border-color 0.2s ease;
+    outline: none;
+    &:focus {
+        border-color: var(--main-color);
+    }
+}

@@ -1,0 +1,102 @@
+@keyframes like-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+body {
+    overflow: hidden;
+}
+
+.main {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transition: background 0.5s ease;
+    line-height: normal;
+    &[data-bg="NO"] {
+        background: rgba(19, 19, 19, 1.00);
+    }
+    .container {
+        height: 574px;
+        .button-list {
+            display: flex;
+            position: relative;
+            top: -40px;
+            flex-direction: row;
+            width: 100%;
+            justify-content: center;
+            gap: 32px;
+            .button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 72px;
+                height: 72px;
+                background-color: var(--button-color);
+                border: 0;
+                text-align: center;
+                border-radius: 180px;
+                .icon {
+                    width: 36px;
+                    height: 36px;
+                    display: flex;
+                    justify-content: center;
+                }
+                .icon svg {
+                    opacity: 0.8;
+                    width: 36px;
+                    height: 36px;
+                    path {
+                        fill: white;
+                    }
+                    div {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+
+                .active-like, .active-close {
+                    svg path {
+                        fill: var(--pink);
+                    }
+                    animation: like-animation 0.2s;
+                }
+                .active-close {
+                    svg {
+                        stroke: var(--pink);
+                    }
+                }
+            }
+        }
+    }
+    .bottom-widget-container {
+        pointer-events: none;
+        display: flex;
+        flex-direction: column-reverse;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        --g-button-font-size: 12px;
+        --g-text-body-font-weight: 300;
+        .button-container {
+            pointer-events: all;
+            opacity: 0.5;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            width: 100%;
+            height: 64px;
+        }
+    }
+}

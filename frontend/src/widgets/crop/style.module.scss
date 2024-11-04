@@ -1,0 +1,17 @@
+.main {
+    background: black;
+    height: 100vh;
+    .container-cropper {
+        height: 80%;
+    }
+    .buttons {
+        padding: 12px;
+        box-sizing: border-box;
+        gap: 16px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
