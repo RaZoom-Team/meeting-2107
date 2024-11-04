@@ -3,7 +3,7 @@ from aiogram.types import InputMediaPhoto, URLInputFile
 from .bot import bot
 
 
-async def send_media(chat_id: int, text: str, files: list[str], parse_mode: str = "html") -> None:
+async def send_media(chat_id: int, text: str, files: list[str], parse_mode: str = "html", reply_to: int = None) -> None:
     await bot.send_media_group(
         chat_id = chat_id,
         media = [
@@ -13,5 +13,6 @@ async def send_media(chat_id: int, text: str, files: list[str], parse_mode: str 
                 parse_mode = parse_mode
             )
             for i, file in enumerate(files)
-        ]
+        ],
+        reply_to_message_id = reply_to
     )

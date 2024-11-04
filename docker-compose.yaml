@@ -31,6 +31,14 @@ services:
           cpus: '0.7'
           memory: 800M
 
+  frontend:
+    build: ./frontend
+    container_name: mt2107_frontend
+    depends_on:
+      - backend
+    expose:
+      - 80
+
   bot:
     build: ./bot
     container_name: mt2107_bot

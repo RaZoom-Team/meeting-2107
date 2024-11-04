@@ -44,5 +44,6 @@ async def get_user(res: GetUserResponse) -> None:
     await send_media(
         chat_id = TG_ADMIN_CHAT,
         text = res.text,
-        files = res.attachments
+        files = res.attachments,
+        reply_to = res.msg_id
     )
