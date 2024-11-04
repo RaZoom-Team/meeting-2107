@@ -1,0 +1,43 @@
+{
+  "name": "dance2107",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.1",
+    "@telegram-apps/telegram-ui": "^2.1.8",
+    "axios": "^1.7.7",
+    "dance2107": "file:",
+    "handy-svg": "^1.0.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-easy-crop": "^5.1.0",
+    "react-notifications-component": "^4.0.1",
+    "react-svg": "^16.1.34"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@gravity-ui/icons": "^2.11.0",
+    "@gravity-ui/tsconfig": "^1.0.0",
+    "@gravity-ui/uikit": "^6.34.0",
+    "@types/node": "^22.7.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "sass-embedded": "^1.79.4",
+    "telegram-webapps": "^7.10.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "vite": "^5.4.1"
+  }
+}

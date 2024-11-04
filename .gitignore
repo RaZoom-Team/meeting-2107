@@ -3,3 +3,4 @@ __pycache__/
 .env.development
 .env
 data/
+/frontend/node_modules
