@@ -27,12 +27,12 @@ class UserRepository(BaseRepository):
             return liked
         query = select(User).where(
             (User.id != user.id) & (User.male != user.male) & User.is_active
-            & ~User.id.in_(
+            & (~User.id.in_(
                 select(View.target_id).where(View.user_id == user.id).scalar_subquery()
-            )
-            & ~User.id.in_(
+            ))
+            & (~User.id.in_(
                 select(Like.target_id).where(Like.user_id == user.id).scalar_subquery()
-            )
+            ))
         ) \
         .order_by(func.random()) \
         .limit(1)

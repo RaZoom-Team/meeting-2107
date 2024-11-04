@@ -25,7 +25,7 @@ class User(SQLModel, table=True):
     focus_id: int | None = Field(
         sa_type=BigInteger(),
         foreign_key="users.id",
-        ondelete="cascade"
+        ondelete="SET NULL"
     )
     focus_is_liked: bool = Field(sa_column_kwargs={"server_default": false()})
     is_banned: bool = Field(sa_column_kwargs={"server_default": false()})
