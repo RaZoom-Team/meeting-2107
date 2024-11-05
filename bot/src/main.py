@@ -6,9 +6,9 @@ from interface.telegram import AdminHandler, HelpHandler
 from interface.rabbit import TelegramRouter
 
 logging.basicConfig(level=logging.INFO)
-dp.include_router(AdminHandler)
+dp.include_routers(AdminHandler, HelpHandler)
 
-app.broker.include_routers(TelegramRouter, HelpHandler)
+app.broker.include_router(TelegramRouter)
 
 @app.after_startup
 async def run_dp():
