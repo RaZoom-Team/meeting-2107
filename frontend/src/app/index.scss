@@ -40,6 +40,10 @@
 body {
   margin: 0;
   font-family: var(--font-system);
+  .g-popup_open {
+      z-index: 9999999999;
+  }
+
 
 }
 
