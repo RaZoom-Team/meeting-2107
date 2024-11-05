@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from config import TG_TOKEN
 
-bot = Bot(TG_TOKEN)
+bot = Bot(TG_TOKEN, parse_mode = "html")
 
 async def send_media(chat_id: int, text: str, files: list[str], reply_to: int = None, parse_mode: str = "html") -> None:
     await bot.send_media_group(
