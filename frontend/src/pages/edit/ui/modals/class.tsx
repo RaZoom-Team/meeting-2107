@@ -1,5 +1,5 @@
 import { Button, Select, Sheet } from "@gravity-ui/uikit"
-import { Literales } from "../../../../shared"
+import { AddNotify, Literales } from "../../../../shared"
 import { useContext, useState } from "react"
 import { UserContext } from "../../../../app/providers"
 import { editUser } from "../../../../entities"
@@ -22,6 +22,10 @@ export function ModalClass({nowClass, is_open, close_hook}: Props) {
         editUser(newUser).then(newData => {
             setUser(newData)
             close_hook()
+            AddNotify({
+                title: 'Успешно',
+                content: 'Класс был успешно изменён'
+            })
         })
     }
     }

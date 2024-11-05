@@ -2,12 +2,6 @@
     box-sizing: border-box;
 }
 
-.toaster-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
 .bg {
     width: calc(var(--photo-form-size-w));
     height: calc(var(--photo-form-size-h));

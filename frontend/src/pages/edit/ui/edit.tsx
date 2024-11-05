@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import styles from './style.module.scss'
-import { Card } from '../../../shared'
+import { AddNotify, Card } from '../../../shared'
 import { ReactSVG } from 'react-svg'
 import PencilToSquareIcon from '@gravity-ui/icons/svgs/pencil-to-square.svg';
 import {SealCheck} from '@gravity-ui/icons';
-import { Button, Icon, useToaster, Text } from '@gravity-ui/uikit'
+import { Button, Icon } from '@gravity-ui/uikit'
 import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
@@ -13,7 +13,6 @@ export function Edit() {
     const [animEdit, setAnimEdit] = useState(false)
     const [editModal, setEdit] = useState(false)
 
-    const {add, remove} = useToaster()
     const {user} = useContext(UserContext)
 
     const openModal = (func: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -33,14 +32,10 @@ export function Edit() {
     }
 
     const onVerify = () => {
-        const contentVerify = <div className={styles['toaster-container']}>
-            <Text>Заявка на верификацию отправлена. Мы пришлем уведомление, если вы пройдете её</Text>
-            <Button size='l' onClick={() => remove('verify')}>Понятно</Button>
-        </div>
-        add({
-            title: 'Верификация',
-            content: contentVerify,
-            name: 'verify'
+        AddNotify({
+            title: 'Заявка отправлена',
+            content: 'Заявка на верификацию успешно отправлена. Мы пришлем тебе уведомление после её рассмотрения',
+            type: 'info'
         })
     }
     if (user)

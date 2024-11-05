@@ -6,12 +6,6 @@
     background: rgba(19, 19, 19, 1.00);
 }
 
-.toaster-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
 @keyframes edit-animation {
     0% {
         transform: scale(1);

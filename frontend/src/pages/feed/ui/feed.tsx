@@ -1,6 +1,6 @@
 import styles from './style.module.scss'
 import { FocusUser, User } from "../../../entities";
-import { Card } from '../../../shared';
+import { AddNotify, Card } from '../../../shared';
 import { ReactSVG } from 'react-svg';
 import { useContext, useRef, useState } from 'react';
 import { UserContext } from '../../../app/providers';
@@ -12,7 +12,6 @@ import {ShieldExclamation} from '@gravity-ui/icons';
 import { ModalReport, reportSend } from '../../../features';
 import HeartFillIcon from '@gravity-ui/icons/svgs/heart-fill.svg';
 import XmarkIcon from '@gravity-ui/icons/svgs/xmark.svg';
-
 
 gsap.registerPlugin(useGSAP);
 
@@ -102,6 +101,11 @@ export function Feed({focus}: Props) {
             setReportModal(false)
             newData.current = dataAfterReport
             setanimReport(true)
+            AddNotify({
+                title: 'Заявка отправлена',
+                content: 'Жалоба на этого пользователя успешно отправлена администраторам',
+                type: 'info'
+            })
         })
     }
 
