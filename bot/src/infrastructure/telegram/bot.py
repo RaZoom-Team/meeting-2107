@@ -1,9 +1,12 @@
+from aiogram import Bot
 from aiogram.types import InputMediaPhoto, URLInputFile
+from pydantic import BaseModel
 
-from .bot import bot
+from config import TG_TOKEN
 
+bot = Bot(TG_TOKEN)
 
-async def send_media(chat_id: int, text: str, files: list[str], parse_mode: str = "html", reply_to: int = None) -> None:
+async def send_media(chat_id: int, text: str, files: list[str], reply_to: int = None, parse_mode: str = "html") -> None:
     await bot.send_media_group(
         chat_id = chat_id,
         media = [

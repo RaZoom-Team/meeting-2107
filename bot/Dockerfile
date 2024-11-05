@@ -8,4 +8,4 @@ COPY ./src /bot
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-CMD [ "python", "main.py" ]
+CMD [ "faststream", "run", "main:app" ]

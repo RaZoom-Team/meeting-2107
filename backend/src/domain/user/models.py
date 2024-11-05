@@ -48,25 +48,28 @@ class PatchUser(BaseUser):
 class ReportUser(BaseModel):
     reason: str = Field(min_length=3, max_length=64)
 
-class TelegramRequest(BaseModel):
-    msg_id: int
+# RABBIT
 
-class UnbanUser(TelegramRequest):
+class UserRequest(BaseModel):
     user_id: int
 
-class BanUser(UnbanUser):
+class BanUser(UserRequest):
     reason: str
 
-class VerifyUser(TelegramRequest):
-    user_id: int
+class VerifyUser(UserRequest):
     value: bool
 
-class GetUser(TelegramRequest):
-    user_id: int
+# class GetUser(TelegramRequest):
+#     user_id: int
 
-class TelegramRequestResponse(TelegramRequest):
-    success: bool
+# class TelegramRequestResponse(TelegramRequest):
+#     success: bool
 
-class GetUserResponse(TelegramRequestResponse):
+class GetUserResponse(BaseModel):
     text: str
     attachments: list[str]
+
+class RabbitRequestResponse[T: BaseModel](BaseModel):
+    success: bool = True
+    error: str | None = None
+    response: T | None = None

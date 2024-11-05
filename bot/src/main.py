@@ -1,13 +1,16 @@
 import asyncio
 import logging
-from rabbit.app import app
-from telegram.dispatcher import dp
-from telegram.bot import bot
+from infrastructure.telegram import dp, bot
+from infrastructure.rabbit import app
+from interface.telegram import AdminHandler
+from interface.rabbit import TelegramRouter
 
 logging.basicConfig(level=logging.INFO)
+dp.include_router(AdminHandler)
 
-async def main():
-    await asyncio.gather(app.run(), dp.start_polling(bot))
+app.broker.include_router(TelegramRouter)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+@app.after_startup
+async def run_dp():
+    asyncio.create_task(dp.start_polling(bot))
+app.on_shutdown(dp.stop_polling)
