@@ -1,5 +1,6 @@
 from faststream.rabbit import RabbitRouter
 
+from application.tg.service import TelegramService
 from application.user.rabbit import get_user
 from application.user import UserService
 from domain.user import UserRequest, BanUser, RabbitRequestResponse, GetUserResponse
@@ -32,6 +33,11 @@ async def verify_user(data: VerifyUser) -> RabbitRequestResponse:
         return RabbitRequestResponse(success = False, error = "Пользователь уже верифицирован" if user.verify else "Пользовать не верифицирован")
     user.verify = data.value
     await CTX_SESSION.get().commit()
+    await TelegramService().send_message(
+        "✅ Ваш статус верификации был подтверждён администрацией" if user.verify else
+        "⛔️ Ваш статус верификации был отозван администрацией",
+        user.id
+    )
     return RabbitRequestResponse()
 
 @router.subscriber("user")

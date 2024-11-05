@@ -23,7 +23,7 @@ services:
       test: ["CMD-SHELL", "curl -f http://backend/system/ping || exit 1"]
       interval: 60s
       retries: 5
-      start_period: 5s
+      start_period: 10s
       timeout: 10s
     deploy:
       resources:
@@ -34,6 +34,7 @@ services:
   frontend:
     build: ./frontend
     container_name: mt2107_frontend
+    restart: unless-stopped
     depends_on:
       - backend
     expose:

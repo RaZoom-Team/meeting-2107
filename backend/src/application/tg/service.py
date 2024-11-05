@@ -19,7 +19,7 @@ class TelegramService:
         })
         return res.ok and (await res.json())['result']['status'] not in ["left", "kicked"]
 
-    async def send_message(self, text: str, *, chat_id: int) -> None:
+    async def send_message(self, text: str, chat_id: int) -> None:
         await broker.publish(
             SendTelegramMessage(chat_id = chat_id, text = text),
             "tg_msg"
