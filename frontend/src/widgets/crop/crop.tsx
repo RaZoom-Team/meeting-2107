@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function CropWidget({img, setImg, onComplete}: Props): ReactElement {
-    const [zoom, setZoom] = useState(1.2)
+    const [zoom, setZoom] = useState(1.4)
     const [crop, setCrop] = useState<Point>({x: 0, y: 0})
     const [area, setArea] = useState<Area | null>(null)
 

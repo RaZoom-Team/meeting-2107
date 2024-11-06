@@ -39,8 +39,8 @@ export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_veri
                     <div className={styles['upper-container']}>
                     <span className={styles['name']}>{surname} {name}</span>
                     <div className={styles['status-list']}>
-                        {!is_verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : null}
-                        {!is_me_liked ? <Button onClick={onLike} pin='circle-circle'><Icon data={CardHeart}/></Button> : null}
+                        {is_verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : null}
+                        {is_me_liked ? <Button onClick={onLike} pin='circle-circle'><Icon data={CardHeart}/></Button> : null}
                         </div>
                     </div>
                     <div className={styles['about']}>

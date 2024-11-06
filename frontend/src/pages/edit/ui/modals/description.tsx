@@ -1,4 +1,4 @@
-import { Sheet, Button, TextInput } from "@gravity-ui/uikit"
+import { Sheet, Button, TextArea } from "@gravity-ui/uikit"
 import { useState, useContext } from "react"
 import { UserContext } from "../../../../app/providers"
 import { editUser } from "../../../../entities"
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function ModalAbout({nowDesc, is_open, close_hook}: Props) {
-    const [desc, setDesc] = useState(nowDesc)
+    const [desc, setDesc] = useState<string>(nowDesc)
     const {user, setUser} = useContext(UserContext)
 
     const onDesc = () => {
@@ -32,7 +32,7 @@ export function ModalAbout({nowDesc, is_open, close_hook}: Props) {
 
     return <Sheet title='О себе' visible={is_open} onClose={close_hook}>
     <div className={styles['content']}>
-        <TextInput value={desc} size="l" onChange={e => setDesc(e.target.value)}></TextInput>
+        <TextArea  value={desc} maxRows={4} minRows={2} size="m" onChange={(e) => setDesc(e.target.value)}></TextArea>
         <div className={styles['button-list']}>
             <Button onClick={onDesc} width="max" size="l">Применить</Button>
             <Button onClick={close_hook} width="max" view="outlined" size="l">Закрыть</Button>
