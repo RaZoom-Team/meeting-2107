@@ -9,7 +9,12 @@ import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
 
-export function Edit() {
+interface Props {
+    verifySend: boolean
+    verify_hook: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export function Edit({verifySend, verify_hook}: Props) {
     const [animEdit, setAnimEdit] = useState(false)
     const [editModal, setEdit] = useState(false)
 
@@ -19,7 +24,6 @@ export function Edit() {
         setEdit(false)
         func(true)
         setAnimEdit(false)
-        
     }
 
     const [litera, setLitera] = useState(false)
@@ -37,9 +41,11 @@ export function Edit() {
             content: 'Заявка на верификацию успешно отправлена. Мы пришлем тебе уведомление после её рассмотрения',
             type: 'info'
         })
+        verify_hook(true)
     }
     if (user)
     return <main className={styles['main']}>
+
             <ModalEdit
             is_open={editModal} 
             open_litera={() => openModal(setLitera)}
@@ -72,7 +78,7 @@ export function Edit() {
             </div>
         </div>
         <div className={styles['bottom-widget-container']}>
-            <div className={styles['button-container']}>
+            <div style={verifySend ? { display: 'none'} : {}} className={styles['button-container']}>
                 <Button onClick={onVerify} pin='circle-circle' view='normal' size='m'>
                     <Icon data={SealCheck}></Icon>
                     Верификация
