@@ -15,7 +15,8 @@ class BaseUser(BaseModel):
 
     @field_validator("name", "surname")
     @staticmethod
-    def name_validator(val):
+    def name_validator(val: str):
+        val = val.strip()
         if " " in val:
             raise HTTPException(422, "name and surname should be one word")
         return val
@@ -58,12 +59,6 @@ class BanUser(UserRequest):
 
 class VerifyUser(UserRequest):
     value: bool
-
-# class GetUser(TelegramRequest):
-#     user_id: int
-
-# class TelegramRequestResponse(TelegramRequest):
-#     success: bool
 
 class GetUserResponse(BaseModel):
     text: str
