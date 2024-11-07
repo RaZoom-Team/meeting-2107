@@ -1,3 +1,4 @@
+import traceback
 from typing import Any
 from faststream import BaseMiddleware, ExceptionMiddleware
 
@@ -25,4 +26,5 @@ def rabbit_error(exc: RabbitError):
 
 @exc_middlware.add_handler(Exception, publish=True)
 def rabbit_error(exc: Exception):
+    traceback.print_exception(exc)
     return RabbitRequestResponse(success = False, error = "Internal error")

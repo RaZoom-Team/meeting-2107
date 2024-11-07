@@ -1,4 +1,5 @@
 from faststream.rabbit import RabbitRouter
+import math
 
 from application.tg.service import TelegramService
 from application.user.rabbit import get_user
@@ -59,12 +60,16 @@ async def user(data: UserRequest) -> RabbitRequestResponse[GetUserResponse]:
 @router.subscriber("users")
 async def users(data: GetUsers) -> RabbitRequestResponse[GetUserResponse]:
     users = await UserRepository().get_all(data.offset, data.limit)
+    total = await UserRepository().count()
     return RabbitRequestResponse(
         response = GetUsersResponse(
-            text = f"<b>Всего:</b> {len(users)}\n\n" + '\n'.join([
-                f"{i}. {user.mention} (<code>{user.id}</code>){' 🚫' if user.is_banned else ''}{' ✅' if user.verify else ''}"
-                for i, user in enumerate(users, data.offset + 1)
-            ]),
+            text = 
+                f"<b>Страница:</b> {math.ceil(data.offset / data.limit) + 1} / {math.ceil(total / data.limit)}"
+                f"\n<b>Всего:</b> {len(users)}\n\n"
+                + '\n'.join([
+                    f"{i}. {user.mention} (<code>{user.id}</code>){' 🚫' if user.is_banned else ''}{' ✅' if user.verify else ''}"
+                    for i, user in enumerate(users, data.offset + 1)
+                ]),
             count = len(users)
         )
     )
