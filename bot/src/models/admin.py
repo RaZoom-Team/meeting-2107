@@ -1,7 +1,11 @@
+from typing import Literal
 from pydantic import BaseModel, Field
 
 
-class GetUsers(BaseModel):
+class GetUsersArgs(BaseModel):
+    filter: Literal["all", "banned", "verify"] = "all"
+
+class GetUsers(GetUsersArgs):
     offset: int = 0
     limit: int = Field(gt = 1, le=50)
 

@@ -7,6 +7,7 @@ from application.user import UserService
 from domain.user import UserRequest, BanUser, RabbitRequestResponse, GetUserResponse, GetUsers, VerifyUser, GetUsersResponse
 from domain.user.repository import UserRepository
 from infrastructure.db import CTX_SESSION
+from infrastructure.db.tables import User
 
 
 router = RabbitRouter(prefix="adm_")
@@ -52,20 +53,27 @@ async def user(data: UserRequest) -> RabbitRequestResponse[GetUserResponse]:
                 f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
                 f"\n<b>Описание:</b> <i>{user.desc}</i>"
                 f"\n<b>Верифицирован:</b> {'Да' if user.verify else 'Нет'}"
-                f"\n<b>Заблокирован:</b> {f'Да ({user.ban_reason})' if user.is_banned else 'Нет'}",
+                f"\n<b>Заблокирован:</b> {f'Да ({user.ban_reason})' if user.is_banned else 'Нет'}"
+                f"\n<b>Дата регистрации:</b> {user.created_at.strftime("%d.%m.%Y %H:%M:%S")}",
             attachments = [attachment.url for attachment in user.attachments]
         )
     )
 
 @router.subscriber("users")
 async def users(data: GetUsers) -> RabbitRequestResponse[GetUserResponse]:
-    users = await UserRepository().get_all(data.offset, data.limit)
-    total = await UserRepository().count()
+    filters = {
+        "all": True,
+        "banned": User.is_banned,
+        "verify": User.verify
+    }
+    users = await UserRepository().get_all(data.offset, data.limit, filters[data.filter])
+    total = await UserRepository().count(filters[data.filter])
+    if not total:
+        return RabbitRequestResponse(success = False, error = "Пользователи отсутсвуют")
     return RabbitRequestResponse(
         response = GetUsersResponse(
             text = 
-                f"<b>Страница:</b> {math.ceil(data.offset / data.limit) + 1} / {math.ceil(total / data.limit)}"
-                f"\n<b>Всего:</b> {len(users)}\n\n"
+                f"<b>Страница:</b> {math.ceil(data.offset / data.limit) + 1} / {math.ceil(total / data.limit)}\n\n"
                 + '\n'.join([
                     f"{i}. {user.mention} (<code>{user.id}</code>){' 🚫' if user.is_banned else ''}{' ✅' if user.verify else ''}"
                     for i, user in enumerate(users, data.offset + 1)

@@ -1,3 +1,4 @@
+from typing import Literal
 from models import ReasonRequest, RequestResponse, GetUserResponse, GetUsers, GetUsersResponse, UserRequest, VerifyUser
 from .rpc import send_rpc
 
@@ -27,9 +28,9 @@ async def get_user(user_id: int) -> RequestResponse[GetUserResponse]:
         GetUserResponse
     )
 
-async def get_users(offset: int, limit: int = 25) -> RequestResponse[GetUsersResponse]:
+async def get_users(offset: int, limit: int = 25, filter: Literal["all", "banned", "verify"] = "all") -> RequestResponse[GetUsersResponse]:
     return await send_rpc(
-        GetUsers(offset = offset, limit = limit),
+        GetUsers(offset = offset, limit = limit, filter = filter),
         "adm_users",
         GetUsersResponse
     )

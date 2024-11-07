@@ -7,7 +7,7 @@ from aiogram.fsm.context import FSMContext
 from application.rabbit.messages import ban_user, get_users, unban_user, get_user, verify_user
 from infrastructure.telegram import Data, send_media
 from infrastructure.telegram.keyboards import create_users_keyboard
-from models.admin import ReasonRequest, UserRequest
+from models.admin import GetUsersArgs, ReasonRequest, UserRequest
 from config import TG_ADMIN_CHAT
 
 handler = Router()
@@ -66,8 +66,7 @@ async def denyverify(
             parse_mode = "html"
         )
         await msg.reply("✅ Отказ был доставлен пользователю")
-    except Exception as err:
-        print(err)
+    except:
         await msg.reply("❕ Не удалось доставить отказ пользователю")
 
 @handler.message(Command("get"), F.chat.id == TG_ADMIN_CHAT)
@@ -86,8 +85,12 @@ async def user(
     )
 
 @handler.message(Command("users"), F.chat.id == TG_ADMIN_CHAT)
-async def user(msg: Message, state: FSMContext):
-    res = await get_users(0, USERS_LIST_LIMIT)
+async def user(
+    msg: Message,
+    state: FSMContext,
+    data: GetUsersArgs = Data(["filter"],"❕ Use: /users [FILTER: all, verify, banned]*" )
+):
+    res = await get_users(0, USERS_LIST_LIMIT, data.filter)
     if not res.success:
         return await msg.reply(f"❕ {res.error}")
     answer = await msg.reply(
@@ -95,14 +98,14 @@ async def user(msg: Message, state: FSMContext):
         link_preview_options={"is_disabled": True},
         reply_markup=create_users_keyboard(0, res.response.count % USERS_LIST_LIMIT != 0)
     )
-    await state.update_data(**{f"users_{answer.message_id}": {"offset": 0}}, test = 1)
+    await state.update_data(**{f"users_{answer.message_id}": {"offset": 0, "filter": data.filter}}, test = 1)
 
 @handler.callback_query(F.data.in_(["users_next", "users_back"]))
 async def user_scroll(query: CallbackQuery, state: FSMContext):
     key = f"users_{query.message.message_id}"
     data = await state.get_value(key)
     data['offset'] += USERS_LIST_LIMIT if query.data == "users_next" else -USERS_LIST_LIMIT
-    res = await get_users(data['offset'], USERS_LIST_LIMIT)
+    res = await get_users(data['offset'], USERS_LIST_LIMIT, data['filter'])
     await state.update_data(**{key: data})
     if res.success:
         await query.message.edit_text(

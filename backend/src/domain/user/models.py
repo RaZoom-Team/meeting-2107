@@ -1,3 +1,4 @@
+from typing import Literal
 from fastapi import HTTPException
 from pydantic import BaseModel, Field, field_validator
 
@@ -54,6 +55,7 @@ class ReportUser(BaseModel):
 class GetUsers(BaseModel):
     offset: int = 0
     limit: int = Field(gt = 1, le=50)
+    filter: Literal["all", "banned", "verify"] = "all"
 
 class UserRequest(BaseModel):
     user_id: int

@@ -1,6 +1,6 @@
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
-from sqlmodel import select
+from sqlmodel import desc, select
 from config import CLASS_LITERAL
 from infrastructure.db import BaseRepository, User, View, Like
 
@@ -12,8 +12,8 @@ class UserRepository(BaseRepository[User]):
         res = await self.session.exec(query)
         return res.first()
     
-    async def get_all(self, offset: int, limit: int) -> list[User]:
-        query = select(User).offset(offset).limit(limit)
+    async def get_all(self, offset: int, limit: int, filter = None) -> list[User]:
+        query = select(User).offset(offset).limit(limit).order_by(desc(User.created_at)).filter(filter)
         res = await self.session.exec(query)
         return res.all()
 
@@ -59,7 +59,7 @@ class UserRepository(BaseRepository[User]):
         await self.session.refresh(user)
         return user
     
-    async def count(self) -> int:
-        query = select(func.count()).select_from(User)
+    async def count(self, filter = True) -> int:
+        query = select(func.count()).select_from(User).filter(filter)
         res = await self.session.exec(query)
         return res.one()
