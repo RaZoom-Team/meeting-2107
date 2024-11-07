@@ -1,6 +1,7 @@
 from typing import Any
 from faststream import BaseMiddleware, ExceptionMiddleware
 
+from domain.user.models import RabbitRequestResponse
 from infrastructure.db import CTX_SESSION, get_session
 
 class DatabaseMiddleware(BaseMiddleware):
@@ -21,3 +22,7 @@ exc_middlware = ExceptionMiddleware()
 @exc_middlware.add_handler(RabbitError, publish=True)
 def rabbit_error(exc: RabbitError):
     return exc.body
+
+@exc_middlware.add_handler(Exception, publish=True)
+def rabbit_error(exc: Exception):
+    return RabbitRequestResponse(success = False, error = "Internal error")

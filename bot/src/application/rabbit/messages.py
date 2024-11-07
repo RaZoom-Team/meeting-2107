@@ -1,5 +1,4 @@
-from models import ReasonRequest, RequestResponse, GetUserResponse
-from models.admin import UserRequest, VerifyUser
+from models import ReasonRequest, RequestResponse, GetUserResponse, GetUsers, GetUsersResponse, UserRequest, VerifyUser
 from .rpc import send_rpc
 
 
@@ -26,4 +25,11 @@ async def get_user(user_id: int) -> RequestResponse[GetUserResponse]:
         UserRequest(user_id = user_id),
         "adm_user",
         GetUserResponse
+    )
+
+async def get_users(offset: int, limit: int = 25) -> RequestResponse[GetUsersResponse]:
+    return await send_rpc(
+        GetUsers(offset = offset, limit = limit),
+        "adm_users",
+        GetUsersResponse
     )

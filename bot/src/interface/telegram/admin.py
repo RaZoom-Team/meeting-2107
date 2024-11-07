@@ -1,13 +1,18 @@
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import Message
+from aiogram.types import CallbackQuery
+from aiogram.fsm.context import FSMContext
 
-from application.rabbit.messages import ban_user, unban_user, get_user, verify_user
+from application.rabbit.messages import ban_user, get_users, unban_user, get_user, verify_user
 from infrastructure.telegram import Data, send_media
-from models.admin import ReasonRequest, UserRequest, VerifyUser
+from infrastructure.telegram.keyboards import create_users_keyboard
+from models.admin import ReasonRequest, UserRequest
 from config import TG_ADMIN_CHAT
 
 handler = Router()
+
+USERS_LIST_LIMIT = 25
 
 @handler.message(Command("ban"), F.chat.id == TG_ADMIN_CHAT)
 async def ban(
@@ -37,7 +42,7 @@ async def verify(
     res = await verify_user(data.user_id, True)
     if not res.success:
         return await msg.reply(f"❕ {res.error}")
-    await msg.reply("✅ Верификация пользователя была добавлена")
+    await msg.reply("✅ Пользователь был верифицирован")
 
 @handler.message(Command("unverify"), F.chat.id == TG_ADMIN_CHAT)
 async def unverify(
@@ -79,3 +84,30 @@ async def user(
         res.response.attachments,
         msg.message_id
     )
+
+@handler.message(Command("users"), F.chat.id == TG_ADMIN_CHAT)
+async def user(msg: Message, state: FSMContext):
+    res = await get_users(0, USERS_LIST_LIMIT)
+    if not res.success:
+        return await msg.reply(f"❕ {res.error}")
+    answer = await msg.reply(
+        res.response.text,
+        link_preview_options={"is_disabled": True},
+        reply_markup=create_users_keyboard(0, res.response.count % USERS_LIST_LIMIT != 0)
+    )
+    await state.update_data(**{f"users_{answer.message_id}": {"offset": 0}}, test = 1)
+
+@handler.callback_query(F.data.in_(["users_next", "users_back"]))
+async def user_scroll(query: CallbackQuery, state: FSMContext):
+    key = f"users_{query.message.message_id}"
+    data = await state.get_value(key)
+    data['offset'] += USERS_LIST_LIMIT if query.data == "users_next" else -USERS_LIST_LIMIT
+    res = await get_users(data['offset'], USERS_LIST_LIMIT)
+    await state.update_data(**{key: data})
+    if res.success:
+        await query.message.edit_text(
+            res.response.text,
+            link_preview_options={"is_disabled": True},
+            reply_markup=create_users_keyboard(data['offset'], res.response.count % USERS_LIST_LIMIT != 0)
+        )
+    await query.answer(None)

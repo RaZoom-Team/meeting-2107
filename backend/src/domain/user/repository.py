@@ -5,13 +5,18 @@ from config import CLASS_LITERAL
 from infrastructure.db import BaseRepository, User, View, Like
 
 
-class UserRepository(BaseRepository):
+class UserRepository(BaseRepository[User]):
 
     async def get(self, id: int) -> User | None:
         query = select(User).where(User.id == id).options(joinedload(User.focus_user))
         res = await self.session.exec(query)
         return res.first()
     
+    async def get_all(self, offset: int, limit: int) -> list[User]:
+        query = select(User).offset(offset).limit(limit)
+        res = await self.session.exec(query)
+        return res.all()
+
     async def get_liked(self, user: User) -> User | None:
         query = select(User) \
         .join(Like, Like.user_id == User.id) \
@@ -53,3 +58,8 @@ class UserRepository(BaseRepository):
         await self.session.flush()
         await self.session.refresh(user)
         return user
+    
+    async def count(self) -> int:
+        query = select(func.count()).select_from(User)
+        res = await self.session.exec(query)
+        return res.one()

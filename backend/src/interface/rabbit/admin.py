@@ -3,8 +3,8 @@ from faststream.rabbit import RabbitRouter
 from application.tg.service import TelegramService
 from application.user.rabbit import get_user
 from application.user import UserService
-from domain.user import UserRequest, BanUser, RabbitRequestResponse, GetUserResponse
-from domain.user.models import VerifyUser
+from domain.user import UserRequest, BanUser, RabbitRequestResponse, GetUserResponse, GetUsers, VerifyUser, GetUsersResponse
+from domain.user.repository import UserRepository
 from infrastructure.db import CTX_SESSION
 
 
@@ -53,5 +53,18 @@ async def user(data: UserRequest) -> RabbitRequestResponse[GetUserResponse]:
                 f"\n<b>Верифицирован:</b> {'Да' if user.verify else 'Нет'}"
                 f"\n<b>Заблокирован:</b> {f'Да ({user.ban_reason})' if user.is_banned else 'Нет'}",
             attachments = [attachment.url for attachment in user.attachments]
+        )
+    )
+
+@router.subscriber("users")
+async def users(data: GetUsers) -> RabbitRequestResponse[GetUserResponse]:
+    users = await UserRepository().get_all(data.offset, data.limit)
+    return RabbitRequestResponse(
+        response = GetUsersResponse(
+            text = f"<b>Всего:</b> {len(users)}\n\n" + '\n'.join([
+                f"{i}. {user.mention} (<code>{user.id}</code>){' 🚫' if user.is_banned else ''}{' ✅' if user.verify else ''}"
+                for i, user in enumerate(users, data.offset + 1)
+            ]),
+            count = len(users)
         )
     )

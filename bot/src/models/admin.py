@@ -1,5 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+
+class GetUsers(BaseModel):
+    offset: int = 0
+    limit: int = Field(gt = 1, le=50)
 
 class UserRequest(BaseModel):
     user_id: int
@@ -13,6 +17,10 @@ class VerifyUser(UserRequest):
 class GetUserResponse(BaseModel):
     text: str
     attachments: list[str]
+
+class GetUsersResponse(BaseModel):
+    text: str
+    count: int
 
 class RequestResponse[T: BaseModel](BaseModel):
     success: bool

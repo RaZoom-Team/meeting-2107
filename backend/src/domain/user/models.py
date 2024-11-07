@@ -51,6 +51,10 @@ class ReportUser(BaseModel):
 
 # RABBIT
 
+class GetUsers(BaseModel):
+    offset: int = 0
+    limit: int = Field(gt = 1, le=50)
+
 class UserRequest(BaseModel):
     user_id: int
 
@@ -63,6 +67,10 @@ class VerifyUser(UserRequest):
 class GetUserResponse(BaseModel):
     text: str
     attachments: list[str]
+
+class GetUsersResponse(BaseModel):
+    text: str
+    count: int
 
 class RabbitRequestResponse[T: BaseModel](BaseModel):
     success: bool = True
