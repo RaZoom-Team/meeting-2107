@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import styles from './style.module.scss'
-import { AddNotify, Card } from '../../../shared'
+import { addNotify, Card } from '../../../shared'
 import { ReactSVG } from 'react-svg'
 import PencilToSquareIcon from '@gravity-ui/icons/svgs/pencil-to-square.svg';
 import {SealCheck} from '@gravity-ui/icons';
@@ -40,7 +40,7 @@ export function Edit({verifySend, verify_hook}: Props) {
     }
 
     const onVerify = () => {
-        AddNotify({
+        addNotify({
             title: 'Заявка отправлена',
             content: 'Заявка на верификацию успешно отправлена. Мы пришлем тебе уведомление после её рассмотрения',
             type: 'info'
@@ -50,7 +50,7 @@ export function Edit({verifySend, verify_hook}: Props) {
 
     const afterPhoto = (user: User) => {
         setUser(user)
-        AddNotify({
+        addNotify({
             title: 'Фото обновлено',
             content: 'Вы успешно обновили фотографию своего профиля'
         })

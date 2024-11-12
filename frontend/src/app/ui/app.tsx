@@ -4,7 +4,6 @@ import {Auth} from '../../pages'
 import { UserContext } from '../providers'
 import { editIcon, feedIcon, historyIcon, NavBar, NavIcon } from '../../shared'
 import { Router } from '../router/router'
-import { ReactNotifications } from 'react-notifications-component'
 import { ThemeProvider } from '@gravity-ui/uikit'
 import ReactDOMClient from 'react-dom/client';
 import {Toaster} from '@gravity-ui/uikit';
@@ -32,7 +31,6 @@ export function App() {
 
     return <ThemeProvider theme='dark'>
     <main data-theme={user.male ? 'blue' : 'pink'} className={styles['main']}>
-        <ReactNotifications></ReactNotifications>
         <NavBar buttons={buttons}/>
         <Router page={page} focus={user.focus_user}/>
     </main>

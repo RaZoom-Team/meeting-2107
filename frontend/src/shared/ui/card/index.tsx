@@ -2,7 +2,7 @@ import { Button, Icon} from '@gravity-ui/uikit';
 import '../../../app/index.scss';
 import styles from './style.module.scss';
 import {SealCheck, CardHeart} from '@gravity-ui/icons';
-import { AddNotify } from '../notify';
+import { addNotify } from '../notify';
 
 interface Props {
     name: string;
@@ -17,7 +17,7 @@ interface Props {
 export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_verify}: Props) {
 
     const onVerify = () => {
-        AddNotify({
+        addNotify({
             title: 'Верифицирован',
             content: 'Данные этого пользователя подтверждены администрацией',
             type: 'utility'
@@ -25,7 +25,7 @@ export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_veri
     }
 
     const onLike = () => {
-        AddNotify({
+        addNotify({
             title: 'Симпатия',
             content:'Этот пользователь лайкнул вас',
             type: 'utility'

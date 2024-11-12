@@ -2,7 +2,7 @@ import styles from './modal.module.scss'
 import { Button, Sheet } from "@gravity-ui/uikit"
 import { ReactElement, useContext, useRef } from "react"
 import { UserContext } from '../../../app/providers'
-import { AddNotify } from '../../../shared'
+import { addNotify } from '../../../shared'
 import { editUser } from '../../../entities'
 
 interface Props {
@@ -26,7 +26,7 @@ export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_nam
             editUser(newUser).then(newData => {
                 setUser(newData)
                 close_hook()
-                AddNotify({
+                addNotify({
                     title: 'Успешно',
                     content: ('Пол успешно изменен на ' + (newUser.male ? 'мужской' : 'женский'))
                 })

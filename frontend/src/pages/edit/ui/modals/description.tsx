@@ -3,7 +3,7 @@ import { useState, useContext } from "react"
 import { UserContext } from "../../../../app/providers"
 import { editUser } from "../../../../entities"
 import styles from './style.module.scss'
-import { AddNotify } from "../../../../shared"
+import { addNotify } from "../../../../shared"
 
 interface Props {
     nowDesc: string
@@ -21,7 +21,7 @@ export function ModalAbout({nowDesc, is_open, close_hook}: Props) {
         newUser.desc = desc
         editUser(newUser).then(newData => {
             setUser(newData)
-            AddNotify({
+            addNotify({
                 title: 'Успешно',
                 content: 'Описание было успешно изменено'
             })
