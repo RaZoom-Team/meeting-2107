@@ -9,7 +9,7 @@ const toaster = new Toaster({mobile: true});
 interface Props {
     title: string
     content: string
-    type?: "success" | "normal" | "info" | "warning" | "danger" | "utility" | undefined
+    type?: "success" | "normal" | "info" | "warning" | "danger" | "utility"
 }
 
 export function addNotify({title, content, type}: Props) {
