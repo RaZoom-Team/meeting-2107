@@ -18,7 +18,9 @@ export default function UserProvider({ children }: IChildren) {
     const [user, setUser] = useState<User | undefined | null>(undefined);
 
     const updateUser = () => {
-        getUser().then(setUser)
+        getUser()
+        .then(setUser)
+        .catch(() => setUser(null))
         console.log(user)
     }
 

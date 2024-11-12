@@ -24,7 +24,7 @@ export function History() {
                         name={<Text>{user.name}</Text>}
                         description={<Text>{user.username}</Text>}>
                     </User>
-                    <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+user.username)}>Перейти в чат</Button>
+                    <Button onClick={() => Telegram.WebApp.openTelegramLink('https://t.me/'+user.username)}>Перейти в чат</Button>
                 </div>
                 )
             }
@@ -35,105 +35,13 @@ export function History() {
             </div>
         }  
     }
+
     if (user) {
-        const test = <div className={styles['list-user']}>
-        <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    <div className={styles['list-element']} key={Math.random().toString(16)}>
-        <User
-            avatar={<Avatar imgUrl={user.attachments[0]}/>}
-            name={<Text>{user.name}</Text>}
-            description={<Text>{'ramchike'}</Text>}>
-        </User>
-        <Button onClick={() => Telegram.WebApp.openTelegramLink('t.me/'+'ramchike')}>Перейти в чат</Button>
-    </div>
-    </div>
-    return <main className={styles['main']}>
-        <Text className={styles['title-list']} variant='header-2'>Взаимные лайки</Text>
-        {test}
+        return <main className={styles['main']}>
+        {historyListComponent()}
     </main>
 }
 
     
-    return <main className={styles['main']}>
-        {historyListComponent()}
-    </main>
+
 }

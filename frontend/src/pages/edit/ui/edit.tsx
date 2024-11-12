@@ -4,7 +4,7 @@ import { addNotify, Card } from '../../../shared'
 import { ReactSVG } from 'react-svg'
 import PencilToSquareIcon from '@gravity-ui/icons/svgs/pencil-to-square.svg';
 import {SealCheck} from '@gravity-ui/icons';
-import { Button, Icon, Portal } from '@gravity-ui/uikit'
+import { Button, Icon } from '@gravity-ui/uikit'
 import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
@@ -19,6 +19,7 @@ interface Props {
 export function Edit({verifySend, verify_hook}: Props) {
     const [animEdit, setAnimEdit] = useState(false)
     const [editModal, setEdit] = useState(false)
+    const [isCrop, setCrop] = useState(false)
     const [img, setImg] = useState<string | undefined>(undefined)
     const {user, setUser} = useContext(UserContext)
 
@@ -26,6 +27,16 @@ export function Edit({verifySend, verify_hook}: Props) {
         setEdit(false)
         func(true)
         setAnimEdit(false)
+    }
+
+    const onClose = () => {
+        setEdit(false)
+        setAnimEdit(false)
+    }
+
+    const imgUpload = (img: string) => {
+        setImg(img)
+        setCrop(true)
     }
 
     const [litera, setLitera] = useState(false)
@@ -52,10 +63,10 @@ export function Edit({verifySend, verify_hook}: Props) {
             title: 'Фото обновлено',
             content: 'Вы успешно обновили фотографию своего профиля'
         })
+        setImg(undefined)
     }
 
-    const onPhoto = () => {
-        setAnimEdit(false)
+    const onPhoto = (img: string | undefined) => {
         if (img) {
             fetch(img)
                 .then(res => res.blob())
@@ -63,35 +74,28 @@ export function Edit({verifySend, verify_hook}: Props) {
                     const avatarForm = new FormData();
                     avatarForm.append('avatar', blob)
                     updateAvatar(avatarForm).then(afterPhoto)
+                    setAnimEdit(false)
                 })
             }
     }
 
-    if (user)
-    return <main className={styles['main']}>
-
-        {img && <Portal>
-                <CropWidget
-                    img={img}
-                    setImg={setImg}
-                    onComplete={onPhoto}
-                />
-        </Portal>
-        }
-
+    if (img && user && isCrop){
+    return  <CropWidget
+                img={img}
+                setImg={onPhoto}
+                onComplete={() => setCrop(false)}
+            />
+    } else if (user) {
+        return <main className={styles['main']}>
 
         <ModalEdit
         is_open={editModal} 
         open_litera={() => openModal(setLitera)}
         open_desc={() => openModal(setDesc)}
         open_name={() => openModal(setName)}
-        set_photo={setImg}
-        close_hook={() => setEdit(false)
-        }
+        set_photo={imgUpload}
+        close_hook={onClose}
         />
-
-            
-
 
         <ModalAbout is_open={desc} close_hook={() => setDesc(false)} nowDesc={user.desc}></ModalAbout>
         <ModalName is_open={name} close_hook={() => setName(false)} nowName={user.name} nowSur={user.surname}></ModalName>
@@ -125,4 +129,5 @@ export function Edit({verifySend, verify_hook}: Props) {
             </div>
         </div>
     </main>
+    }
 }
