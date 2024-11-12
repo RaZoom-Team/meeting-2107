@@ -127,6 +127,8 @@ export function Auth() {
                 .then(res => res.blob())
                 .then(blob => {
                     console.log(blob)
+                    setName((name) => name.trim())
+                    setSurname((surname) => surname.trim())
                     const userData: UserRegister = {
                         name,
                         surname,
