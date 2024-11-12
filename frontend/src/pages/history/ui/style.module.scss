@@ -28,11 +28,14 @@
     gap: 16px;
     overflow-x: hidden;
     overflow-y: scroll;
+    align-items: normal;
 
     height: 60%;
     width: 100%;
     .list-element {
         display: flex;
         justify-content: space-around;
+        align-items: center;
+        width: 100%;
     }
 }
