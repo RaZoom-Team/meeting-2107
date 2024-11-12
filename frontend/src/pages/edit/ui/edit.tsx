@@ -8,6 +8,8 @@ import { Button, Icon } from '@gravity-ui/uikit'
 import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
+import { CropWidget } from '../../../widgets';
+import { updateAvatar, User } from '../../../entities';
 
 interface Props {
     verifySend: boolean
@@ -17,8 +19,8 @@ interface Props {
 export function Edit({verifySend, verify_hook}: Props) {
     const [animEdit, setAnimEdit] = useState(false)
     const [editModal, setEdit] = useState(false)
-
-    const {user} = useContext(UserContext)
+    const [img, setImg] = useState<string | undefined>(undefined)
+    const {user, setUser} = useContext(UserContext)
 
     const openModal = (func: React.Dispatch<React.SetStateAction<boolean>>) => {
         setEdit(false)
@@ -43,16 +45,48 @@ export function Edit({verifySend, verify_hook}: Props) {
         })
         verify_hook(true)
     }
+
+    const afterPhoto = (user: User) => {
+        setUser(user)
+        AddNotify({
+            title: 'Фото обновлено',
+            content: 'Вы успешно обновили фотографию своего профиля'
+        })
+    }
+
+    const onPhoto = () => {
+        setAnimEdit(false)
+        if (img) {
+            fetch(img)
+                .then(res => res.blob())
+                .then(blob => {
+                    const avatarForm = new FormData();
+                    avatarForm.append('avatar', blob)
+                    updateAvatar(avatarForm).then(afterPhoto)
+                })
+            }
+    }
+
     if (user)
     return <main className={styles['main']}>
 
-            <ModalEdit
-            is_open={editModal} 
-            open_litera={() => openModal(setLitera)}
-            open_desc={() => openModal(setDesc)}
-            open_name={() => openModal(setName)}
-            close_hook={() => setEdit(false)}
-            />
+        {img && <CropWidget
+            img={img}
+            setImg={setImg}
+            onComplete={onPhoto}
+        />}
+
+        <ModalEdit
+        is_open={editModal} 
+        open_litera={() => openModal(setLitera)}
+        open_desc={() => openModal(setDesc)}
+        open_name={() => openModal(setName)}
+        set_photo={setImg}
+        close_hook={() => setEdit(false)
+        }
+        />
+            
+
 
         <ModalAbout is_open={desc} close_hook={() => setDesc(false)} nowDesc={user.desc}></ModalAbout>
         <ModalName is_open={name} close_hook={() => setName(false)} nowName={user.name} nowSur={user.surname}></ModalName>

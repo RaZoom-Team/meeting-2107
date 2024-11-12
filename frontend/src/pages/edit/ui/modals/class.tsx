@@ -24,7 +24,7 @@ export function ModalClass({nowClass, is_open, close_hook}: Props) {
             close_hook()
             AddNotify({
                 title: 'Успешно',
-                content: 'Класс был успешно изменён'
+                content: 'Класс был успешно изменён на'+newUser.literal
             })
         })
     }
