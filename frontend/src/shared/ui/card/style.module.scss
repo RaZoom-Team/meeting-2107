@@ -5,6 +5,7 @@
 .bg {
     width: calc(var(--photo-form-size-w));
     height: calc(var(--photo-form-size-h));
+    background-size: cover;
     overflow: hidden;
     border-radius: 30px;
 }

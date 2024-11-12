@@ -1,5 +1,5 @@
 import styles from './style.module.scss'
-import { useContext, useState} from 'react'
+import { useContext, useEffect, useState} from 'react'
 import {Auth} from '../../pages'
 import { UserContext } from '../providers'
 import { editIcon, feedIcon, historyIcon, NavBar, NavIcon } from '../../shared'
@@ -14,6 +14,10 @@ Toaster.injectReactDOMClient(ReactDOMClient);
 export function App() {
   const {user} = useContext(UserContext)
   const [page, setPage] = useState<Page>('feed')
+
+  useEffect(() => {
+    Telegram.WebApp.expand()
+  }, [])
 
   if (user === undefined) {
     return <>Загрузка</>
