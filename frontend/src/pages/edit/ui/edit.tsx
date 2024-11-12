@@ -102,7 +102,7 @@ export function Edit({verifySend, verify_hook}: Props) {
         <ModalClass is_open={litera} close_hook={() => setLitera(false)} nowClass={user.literal}></ModalClass>
             <div className={styles['container']}>
             <Card 
-                name={focus.name}
+                name={user.name}
                 surname={user.surname}
                 avatar={user.attachments[0]}
                 desc={user.desc}
