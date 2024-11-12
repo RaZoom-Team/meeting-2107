@@ -31,6 +31,7 @@ class UserService:
             literal = data.literal,
             male = data.male
         )
+        await self.check_user_subcription(user)
         await AttachmentService().upload(avatar, user)
         await self.select_focus(user)
         await TelegramService().send_media_to_chat(

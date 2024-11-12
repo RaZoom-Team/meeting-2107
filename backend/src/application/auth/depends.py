@@ -14,7 +14,7 @@ from src.infrastructure.db import User, CTX_SESSION
 from src.infrastructure.exc import AuthDataException, UnregisteredException
 
 
-tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")
+tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telegram Init Data")
 
 locks: dict[int, asyncio.Lock] = {}
 
@@ -33,7 +33,8 @@ async def get_userdata(auth: str = Security(tg_auth)) -> AsyncGenerator[dict, No
         raise AuthDataException
 
     user = json.loads(tg['user'])
-    async with locks.setdefault(user['id'], asyncio.Lock()):
+    locks.setdefault(user['id'], asyncio.Lock())
+    async with locks[user['id']]:
         yield user
 
 async def get_userid(userdata: dict = Depends(get_userdata)) -> int:
