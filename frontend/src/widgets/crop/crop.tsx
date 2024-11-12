@@ -1,6 +1,6 @@
 import { ReactElement, useState } from "react";
 import Cropper, { Area, Point } from "react-easy-crop";
-import { Button } from "../../shared";
+import { Button, CROP_H, CROP_W } from "../../shared";
 import getCroppedImg from "./toImg";
 import styles from './style.module.scss'
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function CropWidget({img, setImg, onComplete}: Props): ReactElement {
-    const [zoom, setZoom] = useState(1.2)
+    const [zoom, setZoom] = useState(1.4)
     const [crop, setCrop] = useState<Point>({x: 0, y: 0})
     const [area, setArea] = useState<Area | null>(null)
 
@@ -31,7 +31,7 @@ export function CropWidget({img, setImg, onComplete}: Props): ReactElement {
         onComplete();
     }
 
-    const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
+    const onCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
         setArea(croppedAreaPixels)
     }
 
@@ -45,7 +45,7 @@ export function CropWidget({img, setImg, onComplete}: Props): ReactElement {
         style={{cropAreaStyle: style}}
         image={img}
         showGrid={false}
-        cropSize={{width: 290, height: 552}}
+        cropSize={{width: CROP_W, height: CROP_H}}
         zoom={zoom}
         crop={crop}
         onZoomChange={setZoom}

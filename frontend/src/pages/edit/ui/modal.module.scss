@@ -1,0 +1,17 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding-bottom: 12px;
+    --g-sheet-content-padding: 10px;
+    --g-text-body-font-weight: 400;
+    .button-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 4px;
+        gap: 4px;
+    }
+}

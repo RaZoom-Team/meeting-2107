@@ -1,7 +1,8 @@
-import { Button, Icon, ToasterComponent, useToaster, Text } from '@gravity-ui/uikit';
+import { Button, Icon} from '@gravity-ui/uikit';
 import '../../../app/index.scss';
 import styles from './style.module.scss';
 import {SealCheck, CardHeart} from '@gravity-ui/icons';
+import { AddNotify } from '../notify';
 
 interface Props {
     name: string;
@@ -14,46 +15,32 @@ interface Props {
 }
 
 export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_verify}: Props) {
-    const {add, remove} = useToaster()
-    const contentVerify = 
-    <div className={styles['toaster-container']}>
-        <Text>Данные этого пользователя подтверждены администрацией  <Icon data={SealCheck}></Icon></Text>
-        <Button className={styles['button']} size='l' onClick={() => remove('verify')}>Понятно</Button>
-    </div>
-
-    const contentLike = 
-        <div className={styles['toaster-container']}>
-            <Text>Этот пользователь лайкнул вас  <Icon data={CardHeart}></Icon></Text>
-            <Button size='l' onClick={() => remove('like')}>Понятно</Button>
-        </div>
 
     const onVerify = () => {
-        add({
+        AddNotify({
             title: 'Верифицирован',
-            content: contentVerify,
-            name: 'verify'
+            content: 'Данные этого пользователя подтверждены администрацией',
+            type: 'utility'
         });
     }
 
     const onLike = () => {
-        add({
+        AddNotify({
             title: 'Симпатия',
-            content: contentLike,
-            name: 'like'
+            content:'Этот пользователь лайкнул вас',
+            type: 'utility'
         });
     }
 
-    <ToasterComponent></ToasterComponent>
-
     return (
-        <div className={styles['bg']} style={{ background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${avatar})`}}>
+        <div className={styles['bg']} style={{ background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${avatar}) no-repeat center center`}}>
             <div className={styles['card']}>
                 <div className={styles['overlay']}>
                     <div className={styles['upper-container']}>
                     <span className={styles['name']}>{surname} {name}</span>
                     <div className={styles['status-list']}>
-                        {!is_verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : <></>}
-                        {!is_me_liked ? <Button onClick={onLike} pin='circle-circle'><Icon data={CardHeart}/></Button> : <></>}
+                        {is_verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : null}
+                        {is_me_liked ? <Button onClick={onLike} pin='circle-circle'><Icon data={CardHeart}/></Button> : null}
                         </div>
                     </div>
                     <div className={styles['about']}>

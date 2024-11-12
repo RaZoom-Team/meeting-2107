@@ -1,0 +1,93 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: rgba(19, 19, 19, 1.00);
+}
+
+@keyframes edit-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+body {
+    overflow: hidden;
+}
+
+.container {
+    line-height: normal;
+    height: calc(var(--photo-buttons-size) + var(--photo-form-size-h) - 40);
+    .button-list {
+        display: flex;
+        position: relative;
+        top: -40px;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        gap: 18px;
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: var(--photo-buttons-size);
+            height: var(--photo-buttons-size);
+            background-color: var(--button-color);
+            border: 0;
+            text-align: center;
+            border-radius: 180px;
+            .icon {
+                width: var(--photo-buttons-icon-size);
+                height: var(--photo-buttons-icon-size);
+                display: flex;
+                justify-content: center;
+            }
+            .icon svg {
+                opacity: 0.8;
+                width: var(--photo-buttons-icon-size);
+                height: var(--photo-buttons-icon-size);
+                path {
+                    fill: white;
+                }
+                div {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+            .active-edit {
+                svg path {
+                    fill: var(--main-color);
+                }
+                animation: edit-animation 0.2s;
+            }
+        }
+    }
+}
+.bottom-widget-container {
+    pointer-events: none;
+    display: flex;
+    flex-direction: column-reverse;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    --g-button-font-size: 12px;
+    --g-text-body-font-weight: 300;
+    .button-container {
+        pointer-events: all;
+        opacity: 0.5;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 100%;
+        height: 64px;
+    }
+}
