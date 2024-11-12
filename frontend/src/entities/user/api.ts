@@ -32,7 +32,7 @@ export async function updateAvatar(avatar: FormData) {
         console.log(error)
         throw error
     })
-}
+} 
 
 export async function genKey (username: string): Promise<string> {
     return UserClient.post('/getauth', {username})

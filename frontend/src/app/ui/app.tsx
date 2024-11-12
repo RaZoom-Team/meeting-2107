@@ -5,7 +5,7 @@ import { UserContext } from '../providers'
 import { editIcon, feedIcon, historyIcon, NavBar, NavIcon } from '../../shared'
 import { Router } from '../router/router'
 import { ReactNotifications } from 'react-notifications-component'
-import { ThemeProvider } from '@gravity-ui/uikit'
+import { Portal, ThemeProvider } from '@gravity-ui/uikit'
 import ReactDOMClient from 'react-dom/client';
 import {Toaster} from '@gravity-ui/uikit';
 
