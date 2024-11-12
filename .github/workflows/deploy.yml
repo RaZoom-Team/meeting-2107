@@ -44,7 +44,7 @@ jobs:
         run: ssh ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }} whoami
 
       - name: Sync with server
-        run: rsync -avz --exclude='.env' ./ ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }}:${{ vars.SERVER_DIR }}
+        run: rsync -avz --delete --exclude='.env' ./ ${{ vars.SERVER_USER }}@${{ vars.SERVER_HOST }}:${{ vars.SERVER_DIR }}
 
       - name: Build
         run: |
