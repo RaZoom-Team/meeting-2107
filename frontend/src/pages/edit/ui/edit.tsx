@@ -9,7 +9,7 @@ import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
 import { CropWidget } from '../../../widgets';
-import { updateAvatar, User } from '../../../entities';
+import { updateAvatar } from '../../../entities';
 
 interface Props {
     verifySend: boolean
@@ -21,7 +21,7 @@ export function Edit({verifySend, verify_hook}: Props) {
     const [editModal, setEdit] = useState(false)
     const [isCrop, setCrop] = useState(false)
     const [img, setImg] = useState<string | undefined>(undefined)
-    const {user, setUser} = useContext(UserContext)
+    const {user } = useContext(UserContext)
 
     const openModal = (func: React.Dispatch<React.SetStateAction<boolean>>) => {
         setEdit(false)
