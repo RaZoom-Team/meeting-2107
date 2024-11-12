@@ -4,12 +4,14 @@ import { AddNotify, Card } from '../../../shared'
 import { ReactSVG } from 'react-svg'
 import PencilToSquareIcon from '@gravity-ui/icons/svgs/pencil-to-square.svg';
 import {SealCheck} from '@gravity-ui/icons';
-import { Button, Icon } from '@gravity-ui/uikit'
+import { Button, Icon, Portal } from '@gravity-ui/uikit'
 import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
 import { CropWidget } from '../../../widgets';
 import { updateAvatar, User } from '../../../entities';
+
+const myRoot = document.getElementById('my-root');
 
 interface Props {
     verifySend: boolean
@@ -74,8 +76,11 @@ export function Edit({verifySend, verify_hook}: Props) {
             img={img}
             setImg={setImg}
             onComplete={onPhoto}
-        />}
+        />
+        }
 
+
+        {myRoot && <Portal container={myRoot}>
         <ModalEdit
         is_open={editModal} 
         open_litera={() => openModal(setLitera)}
@@ -85,6 +90,9 @@ export function Edit({verifySend, verify_hook}: Props) {
         close_hook={() => setEdit(false)
         }
         />
+        </Portal>
+        }
+
             
 
 
