@@ -11,8 +11,6 @@ import { ModalAbout, ModalName, ModalClass } from './modals';
 import { CropWidget } from '../../../widgets';
 import { updateAvatar, User } from '../../../entities';
 
-const myRoot = document.getElementById('my-root');
-
 interface Props {
     verifySend: boolean
     verify_hook: React.Dispatch<React.SetStateAction<boolean>>
@@ -72,15 +70,16 @@ export function Edit({verifySend, verify_hook}: Props) {
     if (user)
     return <main className={styles['main']}>
 
-        {img && <CropWidget
-            img={img}
-            setImg={setImg}
-            onComplete={onPhoto}
-        />
+        {img && <Portal>
+                <CropWidget
+                    img={img}
+                    setImg={setImg}
+                    onComplete={onPhoto}
+                />
+        </Portal>
         }
 
 
-        {myRoot && <Portal container={myRoot}>
         <ModalEdit
         is_open={editModal} 
         open_litera={() => openModal(setLitera)}
@@ -90,8 +89,6 @@ export function Edit({verifySend, verify_hook}: Props) {
         close_hook={() => setEdit(false)
         }
         />
-        </Portal>
-        }
 
             
 
