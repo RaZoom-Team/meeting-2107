@@ -16,6 +16,7 @@ export const Literales: Option[] = [
     {key: "9v", value: "9В"},
     {key: "10k", value: "10К"},
     {key: "10c", value: "10С"},
+    {key: "10p", value: "10П"},
     {key: "10u", value: "10Ю"},
     {key: "10y", value: "10У"},
     {key: "10j", value: "10Ж"},
