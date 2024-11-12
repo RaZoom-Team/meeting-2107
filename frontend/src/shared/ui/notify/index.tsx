@@ -12,7 +12,7 @@ interface Props {
     type?: "success" | "normal" | "info" | "warning" | "danger" | "utility" | undefined
 }
 
-export function AddNotify({title, content, type}: Props) {
+export function addNotify({title, content, type}: Props) {
     const contentToaster = <div className={styles['toaster-container']}>
     <Text variant="body-1">{content}</Text>
     <Button size='l' onClick={() => toaster.remove(title)}>Понятно</Button>

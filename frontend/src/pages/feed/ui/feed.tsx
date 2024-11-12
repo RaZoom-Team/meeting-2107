@@ -1,6 +1,6 @@
 import styles from './style.module.scss'
 import { FocusUser, User } from "../../../entities";
-import { AddNotify, Card } from '../../../shared';
+import { addNotify, Card } from '../../../shared';
 import { ReactSVG } from 'react-svg';
 import { useContext, useRef, useState } from 'react';
 import { UserContext } from '../../../app/providers';
@@ -101,7 +101,7 @@ export function Feed({focus}: Props) {
             setReportModal(false)
             newData.current = dataAfterReport
             setanimReport(true)
-            AddNotify({
+            addNotify({
                 title: 'Заявка отправлена',
                 content: 'Жалоба на этого пользователя успешно отправлена администраторам',
                 type: 'info'
