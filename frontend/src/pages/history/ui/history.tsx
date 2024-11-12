@@ -38,6 +38,7 @@ export function History() {
 
     if (user) {
         return <main className={styles['main']}>
+            <Text className={styles['title-list']} variant='header-1'>Взаимные лайки</Text>
         {historyListComponent()}
     </main>
 }

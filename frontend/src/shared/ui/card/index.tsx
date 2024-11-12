@@ -33,7 +33,12 @@ export function Card({ name, surname, avatar, desc, litera, is_me_liked, is_veri
     }
 
     return (
-        <div className={styles['bg']} style={{ background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${avatar}) no-repeat center center`}}>
+        <div className={styles['bg']} style={
+            { background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${avatar}) no-repeat center center`,
+            backgroundSize: 'cover'
+        }
+            
+            }>
             <div className={styles['card']}>
                 <div className={styles['overlay']}>
                     <div className={styles['upper-container']}>

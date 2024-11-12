@@ -57,8 +57,7 @@ export function Edit({verifySend, verify_hook}: Props) {
         verify_hook(true)
     }
 
-    const afterPhoto = (user: User) => {
-        setUser(user)
+    const afterPhoto = () => {
         addNotify({
             title: 'Фото обновлено',
             content: 'Вы успешно обновили фотографию своего профиля'
