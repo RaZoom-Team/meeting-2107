@@ -1,6 +1,6 @@
 import styles from './style.module.scss'
 import { FocusUser, User } from "../../../entities";
-import { Card } from '../../../shared';
+import { addNotify, Card } from '../../../shared';
 import { ReactSVG } from 'react-svg';
 import { useContext, useRef, useState } from 'react';
 import { UserContext } from '../../../app/providers';
@@ -12,7 +12,6 @@ import {ShieldExclamation} from '@gravity-ui/icons';
 import { ModalReport, reportSend } from '../../../features';
 import HeartFillIcon from '@gravity-ui/icons/svgs/heart-fill.svg';
 import XmarkIcon from '@gravity-ui/icons/svgs/xmark.svg';
-
 
 gsap.registerPlugin(useGSAP);
 
@@ -45,7 +44,7 @@ export function Feed({focus}: Props) {
                     newData.current = null
                     setLike(false)
                     const tlGet = gsap.timeline()
-                    tlGet.fromTo(card.current, {x: 500}, {x: 0, duration: 0.8, ease: 'power1'})
+                    tlGet.fromTo(card.current, {x: 500, y: 0}, {x: 0, duration: 0.8, ease: 'power1'})
                     tlGet.fromTo(card.current, {scale: 0.8}, {x: 0, scale: 1, duration: 0.4, ease: 'power1', onComplete: () => setBg(true)})
                 }
                 const tlSend = gsap.timeline({onComplete: afterData})
@@ -102,6 +101,11 @@ export function Feed({focus}: Props) {
             setReportModal(false)
             newData.current = dataAfterReport
             setanimReport(true)
+            addNotify({
+                title: 'Заявка отправлена',
+                content: 'Жалоба на этого пользователя успешно отправлена администраторам',
+                type: 'info'
+            })
         })
     }
 

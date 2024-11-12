@@ -26,14 +26,10 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    overflow: scroll;
+    overflow-x: hidden;
     overflow-y: scroll;
-    &::-webkit-scrollbar {
-        width: 15px;
-        height: 15px;
-    }
 
-    height: 70%;
+    height: 60%;
     width: 100%;
     .list-element {
         display: flex;
