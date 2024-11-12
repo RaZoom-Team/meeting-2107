@@ -21,15 +21,10 @@ services:
         restart: true
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend/system/ping || exit 1"]
-      interval: 60s
+      interval: 30s
       retries: 5
       start_period: 10s
       timeout: 10s
-    deploy:
-      resources:
-        limits:
-          cpus: '0.7'
-          memory: 800M
 
   frontend:
     build: ./frontend

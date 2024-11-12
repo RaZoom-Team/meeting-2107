@@ -4,10 +4,10 @@ import uuid
 import aiofiles
 from PIL import Image
 
-from domain.attachment import AttachmentRepository
-from infrastructure.db import Attachment
-from infrastructure.db.tables import User
-from infrastructure.exc import InvalidImageException, NotFound
+from src.domain.attachment import AttachmentRepository
+from src.infrastructure.db import Attachment
+from src.infrastructure.db.tables import User
+from src.infrastructure.exc import InvalidImageException, NotFound
 
 
 class AttachmentService:

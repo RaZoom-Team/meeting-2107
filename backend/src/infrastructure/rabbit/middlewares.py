@@ -2,8 +2,8 @@ import traceback
 from typing import Any
 from faststream import BaseMiddleware, ExceptionMiddleware
 
-from domain.user.models import RabbitRequestResponse
-from infrastructure.db import CTX_SESSION, get_session
+from src.domain.user.models import RabbitRequestResponse
+from src.infrastructure.db import CTX_SESSION, get_session
 
 class DatabaseMiddleware(BaseMiddleware):
     async def on_receive(self):

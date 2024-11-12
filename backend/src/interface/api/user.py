@@ -3,12 +3,12 @@ import hmac
 import urllib.parse
 from fastapi import APIRouter, Depends, File
 
-from application.auth import get_user, get_userdata
-from application.user import UserService
-from config import MAX_AVATAR_SIZE, TG_TOKEN
-from domain.user import FullUserDTO, BaseUser
-from domain.user.models import PatchUser
-from infrastructure.db import User, CTX_SESSION
+from src.application.auth import get_user, get_userdata
+from src.application.user import UserService
+from src.config import MAX_AVATAR_SIZE, TG_TOKEN
+from src.domain.user import FullUserDTO, BaseUser
+from src.domain.user.models import PatchUser
+from src.infrastructure.db import User, CTX_SESSION
 
 
 router = APIRouter(prefix="/user", tags=["User"])

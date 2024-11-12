@@ -5,9 +5,9 @@ from starlette.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import logging
 
-from config import ROOT_PATH
-from infrastructure.db import get_session, CTX_SESSION
-from infrastructure.exc import HTTPError
+from src.config import ROOT_PATH
+from src.infrastructure.db import get_session, CTX_SESSION
+from src.infrastructure.exc import HTTPError
 
 def create_app(
         routers: list[APIRouter],

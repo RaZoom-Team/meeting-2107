@@ -1,8 +1,8 @@
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from sqlmodel import desc, select
-from config import CLASS_LITERAL
-from infrastructure.db import BaseRepository, User, View, Like
+from src.config import CLASS_LITERAL
+from src.infrastructure.db import BaseRepository, User, View, Like
 
 
 class UserRepository(BaseRepository[User]):

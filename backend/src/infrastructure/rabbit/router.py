@@ -1,6 +1,6 @@
 from faststream.rabbit.fastapi import RabbitRouter
 
-from config import RABBIT_URL
+from src.config import RABBIT_URL
 from .middlewares import DatabaseMiddleware, exc_middlware
 
 

@@ -1,6 +1,6 @@
 from sqlmodel import delete, insert
 
-from infrastructure.db import BaseRepository, View, User
+from src.infrastructure.db import BaseRepository, View, User
 
 class ViewRepository(BaseRepository[View]):
 

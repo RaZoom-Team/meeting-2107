@@ -1,13 +1,13 @@
 from faststream.rabbit import RabbitRouter
 import math
 
-from application.tg.service import TelegramService
-from application.user.rabbit import get_user
-from application.user import UserService
-from domain.user import UserRequest, BanUser, RabbitRequestResponse, GetUserResponse, GetUsers, VerifyUser, GetUsersResponse
-from domain.user.repository import UserRepository
-from infrastructure.db import CTX_SESSION
-from infrastructure.db.tables import User
+from src.application.tg.service import TelegramService
+from src.application.user.rabbit import get_user
+from src.application.user import UserService
+from src.domain.user import UserRequest, BanUser, RabbitRequestResponse, GetUserResponse, GetUsers, VerifyUser, GetUsersResponse
+from src.domain.user.repository import UserRepository
+from src.infrastructure.db import CTX_SESSION
+from src.infrastructure.db.tables import User
 
 
 router = RabbitRouter(prefix="adm_")

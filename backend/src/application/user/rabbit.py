@@ -1,6 +1,6 @@
-from domain.user import UserRepository, RabbitRequestResponse
-from infrastructure.rabbit import RabbitError
-from infrastructure.db import User
+from src.domain.user import UserRepository, RabbitRequestResponse
+from src.infrastructure.rabbit import RabbitError
+from src.infrastructure.db import User
 
 
 async def get_user(user_id: int) -> User:

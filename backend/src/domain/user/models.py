@@ -2,9 +2,9 @@ from typing import Literal
 from fastapi import HTTPException
 from pydantic import BaseModel, Field, field_validator
 
-from config import API_URL, CLASS_LITERAL
-from infrastructure.db import Attachment
-from infrastructure.utils import partial_model
+from src.config import API_URL, CLASS_LITERAL
+from src.infrastructure.db import Attachment
+from src.infrastructure.utils import partial_model
 
 
 class BaseUser(BaseModel):

@@ -1,6 +1,6 @@
 from sqlmodel import desc, select, delete, insert
 
-from infrastructure.db import BaseRepository, Like, User
+from src.infrastructure.db import BaseRepository, Like, User
 
 class LikeRepository(BaseRepository[Like]):
 

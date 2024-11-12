@@ -1,9 +1,9 @@
 {
     "python.autoComplete.extraPaths": [
-        "./backend/src"
+        "./backend"
     ],
     "python.analysis.extraPaths": [
-        "./backend/src"
+        "./backend"
     ],
     "python.defaultInterpreterPath": "../.venv/Scripts/python.exe"
 }

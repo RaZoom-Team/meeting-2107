@@ -1,8 +1,8 @@
-from application.tg.service import TelegramService
-from infrastructure.exc import FocusNotSelected
-from infrastructure.db import Like, User
-from application.user import UserService
-from domain.likes import LikeRepository
+from src.application.tg.service import TelegramService
+from src.infrastructure.exc import FocusNotSelected
+from src.infrastructure.db import Like, User
+from src.application.user import UserService
+from src.domain.likes import LikeRepository
 
 
 class LikeService:

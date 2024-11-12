@@ -1,7 +1,7 @@
 from urllib.parse import quote
 
-from config import MAX_AVATAR_SIZE, TG_CHANNEL_LINK
-from infrastructure.exc.basic import ErrorCode, HTTPError
+from src.config import MAX_AVATAR_SIZE, TG_CHANNEL_LINK
+from src.infrastructure.exc.basic import ErrorCode, HTTPError
 
 
 class AlreadyRegisteredException(HTTPError):

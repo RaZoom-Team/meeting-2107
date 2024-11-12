@@ -7,11 +7,11 @@ import json
 import asyncio
 import urllib.parse
 
-from config import TG_TOKEN
-from domain.user import UserRepository
-from application.user import UserService
-from infrastructure.db import User, CTX_SESSION
-from infrastructure.exc import AuthDataException, UnregisteredException
+from src.config import TG_TOKEN
+from src.domain.user import UserRepository
+from src.application.user import UserService
+from src.infrastructure.db import User, CTX_SESSION
+from src.infrastructure.exc import AuthDataException, UnregisteredException
 
 
 tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")

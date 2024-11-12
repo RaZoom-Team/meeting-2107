@@ -1,6 +1,6 @@
 from sqlalchemy import ScalarResult
 from sqlmodel import select, insert
-from infrastructure.db import BaseRepository, Attachment, User
+from src.infrastructure.db import BaseRepository, Attachment, User
 
 
 class AttachmentRepository(BaseRepository[Attachment]):

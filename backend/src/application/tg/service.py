@@ -1,9 +1,9 @@
 import aiohttp
 
-from domain.telegram import SendMediaTelegramMessage, SendTelegramMessage
-from config import TG_API_URL, TG_CHANNEL_ID
-from infrastructure.db import User
-from infrastructure.rabbit.router import broker
+from src.domain.telegram import SendMediaTelegramMessage, SendTelegramMessage
+from src.config import TG_API_URL, TG_CHANNEL_ID
+from src.infrastructure.db import User
+from src.infrastructure.rabbit.router import broker
 
 
 class TelegramService:

@@ -3,7 +3,7 @@ from typing import Optional
 from sqlalchemy import TIMESTAMP, BigInteger, Column, String, false, text, true
 from sqlmodel import Field, Relationship, SQLModel
 
-from config import API_URL, CLASS_LITERAL
+from src.config import API_URL, CLASS_LITERAL
 
 
 class User(SQLModel, table=True):
