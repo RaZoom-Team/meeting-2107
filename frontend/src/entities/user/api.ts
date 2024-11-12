@@ -25,7 +25,7 @@ export async function editUser(newUser: User): Promise<User> {
 }
 
 export async function updateAvatar(avatar: FormData) {
-    return UserClient.patch('/avatar', {avatar})
+    return UserClient.patch('/avatar', avatar)
     .then(response => {
         return response.data
     }).catch(error => {

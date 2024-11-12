@@ -11,7 +11,7 @@ interface Props {
     open_litera: () => void
     open_desc: () => void
     open_name: () => void
-    set_photo: React.Dispatch<React.SetStateAction<string | undefined>>
+    set_photo: (img: string) => void
 }
 
 export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_name, set_photo}: Props): ReactElement {
