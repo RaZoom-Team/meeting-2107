@@ -10,12 +10,17 @@ interface Props {
     title: string
     content: string
     type?: "success" | "normal" | "info" | "warning" | "danger" | "utility"
+    btn_text?: string
+    btn_hook?: () => void
 }
 
-export function addNotify({title, content, type}: Props) {
+export function addNotify({title, content, type, btn_text, btn_hook}: Props) {
+
+    const action = btn_hook ? btn_hook : () => toaster.remove(title)
+
     const contentToaster = <div className={styles['toaster-container']}>
     <Text variant="body-1">{content}</Text>
-    <Button size='l' onClick={() => toaster.remove(title)}>Понятно</Button>
+    <Button size='l' onClick={action}>{btn_text ? btn_text : "Понятно"}</Button>
     </div>
 
     toaster.add({

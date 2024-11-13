@@ -1,21 +1,24 @@
+from typing import AsyncGenerator
 from fastapi import Depends, Security
 from fastapi.security import APIKeyHeader
 import hashlib
 import hmac
 import json
+import asyncio
 import urllib.parse
 
-from config import TG_CHANNEL_ID, TG_TOKEN
-from domain.user import UserRepository
-from application.user import UserService
-from infrastructure.db import User, CTX_SESSION
-from infrastructure.exc import AuthDataException, UnregisteredException
+from src.config import TG_TOKEN
+from src.domain.user import UserRepository
+from src.application.user import UserService
+from src.infrastructure.db import User, CTX_SESSION
+from src.infrastructure.exc import AuthDataException, UnregisteredException
 
 
-tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telgram Init Data")
+tg_auth = APIKeyHeader(name = "Tg-Authorization", description = "Telegram Init Data")
 
+locks: dict[int, asyncio.Lock] = {}
 
-async def get_userdata(auth: str = Security(tg_auth)) -> dict:
+async def get_userdata(auth: str = Security(tg_auth)) -> AsyncGenerator[dict, None]:
     tg = dict(urllib.parse.parse_qsl(urllib.parse.unquote(auth)))
     if not tg.get("hash"):
         raise AuthDataException
@@ -30,12 +33,12 @@ async def get_userdata(auth: str = Security(tg_auth)) -> dict:
         raise AuthDataException
 
     user = json.loads(tg['user'])
-    return user
-
+    locks.setdefault(user['id'], asyncio.Lock())
+    async with locks[user['id']]:
+        yield user
 
 async def get_userid(userdata: dict = Depends(get_userdata)) -> int:
     return userdata['id']
-
 
 async def get_user(userdata: dict = Depends(get_userdata)) -> User:
     user = await UserRepository().get(userdata['id'])

@@ -1,9 +1,9 @@
 import aiohttp
 
-from domain.telegram import SendMediaTelegramMessage, SendTelegramMessage
-from config import TG_API_URL, TG_CHANNEL_ID
-from infrastructure.db import User
-from infrastructure.rabbit.router import broker
+from src.domain.telegram import SendMediaTelegramMessage, SendTelegramMessage
+from src.config import TG_API_URL, TG_CHANNEL_ID
+from src.infrastructure.db import User
+from src.infrastructure.rabbit.router import broker
 
 
 class TelegramService:
@@ -19,7 +19,7 @@ class TelegramService:
         })
         return res.ok and (await res.json())['result']['status'] not in ["left", "kicked"]
 
-    async def send_message(self, text: str, *, chat_id: int) -> None:
+    async def send_message(self, text: str, chat_id: int) -> None:
         await broker.publish(
             SendTelegramMessage(chat_id = chat_id, text = text),
             "tg_msg"

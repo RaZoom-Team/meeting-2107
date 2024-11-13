@@ -1,15 +1,13 @@
 from faststream.rabbit import RabbitRouter
-from aiogram.types import InputMediaPhoto, URLInputFile
 
 from config import TG_ADMIN_CHAT
+from infrastructure.telegram import bot, send_media
 from models import SendAdminMediaMessage, SendAdminMessage, SendMessage, SendMediaMessage
-from telegram.bot import bot
-from telegram.utlls import send_media
 
 
 router = RabbitRouter("tg_")
 
-@router.subscriber("msg")
+@router.subscriber("msg", retry=True)
 async def sendmsg(msg: SendMessage | SendAdminMessage) -> None:
     try:
         await bot.send_message(
@@ -19,7 +17,7 @@ async def sendmsg(msg: SendMessage | SendAdminMessage) -> None:
         )
     except: pass
 
-@router.subscriber("media")
+@router.subscriber("media", retry=True)
 async def sendmedia(msg: SendMediaMessage | SendAdminMediaMessage) -> None:
     await send_media(
         chat_id = msg.chat_id if msg.chat_id != -1 else TG_ADMIN_CHAT,
@@ -27,7 +25,3 @@ async def sendmedia(msg: SendMediaMessage | SendAdminMediaMessage) -> None:
         parse_mode = msg.parse_mode,
         files = msg.files
     )
-
-
-# @router.subscriber("report")
-# async def send_report()

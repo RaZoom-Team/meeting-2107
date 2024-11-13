@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from infrastructure.db.session import ping_db
+from src.infrastructure.db.session import ping_db
 
 
 router = APIRouter(prefix="/system", include_in_schema=False)

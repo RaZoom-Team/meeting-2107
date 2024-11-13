@@ -1,9 +1,10 @@
+from typing import Literal
 from fastapi import HTTPException
 from pydantic import BaseModel, Field, field_validator
 
-from config import API_URL, CLASS_LITERAL
-from infrastructure.db import Attachment
-from infrastructure.utils import partial_model
+from src.config import API_URL, CLASS_LITERAL
+from src.infrastructure.db import Attachment
+from src.infrastructure.utils import partial_model
 
 
 class BaseUser(BaseModel):
@@ -15,7 +16,8 @@ class BaseUser(BaseModel):
 
     @field_validator("name", "surname")
     @staticmethod
-    def name_validator(val):
+    def name_validator(val: str):
+        val = val.strip()
         if " " in val:
             raise HTTPException(422, "name and surname should be one word")
         return val
@@ -48,25 +50,31 @@ class PatchUser(BaseUser):
 class ReportUser(BaseModel):
     reason: str = Field(min_length=3, max_length=64)
 
-class TelegramRequest(BaseModel):
-    msg_id: int
+# RABBIT
 
-class UnbanUser(TelegramRequest):
+class GetUsers(BaseModel):
+    offset: int = 0
+    limit: int = Field(gt = 1, le=50)
+    filter: Literal["all", "banned", "verify"] = "all"
+
+class UserRequest(BaseModel):
     user_id: int
 
-class BanUser(UnbanUser):
+class BanUser(UserRequest):
     reason: str
 
-class VerifyUser(TelegramRequest):
-    user_id: int
+class VerifyUser(UserRequest):
     value: bool
 
-class GetUser(TelegramRequest):
-    user_id: int
-
-class TelegramRequestResponse(TelegramRequest):
-    success: bool
-
-class GetUserResponse(TelegramRequestResponse):
+class GetUserResponse(BaseModel):
     text: str
     attachments: list[str]
+
+class GetUsersResponse(BaseModel):
+    text: str
+    count: int
+
+class RabbitRequestResponse[T: BaseModel](BaseModel):
+    success: bool = True
+    error: str | None = None
+    response: T | None = None

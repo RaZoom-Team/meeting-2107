@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Body, Depends
 
-from application.auth import get_user
-from application.likes import LikeService
-from application.user import UserService
-from domain.user import FullUserDTO, FriendUserDTO, ReportUser
-from infrastructure.db import User, CTX_SESSION
+from src.application.auth import get_user
+from src.application.likes import LikeService
+from src.application.user import UserService
+from src.domain.user import FullUserDTO, FriendUserDTO, ReportUser
+from src.infrastructure.db import User, CTX_SESSION
 
 router = APIRouter(prefix="/user/likes", tags=["Likes"])
 

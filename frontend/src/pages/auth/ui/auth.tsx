@@ -1,10 +1,11 @@
 import styles from './style.module.scss'
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { Sex, Stage, UserRegister } from "../model/types";
-import {Input, Button, Select, Option, InputImg, TextArea,  white2107, blue2107, pink2107, Literales } from '../../../shared';
+import {Input, Button, Select, Option, InputImg, TextArea,  white2107, blue2107, pink2107, Literales, addNotify, ErrorsText } from '../../../shared';
 import { CropWidget } from '../../../widgets';
 import { UserContext } from '../../../app/providers';
 import { register } from '../api/api';
+import {AxiosError } from 'axios';
 
 export function Auth() {
 
@@ -127,6 +128,8 @@ export function Auth() {
                 .then(res => res.blob())
                 .then(blob => {
                     console.log(blob)
+                    setName((name) => name.trim())
+                    setSurname((surname) => surname.trim())
                     const userData: UserRegister = {
                         name,
                         surname,
@@ -136,7 +139,28 @@ export function Auth() {
                     };
                     const avatarForm = new FormData();
                     avatarForm.append('avatar', blob)
-                    register(userData, avatarForm).then(updateUser);
+                    register(userData, avatarForm)
+                    .then(updateUser)
+                    .catch((error: AxiosError) => {
+                        if (error.response?.status) {
+                            const statusCode = error.response.status.toString()
+                            if (statusCode == '3004') {
+                                addNotify({
+                                    title: 'Упс...',
+                                    content: ErrorsText[statusCode],
+                                    btn_text: 'Перейти в канал',
+                                    btn_hook: () => Telegram.WebApp.openTelegramLink("https://t.me/podsluhano2107"),
+                                    type: "danger"
+                                })
+                            }
+
+                            addNotify({
+                                title: 'Упс...',
+                                content: ErrorsText[statusCode],
+                                type: "danger"
+                            })
+                        }
+                    })
                 })
             }
     }

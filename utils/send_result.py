@@ -9,6 +9,8 @@ def send(text: str) -> None:
 
 match sys.argv[1]:
     case "success":
-        send(f"⚒️ Процесс сборки **\"{os.environ.get("BUILD_NAME")}\"** успешно завершён")
+        send(f"✅ Процесс сборки **\"{os.environ.get("BUILD_NAME")}\"** успешно завершён")
     case "fail":
         send(f"❌ Сборка **\"{os.environ.get("BUILD_NAME")}\"** провалена\n@zoomdevs @ramchike")
+    case "run":
+        send(f"⚠️ Начат процесс запуска **\"{os.environ.get("BUILD_NAME")}\"** на сервере")

@@ -1,8 +1,8 @@
 from sqlmodel import desc, select, delete, insert
 
-from infrastructure.db import BaseRepository, Like, User
+from src.infrastructure.db import BaseRepository, Like, User
 
-class LikeRepository(BaseRepository):
+class LikeRepository(BaseRepository[Like]):
 
     # async def drop_user(self, user: User) -> int:
     #     query = delete(View).where(View.user_id == user.id)
@@ -32,8 +32,3 @@ class LikeRepository(BaseRepository):
         await self.session.flush()
         await self.session.refresh(like)
         return like
-    
-    async def delete(self, like: Like) -> None:
-        await self.session.delete(like)
-        await self.session.flush()
-

@@ -1,12 +1,12 @@
-from application.attachment import AttachmentService
-from application.tg import TelegramService
-from config import MAX_AVATAR_SIZE
-from domain.user import BaseUser, UserRepository
-from domain.views import ViewRepository
-from infrastructure.db import User
-from infrastructure.exc.auth import UsernameRequired
-from infrastructure.exc.likes import FocusNotSelected
-from infrastructure.exc.user import AlreadyRegisteredException, AlreadyVerifiedException, FileSizeException, BannedException, SubscriptionRequiredException, VerifyRestrictionsException
+from src.application.attachment import AttachmentService
+from src.application.tg import TelegramService
+from src.config import MAX_AVATAR_SIZE
+from src.domain.user import BaseUser, UserRepository
+from src.domain.views import ViewRepository
+from src.infrastructure.db import User
+from src.infrastructure.exc.auth import UsernameRequired
+from src.infrastructure.exc.likes import FocusNotSelected
+from src.infrastructure.exc.user import AlreadyRegisteredException, AlreadyVerifiedException, FileSizeException, BannedException, SubscriptionRequiredException, VerifyRestrictionsException
 
 
 class UserService:
@@ -31,6 +31,7 @@ class UserService:
             literal = data.literal,
             male = data.male
         )
+        await self.check_user_subcription(user)
         await AttachmentService().upload(avatar, user)
         await self.select_focus(user)
         await TelegramService().send_media_to_chat(

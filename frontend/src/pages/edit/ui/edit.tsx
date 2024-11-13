@@ -10,6 +10,7 @@ import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
 import { CropWidget } from '../../../widgets';
 import { updateAvatar, User } from '../../../entities';
+import { sendVerify } from '../api/api';
 
 interface Props {
     verifySend: boolean
@@ -49,12 +50,14 @@ export function Edit({verifySend, verify_hook}: Props) {
     }
 
     const onVerify = () => {
-        addNotify({
-            title: 'Заявка отправлена',
-            content: 'Заявка на верификацию успешно отправлена. Мы пришлем тебе уведомление после её рассмотрения',
-            type: 'info'
+        sendVerify().then(() => {
+            addNotify({
+                title: 'Заявка отправлена',
+                content: 'Заявка на верификацию успешно отправлена. Мы пришлем тебе уведомление после её рассмотрения',
+                type: 'info'
+            })
+            verify_hook(true)
         })
-        verify_hook(true)
     }
 
     const afterPhoto = (user: User) => {
@@ -64,6 +67,7 @@ export function Edit({verifySend, verify_hook}: Props) {
         })
         setUser(user)
         setImg(undefined)
+        setUser(user)
     }
 
     const onPhoto = (img: string | undefined) => {
@@ -102,7 +106,7 @@ export function Edit({verifySend, verify_hook}: Props) {
         <ModalClass is_open={litera} close_hook={() => setLitera(false)} nowClass={user.literal}></ModalClass>
             <div className={styles['container']}>
             <Card 
-                name={focus.name}
+                name={user.name}
                 surname={user.surname}
                 avatar={user.attachments[0]}
                 desc={user.desc}

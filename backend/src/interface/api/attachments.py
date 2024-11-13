@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import Response
 
-from application.attachment import AttachmentService
+from src.application.attachment import AttachmentService
 
 
 router = APIRouter(prefix="/attachments", tags=["Attachments"])

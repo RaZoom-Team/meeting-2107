@@ -1,8 +1,8 @@
 from sqlmodel import delete, insert
 
-from infrastructure.db import BaseRepository, View, User
+from src.infrastructure.db import BaseRepository, View, User
 
-class ViewRepository(BaseRepository):
+class ViewRepository(BaseRepository[View]):
 
     async def drop_user(self, user: User) -> int:
         query = delete(View).where(View.user_id == user.id)
