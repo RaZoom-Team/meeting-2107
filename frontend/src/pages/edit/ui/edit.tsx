@@ -65,8 +65,8 @@ export function Edit({verifySend, verify_hook}: Props) {
             title: 'Фото обновлено',
             content: 'Вы успешно обновили фотографию своего профиля'
         })
-        setImg(undefined)
         setUser(user)
+        setImg(undefined)
     }
 
     const onPhoto = (img: string | undefined) => {
