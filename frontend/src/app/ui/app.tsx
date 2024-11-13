@@ -4,7 +4,7 @@ import {Auth} from '../../pages'
 import { UserContext } from '../providers'
 import { editIcon, feedIcon, historyIcon, NavBar, NavIcon } from '../../shared'
 import { Router } from '../router/router'
-import { Loader, ThemeProvider } from '@gravity-ui/uikit'
+import { Loader } from '@gravity-ui/uikit'
 import ReactDOMClient from 'react-dom/client';
 import {Toaster} from '@gravity-ui/uikit';
 
@@ -35,12 +35,10 @@ export function App() {
       {src: historyIcon, hook: () => setPage('history'), active: page == 'history'},
     ]
 
-    return <ThemeProvider theme='dark'>
-    <main data-theme={user.male ? 'blue' : 'pink'} className={styles['main']}>
+    return  <main data-theme={user.male ? 'blue' : 'pink'} className={styles['main']}>
         <NavBar buttons={buttons}/>
         <Router page={page} focus={user.focus_user}/>
     </main>
-    </ThemeProvider>
 
   }
 }
