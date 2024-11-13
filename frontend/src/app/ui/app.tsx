@@ -4,7 +4,7 @@ import {Auth} from '../../pages'
 import { UserContext } from '../providers'
 import { editIcon, feedIcon, historyIcon, NavBar, NavIcon } from '../../shared'
 import { Router } from '../router/router'
-import { ThemeProvider } from '@gravity-ui/uikit'
+import { Loader, ThemeProvider } from '@gravity-ui/uikit'
 import ReactDOMClient from 'react-dom/client';
 import {Toaster} from '@gravity-ui/uikit';
 
@@ -20,7 +20,9 @@ export function App() {
   }, [])
 
   if (user === undefined) {
-    return <>Загрузка</>
+    return <main className={styles['main']}>
+      <Loader size='l'></Loader>
+    </main>
   } 
   else if (user === null) {
     return <Auth/>
