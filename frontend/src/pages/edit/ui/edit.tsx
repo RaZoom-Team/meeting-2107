@@ -67,7 +67,6 @@ export function Edit({verifySend, verify_hook}: Props) {
         })
         setUser(user)
         setImg(undefined)
-        setUser(user)
     }
 
     const onPhoto = (img: string | undefined) => {
