@@ -11,4 +11,4 @@ export type User = {
     verify: boolean
 }
 
-export type FocusUser = Omit<User, 'is_active, focus_is_liked'>
+export type FocusUser = Omit<User, 'is_active' | 'focus_is_liked'>

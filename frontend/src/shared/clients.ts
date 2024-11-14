@@ -14,4 +14,4 @@ UserClient.interceptors.request.use(config => {
 
 export const AttachmentsClient = axios.create({
     baseURL: API_URL+'/attachments'
-})
+})  

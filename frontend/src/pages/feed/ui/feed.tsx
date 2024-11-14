@@ -7,8 +7,8 @@ import { UserContext } from '../../../app/providers';
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react';
 import { likeSend } from '../../../features/like';
-import { Button, Icon } from '@gravity-ui/uikit';
-import {ShieldExclamation} from '@gravity-ui/icons';
+import { Button, Icon, Text } from '@gravity-ui/uikit';
+import {ArrowRotateLeft, ShieldExclamation} from '@gravity-ui/icons';
 import { ModalReport, reportSend } from '../../../features';
 import HeartFillIcon from '@gravity-ui/icons/svgs/heart-fill.svg';
 import XmarkIcon from '@gravity-ui/icons/svgs/xmark.svg';
@@ -20,6 +20,7 @@ interface Props {
 }
 
 export function Feed({focus}: Props) {
+    const {updateUser} = useContext(UserContext)
     const [animLike, setLike] = useState(false);
     const [animClose, setClose] = useState(false);
     const [animReport, setanimReport] = useState(false);
@@ -110,12 +111,16 @@ export function Feed({focus}: Props) {
     }
 
     if (!focus) {
-        <main data-bg={"NO"} className={styles['main']}>
-    </main>
+        return <main className={styles['main']} data-bg={"NO"}>
+            <div className={styles['not-load']}>
+                <Text className={styles['not-load-title']} color='hint' variant='body-3'>Анкеты для вас закончились 🐝</Text>
+                <Button onClick={updateUser} width='auto' size='l' className={styles['update-button']} view='normal'>Обновить<Icon data={ArrowRotateLeft}/></Button>
+            </div>
+        </main>
     } else if (user) return <main data-bg={bg ? "YES" : "NO"} className={styles['main']}>
         <ModalReport func_hook={onReport} content={reportContent} content_hook={setReportContent} is_open={reportModal} close_hook={() => setReportModal(false)}></ModalReport>
         <div ref={card} className={styles['container']}>
-            <Card name={focus.name} surname={focus.surname} avatar={focus.attachments[0]} desc={focus.desc} litera={focus.literal} is_me_liked={user.focus_is_liked} is_verify={focus.verify}></Card>
+            <Card focus={focus} is_me_liked={user.focus_is_liked}></Card>
             <div className={styles['button-list']}>
                 <button className={styles['button']}>
                     <ReactSVG

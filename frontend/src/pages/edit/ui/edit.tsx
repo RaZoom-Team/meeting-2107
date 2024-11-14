@@ -105,13 +105,9 @@ export function Edit({verifySend, verify_hook}: Props) {
         <ModalClass is_open={litera} close_hook={() => setLitera(false)} nowClass={user.literal}></ModalClass>
             <div className={styles['container']}>
             <Card 
-                name={user.name}
-                surname={user.surname}
-                avatar={user.attachments[0]}
-                desc={user.desc}
-                litera={user.literal}
+                focus={user}
                 is_me_liked={false}
-                is_verify={user.verify}>
+                >
             </Card>
             <div className={styles['button-list']}>
                 <button className={styles['button']}>

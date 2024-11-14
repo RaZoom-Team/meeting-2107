@@ -3,14 +3,20 @@
 }
 
 .bg {
-    width: calc(var(--photo-form-size-w));
-    height: calc(var(--photo-form-size-h));
     background-size: cover;
+    object-fit: cover;
     overflow: hidden;
     border-radius: 30px;
 }
 
 .card {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -18,6 +24,8 @@
     height: calc(var(--photo-form-size-h));
     transition: all 1s ease;
     border: 0;
+    border-radius: 30px;
+
 
     .overlay {
         --text-header: 18px;
