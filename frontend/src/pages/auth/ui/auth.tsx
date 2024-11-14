@@ -131,16 +131,21 @@ export function Auth() {
                     console.log(blob)
                     setName((name) => name.trim())
                     setSurname((surname) => surname.trim())
-                    const userData: UserRegister = {
-                        name,
-                        surname,
-                        male: sex === Sex.MALE,
-                        desc,
-                        literal: literal ? literal : ''
-                    };
-                    const avatarForm = new FormData();
-                    avatarForm.append('avatar', blob)
-                    register(userData, avatarForm)
+                    // const userData: UserRegister = {
+                    //     name,
+                    //     surname,
+                    //     male: sex === Sex.MALE,
+                    //     desc,
+                    //     literal: literal ? literal : ''
+                    // };
+                    const userData = new FormData();
+                    userData.append('avatar', blob)
+                    userData.append('name', name)
+                    userData.append('surname', surname)
+                    userData.append('male', sex === Sex.MALE ? "true" : "false")
+                    userData.append('desc', desc)
+                    userData.append('literal', literal ? literal : '')
+                    register(userData)
                     .then(updateUser)
                     .catch((error: AxiosError) => {
                         console.log(error)

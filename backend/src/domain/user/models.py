@@ -19,7 +19,7 @@ class BaseUser(BaseModel):
     def name_validator(val: str):
         val = val.strip()
         if " " in val:
-            raise HTTPException(422, "name and surname should be one word")
+            raise ValueError("name and surname should be one word")
         return val
 
     

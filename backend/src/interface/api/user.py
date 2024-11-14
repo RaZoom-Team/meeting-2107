@@ -1,13 +1,13 @@
 import hashlib
 import hmac
 import urllib.parse
-from fastapi import APIRouter, Depends, File
+from fastapi import APIRouter, Depends, File, HTTPException
 
+from src.infrastructure.utils import to_form
 from src.application.auth import get_user, get_userdata
 from src.application.user import UserService
 from src.config import MAX_AVATAR_SIZE, TG_TOKEN
-from src.domain.user import FullUserDTO, BaseUser
-from src.domain.user.models import PatchUser
+from src.domain.user import FullUserDTO, BaseUser, PatchUser
 from src.infrastructure.db import User, CTX_SESSION
 
 
@@ -38,12 +38,15 @@ async def get_user_info(user: User = Depends(get_user)) -> FullUserDTO:
 )
 async def register_user(
     avatar: bytes = File(),
-    data: BaseUser = Depends(),
+    data: BaseUser = Depends(to_form(BaseUser)),
     userdata: dict = Depends(get_userdata)
 ) -> FullUserDTO:
     """
     Регистрация пользователя
     """
+    data.name, data.surname = data.name.strip(), data.surname.strip()
+    if " " in data.name or " " in data.surname:
+        raise HTTPException(422, "name and surname should be one word")
     user = await UserService().register(userdata, data, avatar)
     await CTX_SESSION.get().commit()
     return user
@@ -85,19 +88,3 @@ async def update_avatar(avatar: bytes = File(), user: User = Depends(get_user)) 
 async def send_verify(user: User = Depends(get_user)) -> FullUserDTO:
     await UserService().send_verify_request(user)
     return user
-
-######################
-#     TEST ONLY      #
-######################
-
-@router.post("/getauth")
-async def getauth(id: int, username: str):
-    data = f'user={{"id":{id},"first_name":"Zoom","last_name":"","username":"{username}","language_code":"en","allows_write_to_pm":true}}&chat_instance=6800930143016803379&chat_type=sender&auth_date=1729890471' # noqa E501
-    tg = dict(urllib.parse.parse_qsl(urllib.parse.unquote(data)))
-    params = "\n".join([f"{k}={v}" for k, v in sorted(tg.items(), key=lambda x: x[0])])
-    hash = hmac.new(
-        hmac.new("WebAppData".encode(), TG_TOKEN.encode(), hashlib.sha256).digest(),
-        params.encode(),
-        hashlib.sha256
-    ).hexdigest()
-    return urllib.parse.quote(data + "&hash=" + hash)
