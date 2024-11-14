@@ -1,6 +1,6 @@
 import styles from './style.module.scss'
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { Sex, Stage, UserRegister } from "../model/types";
+import { Sex, Stage } from "../model/types";
 import {Input, Button, Select, Option, InputImg, TextArea,  white2107, blue2107, pink2107, Literales, addNotify, ErrorsText } from '../../../shared';
 import { CropWidget } from '../../../widgets';
 import { UserContext } from '../../../app/providers';
