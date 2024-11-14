@@ -148,7 +148,6 @@ export function Auth() {
                             const statusCode = error.code.toString()
                             console.log(statusCode)
                             if (statusCode == '3004') {
-                                
                                 addNotify({
                                     title: 'Упс...',
                                     content: ErrorsText[statusCode],
