@@ -44,6 +44,7 @@ def create_app(
         allow_origins = ["*"],
         allow_methods = ["*"],
         allow_headers = ["*"],
+        expose_headers = ["*"],
         allow_credentials = True
     )
     app.add_middleware(
