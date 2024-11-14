@@ -144,10 +144,9 @@ export function Auth() {
                     .then(updateUser)
                     .catch((error: AxiosError) => {
                         console.log(error)
-                        if (error.code) {
-                            const statusCode = error.code.toString()
-                            console.log(statusCode)
-                            if (statusCode == '3004') {
+                        if (error.response?.data) {
+                            const statusCode = (error.response.data as {code: number}).code.toString()
+                            if (statusCode in ErrorsText) {
                                 addNotify({
                                     title: 'Упс...',
                                     content: ErrorsText[statusCode],
@@ -156,12 +155,13 @@ export function Auth() {
                                     type: "danger"
                                 })
                             }
-
-                            addNotify({
+                            else {
+                                addNotify({
                                 title: 'Упс...',
                                 content: statusCode, 
                                 type: "danger"
-                            })
+                                })
+                            }
                         }
                     })
                 })
