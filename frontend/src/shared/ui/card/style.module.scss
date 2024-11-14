@@ -4,9 +4,8 @@
 
 .bg {
     background-size: cover;
-    object-fit: cover;
-    overflow: hidden;
     border-radius: 30px;
+    overflow: hidden;
 }
 
 .card {
@@ -16,7 +15,6 @@
     -o-user-select: none;
     user-select: none;
 
-    
     display: flex;
     flex-direction: column;
     gap: 16px;
