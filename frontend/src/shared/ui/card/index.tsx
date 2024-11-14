@@ -29,11 +29,10 @@ export function Card({focus, is_me_liked}: Props) {
     }
 
     return (
-        <div className={styles['bg']} style={
-            { background: `linear-gradient(180.00deg, rgba(0, 0, 0, 0.85) 0%,rgba(0, 0, 0, 0) 60.239%), url(${focus.attachments[0]}) no-repeat center center`,
-            backgroundSize: 'cover'
-        }   
-            }>
+        <div className={styles['bg']} style={{
+            backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 60.239%), url(${focus.attachments[0]})`,
+            backgroundSize: 'cover',
+        }}>
             <div className={styles['card']}>
                 <div className={styles['overlay']}>
                     <div className={styles['upper-container']}>
