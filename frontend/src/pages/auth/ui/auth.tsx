@@ -158,7 +158,7 @@ export function Auth() {
                             }
                             addNotify({
                                 title: 'Упс...',
-                                content: ErrorsText[statusCode],
+                                content: statusCode,
                                 type: "danger"
                             })
                         }
