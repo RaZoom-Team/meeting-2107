@@ -8,6 +8,7 @@ import { UserContext } from '../../../app/providers'
 export function History() {
     const [history, setHistory] = useState<UserLove[] | undefined>(undefined)
     const {user} = useContext(UserContext)
+    
     useEffect(() => {
         getLikes().then(newHistory => {
             setHistory(newHistory)
@@ -22,7 +23,7 @@ export function History() {
                     <User
                         avatar={<Avatar imgUrl={user.attachments[0]}/>}
                         name={<Text>{user.name}</Text>}
-                        description={<Text>{user.username}</Text>}>
+                        description={<Text className={styles['description']}>{user.username}</Text>}>
                     </User>
                     <Button onClick={() => Telegram.WebApp.openTelegramLink('https://t.me/'+user.username)}>Перейти в чат</Button>
                 </div>

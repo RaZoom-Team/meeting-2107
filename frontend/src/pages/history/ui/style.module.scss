@@ -27,15 +27,15 @@
     flex-direction: column;
     gap: 16px;
     overflow-x: hidden;
-    overflow-y: scroll;
-    align-items: normal;
+    overflow-y: auto;
+    align-items: center;
 
     height: 60%;
     width: 100%;
     .list-element {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
-        width: 100%;
+        width: 80%;
     }
 }

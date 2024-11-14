@@ -12,6 +12,15 @@
     }
 }
 
+.not-load {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    width: 60%;
+}
+
 body {
     overflow: hidden;
 }
