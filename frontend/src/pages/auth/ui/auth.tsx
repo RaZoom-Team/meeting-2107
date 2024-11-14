@@ -143,18 +143,19 @@ export function Auth() {
                     register(userData, avatarForm)
                     .then(updateUser)
                     .catch((error: AxiosError) => {
+                        console.log(error)
                         if (error.response?.status) {
                             const statusCode = error.response.status.toString()
+                            console.log(statusCode)
                             if (statusCode == '3004') {
                                 addNotify({
                                     title: 'Упс...',
                                     content: ErrorsText[statusCode],
                                     btn_text: 'Перейти в канал',
-                                    btn_hook: () => Telegram.WebApp.openTelegramLink("https://t.me/podsluhano2107"),
+                                    btn_hook: () => Telegram.WebApp.openTelegramLink(error.response?.headers['X-Channel']),
                                     type: "danger"
                                 })
                             }
-
                             addNotify({
                                 title: 'Упс...',
                                 content: ErrorsText[statusCode],
