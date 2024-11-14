@@ -33,19 +33,6 @@ export function Auth() {
         }
     }, [sex])
 
-    const checkActive = ():boolean => {
-        if (stage == Stage.SUBINFO && literal && sex) {
-            return true
-        } else if (stage == Stage.NAME && name.length > 0 && surname.length > 0) {
-            return true
-        } else if (stage == Stage.PHOTO && image) {
-            return true
-        } else if (stage == Stage.ABOUT && desc.length >= 4) {
-            return true
-        } else {
-            return false;
-        }
-    }
 
     const Sexs: Option[] = [
         {key: "male", value: "Мужчина"},
@@ -119,6 +106,20 @@ export function Auth() {
                 return pink2107
             default:
                 return white2107
+        }
+    }
+
+    const checkActive = (): boolean => {
+        if (stage == Stage.SUBINFO && literal && sex) {
+            return true
+        } else if (stage == Stage.NAME && name.length > 0 && surname.length > 0 && surname.split(' ').length  == 1 && name.split(' ').length == 1) {
+            return true
+        } else if (stage == Stage.PHOTO && image) {
+            return true
+        } else if (stage == Stage.ABOUT && desc.length >= 4) {
+            return true
+        } else {
+            return false;
         }
     }
 
