@@ -12,9 +12,11 @@ interface Props {
     open_desc: () => void
     open_name: () => void
     set_photo: (img: string) => void
+    profile_on_off: () => void
+    is_active: boolean
 }
 
-export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_name, set_photo}: Props): ReactElement {
+export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_name, set_photo, profile_on_off, is_active}: Props): ReactElement {
 
     const {user, setUser} = useContext(UserContext)
     const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -56,6 +58,7 @@ export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_nam
                     <Button width='max' onClick={open_litera} size="m" view='outlined'>Класс</Button>
                     <Button width='max' onClick={open_name} size="m" view='outlined'>Имя фамилию</Button>
                     <Button width='max' onClick={handlePhotoClick} size="m" view='outlined'>Фотографию</Button>
+                    <Button width='max' onClick={profile_on_off} size="m" view='normal'>{is_active ? "Отключить" : "Включить"} анкету</Button>
                     <input 
                         type="file" 
                         ref={fileInputRef} 

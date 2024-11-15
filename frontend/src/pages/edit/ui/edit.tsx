@@ -9,7 +9,7 @@ import { UserContext } from '../../../app/providers'
 import { ModalEdit } from './modal_edit';
 import { ModalAbout, ModalName, ModalClass } from './modals';
 import { CropWidget } from '../../../widgets';
-import { updateAvatar, User } from '../../../entities';
+import { editUser, updateAvatar, User } from '../../../entities';
 import { sendVerify } from '../api/api';
 
 interface Props {
@@ -82,6 +82,21 @@ export function Edit({verifySend, verify_hook}: Props) {
             }
     }
 
+    const offProfile = () => {
+        if (user) editUser({
+            ...user, 
+            is_active: !user.is_active
+        })
+        .then((newUser: User) => {
+            setUser(newUser)
+            onClose()
+            addNotify({
+                title: 'Профиль '+(newUser.is_active ? 'активирован' : 'деактивирован'),
+                content: 'Вы успешно '+(newUser.is_active ? 'активировали' : 'деактивировали')+' свой профиль'
+            })
+        })
+    }
+
     if (img && user && isCrop){
     return  <CropWidget
                 img={img}
@@ -98,6 +113,8 @@ export function Edit({verifySend, verify_hook}: Props) {
         open_name={() => openModal(setName)}
         set_photo={imgUpload}
         close_hook={onClose}
+        is_active={user.is_active}
+        profile_on_off={offProfile}
         />
 
         <ModalAbout is_open={desc} close_hook={() => setDesc(false)} nowDesc={user.desc}></ModalAbout>
