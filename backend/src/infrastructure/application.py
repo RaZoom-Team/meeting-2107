@@ -3,7 +3,7 @@ from typing import Callable, Coroutine
 from fastapi import FastAPI, APIRouter, Request
 from starlette.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
-from prometheus_fastapi_instrumentator import Instrumentator
+# from prometheus_fastapi_instrumentator import Instrumentator
 import logging
 
 from src.config import ROOT_PATH
@@ -36,10 +36,10 @@ def create_app(
         }, 
         root_path = root_path
     )
-    instrumentator = Instrumentator(
-        excluded_handlers=["/metrics", "/system/ping"],
-    )
-    instrumentator.instrument(app).expose(app, include_in_schema=False)
+    # instrumentator = Instrumentator(
+    #     excluded_handlers=["/metrics", "/system/ping"],
+    # )
+    # instrumentator.instrument(app).expose(app, include_in_schema=False)
 
     for router in routers:
         app.include_router(router)

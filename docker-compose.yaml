@@ -105,25 +105,27 @@ services:
       timeout: 5s
       retries: 3
 
-  prometheus:
-    image: prom/prometheus
-    container_name: mt2107_prometheus
-    expose:
-      - 9090
-    volumes:
-      - type: bind
-        source: ./prometheus.yml
-        target: /etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+  # prometheus:
+  #   image: prom/prometheus:v2.55.1
+  #   container_name: mt2107_prometheus
+  #   expose:
+  #     - 9090
+  #   volumes:
+  #     - type: bind
+  #       source: ./prometheus.yml
+  #       target: /etc/prometheus/prometheus.yml
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   restart: unless-stopped
 
-  grafana:
-    image: grafana/grafana
-    container_name: mt2107_grafana
-    ports:
-      - "127.0.0.1:8023:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: mt2107_grafana
+  #   ports:
+  #     - "127.0.0.1:8023:3000"
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   restart: unless-stopped
 
 volumes:
   pgdata:
