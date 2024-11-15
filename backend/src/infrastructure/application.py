@@ -37,16 +37,9 @@ def create_app(
         root_path = root_path
     )
     instrumentator = Instrumentator(
-        should_group_status_codes=False,
-        should_ignore_untemplated=True,
-        should_respect_env_var=True,
-        should_instrument_requests_inprogress=True,
-        excluded_handlers=["/metrics"],
-        env_var_name="ENABLE_METRICS",
-        inprogress_name="inprogress",
-        inprogress_labels=True,
+        excluded_handlers=["/metrics", "/system/ping"],
     )
-    instrumentator.instrument(app).expose(app)
+    instrumentator.instrument(app).expose(app, include_in_schema=False)
 
     for router in routers:
         app.include_router(router)
