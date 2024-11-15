@@ -7,6 +7,7 @@ services:
       - 80
     environment:
       IS_PROD: 1
+      ENABLE_METRICS: 1
       ROOT_PATH: /api
     env_file:
       - .env
@@ -21,10 +22,10 @@ services:
         restart: true
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend/system/ping || exit 1"]
-      interval: 30s
+      interval: 10s
       retries: 5
-      start_period: 10s
-      timeout: 10s
+      start_period: 5s
+      timeout: 5s
 
   frontend:
     build: ./frontend
@@ -104,6 +105,27 @@ services:
       timeout: 5s
       retries: 3
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    expose:
+      - 9090
+    volumes:
+      - type: bind
+        source: ./prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    expose:
+      - 3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+
 volumes:
   pgdata:
   backend_data:
+  grafana_data:
