@@ -27,7 +27,6 @@ export default function UserProvider({ children }: IChildren) {
         .then(setUser)
         .catch(
             (error: AxiosError) => {
-            console.log(error)
             if (error.response?.data) {
                 const statusCode = (error.response.data as {code: number}).code.toString()
                 console.log(statusCode)
@@ -35,8 +34,10 @@ export default function UserProvider({ children }: IChildren) {
                     setSub(false)
                     setLink(error.response.headers['X-channel'])
                 }
+                else {
+                    setUser(null)
+                }
             }
-            setUser(null)
         })
     }
 
@@ -50,8 +51,7 @@ export default function UserProvider({ children }: IChildren) {
     
     if (!isSub) {
         return <ChannelPage link={link}/>
-    }
-    return (
+    } else return (
         <UserContext.Provider value={{ user, updateUser, setUser }}>
             {children}
         </UserContext.Provider>
