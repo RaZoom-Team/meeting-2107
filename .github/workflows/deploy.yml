@@ -14,19 +14,19 @@ env:
   BUILD_NAME: ${{ github.event.head_commit.message }}
 
 jobs:
-  build:
-    runs-on: self-hosted
+  # build:
+  #   runs-on: self-hosted
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Build on github
-        run: docker compose build
+  #     - name: Build on github
+  #       run: docker compose build
 
   build-and-run:
     runs-on: self-hosted
-    needs: build
+    # needs: build
 
     steps:
       - name: Checkout
@@ -72,7 +72,8 @@ jobs:
   fail-report:
     runs-on: self-hosted
     if: failure()
-    needs: [build, build-and-run]
+    # needs: [build, build-and-run]
+    needs: [build-and-run]
 
     steps:
       - name: Checkout
