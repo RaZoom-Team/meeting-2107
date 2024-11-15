@@ -54,6 +54,15 @@
     }
 }
 
+.sub-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    width: 70%;
+}
 .sub-button-list {
     width: 100%;
     display: flex;

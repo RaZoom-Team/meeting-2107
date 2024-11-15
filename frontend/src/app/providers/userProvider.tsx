@@ -28,16 +28,16 @@ export default function UserProvider({ children }: IChildren) {
         .catch(
             (error: AxiosError) => {
             if (error.response?.data) {
+                console.log(error.response.headers)
                 const statusCode = (error.response.data as {code: number}).code.toString()
                 console.log(statusCode)
                 if (statusCode == '3004') {
                     setSub(false)
-                    setLink(error.response.headers['X-channel'])
-                }
-                else {
-                    setUser(null)
+                    setLink(error.response.headers['x-channel'])
+                    console.log(error.response.headers)
                 }
             }
+            setUser(null)
         })
     }
 
