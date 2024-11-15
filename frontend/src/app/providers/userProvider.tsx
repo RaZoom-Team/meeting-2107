@@ -49,11 +49,9 @@ export default function UserProvider({ children }: IChildren) {
         console.log(user)
     }, [user])
     
-    if (!isSub) {
-        return <ChannelPage link={link}/>
-    } else return (
+        return (
         <UserContext.Provider value={{ user, updateUser, setUser }}>
-            {children}
+            {isSub ? children : <ChannelPage link={link} />}
         </UserContext.Provider>
     );
 }
