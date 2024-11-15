@@ -28,6 +28,7 @@ export default function UserProvider({ children }: IChildren) {
         .catch(
             (error: AxiosError) => {
             console.log(error)
+            setUser(null)
             if (error.response?.data) {
                 const statusCode = (error.response.data as {code: number}).code.toString()
                 console.log(statusCode)
@@ -36,7 +37,6 @@ export default function UserProvider({ children }: IChildren) {
                     setLink(error.response.headers['X-channel'])
                 }
             }
-            setUser(null)
         })
     }
 
