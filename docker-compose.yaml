@@ -49,6 +49,8 @@ services:
       rabbitmq:
         condition: service_healthy
         restart: true
+      # loki:
+      #   condition: service_started
     # deploy:
     #   resources:
     #     limits:
@@ -121,6 +123,13 @@ services:
   #     - "/etc/localtime:/etc/localtime:ro"
   #   command:
   #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   restart: unless-stopped
+
+  # loki:
+  #   image: grafana/loki
+  #   container_name: mt2107_loki
+  #   expose:
+  #     - 3100
   #   restart: unless-stopped
 
   grafana:
