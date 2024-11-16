@@ -23,7 +23,7 @@ class LikeService:
                 await self.repo.insert(user, user.focus_user)
                 await TelegramService().send_media(
                     text = f"🥰 Твоя анкета понравилась {user.fullname} из {user.literal}"
-                    "\n⚡️ Скорее заходи в приложение и ответь ему/ей!",
+                    f"\n⚡️ Скорее заходи в приложение и ответь {'ему' if user.male else 'ей'}!",
                     chat_id = user.focus_user.id,
                     files = [attachment.url for attachment in user.attachments]
                 )
