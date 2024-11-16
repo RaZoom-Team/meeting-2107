@@ -122,7 +122,7 @@ export function Auth() {
             return true
         } else if (stage == Stage.PHOTO && image) {
             return true
-        } else if (stage == Stage.ABOUT && desc.length >= 4) {
+        } else if (stage == Stage.ABOUT && desc.length >= 4 && desc.length <= 300) {
             return true
         } else {
             return false;
