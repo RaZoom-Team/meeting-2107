@@ -45,6 +45,8 @@ services:
       IS_PROD: 1
     env_file:
       - .env
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
     depends_on:
       rabbitmq:
         condition: service_healthy
