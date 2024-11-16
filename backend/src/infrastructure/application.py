@@ -3,9 +3,11 @@ from typing import Callable, Coroutine
 from fastapi import FastAPI, APIRouter, Request
 from starlette.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
+# from logging_loki import LokiQueueHandler
+# from multiprocessing import Queue
 import logging
 
-from src.config import ROOT_PATH
+from src.config import IS_PROD, LOKI_URL, ROOT_PATH
 from src.infrastructure.db import get_session, CTX_SESSION
 from src.infrastructure.exc import HTTPError
 # from src.infrastructure.utils import PrometheusMiddleware, metrics
@@ -58,7 +60,19 @@ def create_app(
 
     app.add_exception_handler(HTTPError, HTTPError.handler)
 
-    logging.getLogger("uvicorn.access").addFilter(LoggingFilter(ignoring_log_endpoints))
+    logger = logging.getLogger("uvicorn.access")
+    logger.addFilter(LoggingFilter(ignoring_log_endpoints))
+    # if IS_PROD: 
+    #     loki_logs_handler = LokiQueueHandler(
+    #         Queue(-1),
+    #         url=LOKI_URL,
+    #         tags={"application": "mt2107"}
+    #     )
+    #     logger.addHandler(loki_logs_handler)
+
+    logging.basicConfig(
+        format = '[%(asctime)s.%(msecs)03dZ] %(name)s %(levelname)s %(message)s'
+    )
 
     @app.middleware("http")
     async def session_middleware(request: Request, coro):
