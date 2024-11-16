@@ -117,7 +117,7 @@ export function Auth() {
             name.length > 0 &&
             surname.length > 0 &&
             (name.split(' ').length == 1 || (name.split(' ').length > 1 && name.split(' ')[1] == '' && name.split(' ')[name.split(' ').length-1] == '')) &&
-            (surname.split(' ').length == 1 || (surname.split(' ').length > 1 && surname.split(' ')[1] == '' && surname.split(' ')[surname.split(' ').length-1])))
+            (surname.split(' ').length == 1 || (surname.split(' ').length > 1 && surname.split(' ')[1] == '' && surname.split(' ')[surname.split(' ').length-1] == '')))
         {
             return true
         } else if (stage == Stage.PHOTO && image) {
