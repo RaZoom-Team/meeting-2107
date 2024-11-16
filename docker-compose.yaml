@@ -9,6 +9,7 @@ services:
       IS_PROD: 1
       ENABLE_METRICS: 1
       ROOT_PATH: /api
+      TZ: Europe/Moscow
     env_file:
       - .env
     volumes:
