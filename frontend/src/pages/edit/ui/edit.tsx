@@ -137,7 +137,7 @@ export function Edit({verifySend, verify_hook}: Props) {
             </div>
         </div>
         <div className={styles['bottom-widget-container']}>
-            <div style={verifySend ? { display: 'none'} : {}} className={styles['button-container']}>
+            <div style={(verifySend || user.verify) ? { display: 'none'} : {}} className={styles['button-container']}>
                 <Button onClick={onVerify} pin='circle-circle' view='normal' size='m'>
                     <Icon data={SealCheck}></Icon>
                     Верификация
