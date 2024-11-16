@@ -49,11 +49,11 @@ services:
       rabbitmq:
         condition: service_healthy
         restart: true
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 256M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.3'
+    #       memory: 256M
 
   db:
     image: postgres:alpine
