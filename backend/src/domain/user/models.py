@@ -8,8 +8,8 @@ from src.infrastructure.utils import partial_model
 
 
 class BaseUser(BaseModel):
-    name: str = Field(min_length=3, max_length=21, examples=["Иван"], description="Имя")
-    surname: str = Field(min_length=3, max_length=21, examples=["Иванов"], description="Фамилия")
+    name: str = Field(min_length=1, max_length=21, examples=["Иван"], description="Имя")
+    surname: str = Field(min_length=1, max_length=21, examples=["Иванов"], description="Фамилия")
     desc: str = Field(max_length=300, examples=["Главный айтишник класса"], description="Описание")
     literal: CLASS_LITERAL = Field(description="Класс")
     male: bool = Field(description="Пол (мужчина или нет)")
