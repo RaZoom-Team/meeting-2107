@@ -39,7 +39,7 @@ class UserRepository(BaseRepository[User]):
                 select(Like.target_id).where(Like.user_id == user.id).scalar_subquery()
             ))
         ) \
-        .order_by(func.random() * case((User.verify == True, 1), else_=0.7)) \
+        .order_by(func.random() * case((User.verify == True, 1), else_=0.5)) \
         .limit(1)
         res = await self.session.exec(query)
         return res.first()
