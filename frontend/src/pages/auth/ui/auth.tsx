@@ -157,12 +157,12 @@ export function Auth() {
                         console.log(error)
                         if (error.response?.data) {
                             const statusCode = (error.response.data as {code: number}).code.toString()
-                            if (statusCode in ErrorsText) {
+                            if (statusCode == '3004') {
                                 addNotify({
                                     title: 'Упс...',
                                     content: ErrorsText[statusCode],
                                     btn_text: 'Перейти в канал',
-                                    btn_hook: () => Telegram.WebApp.openTelegramLink(error.response?.headers['X-Channel']),
+                                    btn_hook: () => Telegram.WebApp.openTelegramLink(error.response?.headers['x-channel']),
                                     type: "danger"
                                 })
                             }
