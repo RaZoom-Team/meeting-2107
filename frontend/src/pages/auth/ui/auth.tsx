@@ -112,7 +112,13 @@ export function Auth() {
     const checkActive = (): boolean => {
         if (stage == Stage.SUBINFO && literal && sex) {
             return true
-        } else if (stage == Stage.NAME && name.length > 0 && surname.length > 0 && surname.split(' ').length  == 1 && name.split(' ').length == 1) {
+        } else if (
+            stage == Stage.NAME &&
+            name.length > 0 &&
+            surname.length > 0 &&
+            (name.split(' ').length == 1 || (name.split(' ').length > 1 && name.split(' ')[1] == '')) &&
+            (surname.split(' ').length == 1 || (surname.split(' ').length > 1 && surname.split(' ')[1] == '')))
+        {
             return true
         } else if (stage == Stage.PHOTO && image) {
             return true
