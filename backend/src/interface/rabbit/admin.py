@@ -1,5 +1,5 @@
 from faststream.rabbit import RabbitRouter
-import math, pytz
+import math
 
 from src.application.tg.service import TelegramService
 from src.application.user.rabbit import get_user
