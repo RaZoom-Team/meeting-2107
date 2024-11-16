@@ -43,6 +43,7 @@ services:
     restart: unless-stopped
     environment:
       IS_PROD: 1
+      TZ: Europe/Moscow
     env_file:
       - .env
     volumes:
