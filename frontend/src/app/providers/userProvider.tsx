@@ -57,8 +57,8 @@ export default function UserProvider({ children }: IChildren) {
     
         return (
         <UserContext.Provider value={{ user, updateUser, setUser }}>
-            {ban.length > 0 && <BanPage reason={ban} link={"https://t.me/pudsluhano_man"}/>}
             {isSub ? children : <ChannelPage link={link} />}
+            {ban.length > 0 && <BanPage reason={ban} link={"https://t.me/pudsluhano_man"}/>}
         </UserContext.Provider>
     );
 }
