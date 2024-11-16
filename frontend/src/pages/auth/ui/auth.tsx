@@ -114,8 +114,8 @@ export function Auth() {
             return true
         } else if (
             stage == Stage.NAME &&
-            name.length > 0 &&
-            surname.length > 0 &&
+            name.length > 2 &&
+            surname.length > 2 &&
             (name.split(' ').length == 1 || (name.split(' ').length > 1 && name.split(' ')[1] == '' && name.split(' ')[name.split(' ').length-1] == '')) &&
             (surname.split(' ').length == 1 || (surname.split(' ').length > 1 && surname.split(' ')[1] == '' && surname.split(' ')[surname.split(' ').length-1] == '')))
         {
