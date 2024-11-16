@@ -17,6 +17,6 @@ export function InputImg({hook, src}: Props) {
 
     return <div style={src ? {backgroundImage: `url(${src})`} : {}} className={styles['container-input']}>
         <p style={src ? {opacity: '0'} : {}} className={styles['help']}>Нажмите, чтобы выбрать фото</p>
-        <input className={styles['input']} onChange={imgChange} accept="image/png, image/jpeg" type='file'></input>
+        <input className={styles['input']} onChange={imgChange} accept="image/png, image/jpeg, image/heic" type='file'></input>
     </div>
 }
