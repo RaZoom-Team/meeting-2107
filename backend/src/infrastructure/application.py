@@ -3,8 +3,8 @@ from typing import Callable, Coroutine
 from fastapi import FastAPI, APIRouter, Request
 from starlette.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
-from logging_loki import LokiQueueHandler
-from multiprocessing import Queue
+# from logging_loki import LokiQueueHandler
+# from multiprocessing import Queue
 import logging
 
 from src.config import IS_PROD, LOKI_URL, ROOT_PATH
@@ -62,13 +62,13 @@ def create_app(
 
     logger = logging.getLogger("uvicorn.access")
     logger.addFilter(LoggingFilter(ignoring_log_endpoints))
-    if IS_PROD: 
-        loki_logs_handler = LokiQueueHandler(
-            Queue(-1),
-            url=LOKI_URL,
-            tags={"application": "mt2107"}
-        )
-        logger.addHandler(loki_logs_handler)
+    # if IS_PROD: 
+    #     loki_logs_handler = LokiQueueHandler(
+    #         Queue(-1),
+    #         url=LOKI_URL,
+    #         tags={"application": "mt2107"}
+    #     )
+    #     logger.addHandler(loki_logs_handler)
 
     logging.basicConfig(
         format = '[%(asctime)s.%(msecs)03dZ] %(name)s %(levelname)s %(message)s'
