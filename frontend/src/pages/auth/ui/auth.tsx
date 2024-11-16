@@ -114,15 +114,15 @@ export function Auth() {
             return true
         } else if (
             stage == Stage.NAME &&
-            name.length > 0 &&
-            surname.length > 0 &&
+            name.length > 2 &&
+            surname.length > 2 &&
             (name.split(' ').length == 1 || (name.split(' ').length > 1 && name.split(' ')[1] == '' && name.split(' ')[name.split(' ').length-1] == '')) &&
             (surname.split(' ').length == 1 || (surname.split(' ').length > 1 && surname.split(' ')[1] == '' && surname.split(' ')[surname.split(' ').length-1] == '')))
         {
             return true
         } else if (stage == Stage.PHOTO && image) {
             return true
-        } else if (stage == Stage.ABOUT && desc.length >= 4) {
+        } else if (stage == Stage.ABOUT && desc.length >= 4 && desc.length <= 300) {
             return true
         } else {
             return false;

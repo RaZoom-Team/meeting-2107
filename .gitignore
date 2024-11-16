@@ -7,3 +7,4 @@ data/
 /frontend/dist
 frontend/tsconfig.app.tsbuildinfo
 /.idea
+frontend/tsconfig.app.tsbuildinfo
