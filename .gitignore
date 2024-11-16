@@ -6,3 +6,4 @@ data/
 /frontend/node_modules
 /frontend/dist
 frontend/tsconfig.app.tsbuildinfo
+/.idea
