@@ -43,11 +43,11 @@ export function Auth() {
     <div className={styles["input-list"]}>
         <div className={styles['input-block']}>
             <span className={styles['title']}>Имя</span>
-            <Input value={name} hook={setName}></Input>
+            <Input value={name} hook={setName} maxLength={21}></Input>
         </div>
         <div className={styles['input-block']}>
             <span className={styles['title']}>Фамилия</span>
-            <Input value={surname} hook={setSurname}></Input>
+            <Input value={surname} hook={setSurname} maxLength={21}></Input>
         </div>
     </div>
 
@@ -79,7 +79,7 @@ export function Auth() {
     <div className={styles["input-list"]}>
         <div className={styles['input-block']}>
             <span className={styles['title']}>О себе</span>
-            <TextArea value={desc} hook={setDesc}/>
+            <TextArea value={desc} hook={setDesc} maxLength={300} />
         </div>
     </div>
 
