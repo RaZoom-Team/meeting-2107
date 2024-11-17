@@ -38,8 +38,8 @@ export function Card({focus, is_me_liked}: Props) {
                     <div className={styles['upper-container']}>
                     <span className={styles['name']}>{focus.surname} {focus.name}</span>
                     <div className={styles['status-list']}>
+                        {is_me_liked ? <Button onClick={onLike} pin='circle-circle' className={styles['liked']}><Icon data={CardHeart}/></Button> : null}
                         {focus.verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : null}
-                        {is_me_liked ? <Button onClick={onLike} pin='circle-circle'><Icon data={CardHeart}/></Button> : null}
                         </div>
                     </div>
                     <div className={styles['about']}>
