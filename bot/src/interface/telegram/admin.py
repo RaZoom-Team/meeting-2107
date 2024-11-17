@@ -69,6 +69,21 @@ async def denyverify(
     except:
         await msg.reply("❕ Не удалось доставить отказ пользователю")
 
+@handler.message(Command("warn"), F.chat.id == TG_ADMIN_CHAT)
+async def warn(
+    msg: Message,
+    data: ReasonRequest = Data(["user_id", ":reason"], "❕ Use: /warn [USER_ID] [REASON]")
+):
+    try:
+        await msg.bot.send_message(
+            chat_id = data.user_id,
+            text = f"⚠️ Вам пришло уведомление от администрации:\n<i>{data.reason}</i>",
+            parse_mode = "html"
+        )
+        await msg.reply("✅ Уведомление было доставлено")
+    except:
+        await msg.reply("❕ Не удалось доставить уведомление пользователю")
+
 @handler.message(Command("get"), F.chat.id == TG_ADMIN_CHAT)
 async def user(
     msg: Message,
