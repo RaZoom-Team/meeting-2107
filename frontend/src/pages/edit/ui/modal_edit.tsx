@@ -1,5 +1,5 @@
 import styles from './modal.module.scss'
-import { Button, Sheet } from "@gravity-ui/uikit"
+import { Button, Sheet, Text } from "@gravity-ui/uikit"
 import { ReactElement, useContext, useRef } from "react"
 import { UserContext } from '../../../app/providers'
 import { addNotify } from '../../../shared'
@@ -49,9 +49,10 @@ export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_nam
         }
     }
 
-    return (
+    return (<>
         <Sheet title='Редактировать' visible={is_open} onClose={close_hook}>
             <div className={styles['content']}>
+                {user?.verify && <Text variant='body-1' color='hint' style={{textAlign: "center"}}>Изменение любого из параметров приведёт к сбросу вашей верификации</Text>}
                 <div className={styles['button-list']}>
                     <Button width='max' onClick={onGender} size="m" view='outlined'>Пол</Button>
                     <Button width='max' onClick={open_desc} size="m" view='outlined'>О себе</Button>
@@ -69,5 +70,5 @@ export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_nam
                 <Button width='max' onClick={close_hook} size="l">Закрыть</Button>
             </div>
         </Sheet>
-    )
+    </>)
 }
