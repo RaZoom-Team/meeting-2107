@@ -9,6 +9,7 @@ export type User = {
     focus_user: FocusUser
     focus_is_liked: boolean
     verify: boolean
+    is_admin: boolean
 }
 
 export type FocusUser = Omit<User, 'is_active' | 'focus_is_liked'>
