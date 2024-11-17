@@ -1,11 +1,13 @@
-from aiogram import Router
+from aiogram import F, Router
 from aiogram.types import Message
 from aiogram.filters import Command
+
+from config import TG_ADMIN_CHAT
 
 
 handler = Router()
 
-@handler.message(Command("help"))
+@handler.message(Command("help"), F.chat.id == TG_ADMIN_CHAT)
 async def help(msg: Message):
     await msg.reply(
         "❔ Список команд"

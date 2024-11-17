@@ -2,11 +2,11 @@ import asyncio
 import logging
 from infrastructure.telegram import dp, bot
 from infrastructure.rabbit import app
-from interface.telegram import AdminHandler, HelpHandler
+from interface.telegram import AdminHandler, HelpHandler, WelcomeHandler
 from interface.rabbit import TelegramRouter
 
 logging.basicConfig(level=logging.INFO)
-dp.include_routers(AdminHandler, HelpHandler)
+dp.include_routers(AdminHandler, HelpHandler, WelcomeHandler)
 
 app.broker.include_router(TelegramRouter)
 
