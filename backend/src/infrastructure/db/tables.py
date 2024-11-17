@@ -29,6 +29,7 @@ class User(SQLModel, table=True):
     )
     focus_is_liked: bool = Field(sa_column_kwargs={"server_default": false()})
     is_banned: bool = Field(sa_column_kwargs={"server_default": false()})
+    is_admin: bool = Field(sa_column_kwargs={"server_default": false()})
     ban_reason: Optional[str]
     created_at: datetime = Field(sa_column=Column(
         TIMESTAMP(timezone=True),

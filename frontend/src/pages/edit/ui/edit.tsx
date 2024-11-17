@@ -143,6 +143,12 @@ export function Edit({verifySend, verify_hook}: Props) {
                     Верификация
                 </Button>
             </div>
+            {
+                user.verify &&
+                <div className={styles['warning-container']}>
+                    <span>Изменение любого из параметров приведёт к сбросу вашей верификации!</span>
+                </div>
+            }
         </div>
     </main>
     }
