@@ -113,8 +113,8 @@ export function Feed({focus}: Props) {
     if (!focus) {
         return <main className={styles['main']} data-bg={"NO"}>
             <div className={styles['not-load']}>
-                <Text className={styles['not-load-title']} color='hint' variant='body-3'>Анкеты для вас закончились 🐝</Text>
-                <Button onClick={updateUser} width='auto' size='l' className={styles['update-button']} view='normal'>Обновить<Icon data={ArrowRotateLeft}/></Button>
+                <Text className={styles['not-load-title']} color='hint' variant='body-3'>{user?.is_active ? 'Анкеты для вас закончились 🐝' : 'Ваша анкета неактивна, её активация доступна в профиле'}</Text>
+                { user?.is_active && <Button onClick={updateUser} width='auto' size='l' className={styles['update-button']} view='normal'>Обновить<Icon data={ArrowRotateLeft}/></Button> }
             </div>
         </main>
     } else if (user) return <main data-bg={bg ? "YES" : "NO"} className={styles['main']}>

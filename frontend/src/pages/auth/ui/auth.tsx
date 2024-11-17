@@ -137,13 +137,6 @@ export function Auth() {
                     console.log(blob)
                     setName((name) => name.trim())
                     setSurname((surname) => surname.trim())
-                    // const userData: UserRegister = {
-                    //     name,
-                    //     surname,
-                    //     male: sex === Sex.MALE,
-                    //     desc,
-                    //     literal: literal ? literal : ''
-                    // };
                     const userData = new FormData();
                     userData.append('avatar', blob)
                     userData.append('name', name)
@@ -166,13 +159,11 @@ export function Auth() {
                                     type: "danger"
                                 })
                             }
-                            else {
-                                addNotify({
+                            addNotify({
                                 title: 'Упс...',
-                                content: statusCode, 
+                                content: ErrorsText[statusCode] ? ErrorsText[statusCode] : statusCode, 
                                 type: "danger"
-                                })
-                            }
+                            })
                         }
                     })
                 })

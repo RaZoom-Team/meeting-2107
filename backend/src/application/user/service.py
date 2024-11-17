@@ -45,7 +45,6 @@ class UserService:
         return user
 
     async def select_focus(self, user: User) -> User | None:
-        user.is_active = True
         user.focus_user = None
         user.focus_is_liked = False
         focus = await self.repo.get_noviewed(user)
