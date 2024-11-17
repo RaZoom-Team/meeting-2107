@@ -48,7 +48,7 @@ export function Card({focus, is_me_liked}: Props) {
                     <div className={styles['status-list']}>
                         {is_me_liked ? <Button onClick={onLike} pin='circle-circle' className={styles['liked']}><Icon data={CardHeart}/></Button> : null}
                         {focus.verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : null}
-                        {focus.is_admin && <Button onClick={onAdmin} pin='circle-circle' className={styles['admin']}><Icon data={Shield}/></Button>}
+                        {focus.is_admin && <Button onClick={onAdmin} pin='circle-circle'><Icon data={Shield}/></Button>}
                         </div>
                     </div>
                     <div className={styles['about']}>
