@@ -159,7 +159,7 @@ export function Auth() {
                                     type: "danger"
                                 })
                             }
-                            addNotify({
+                            else addNotify({
                                 title: 'Упс...',
                                 content: ErrorsText[statusCode] ? ErrorsText[statusCode] : statusCode, 
                                 type: "danger"
