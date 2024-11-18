@@ -4,7 +4,7 @@ from fastapi.responses import Response
 from src.application.attachment import AttachmentService
 
 
-router = APIRouter(prefix="/attachments", tags=["Attachments"])
+router = APIRouter(prefix="/attachments", tags=["Attachments"], include_in_schema=False)
 
 
 @router.get(
