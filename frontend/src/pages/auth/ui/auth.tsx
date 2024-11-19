@@ -1,6 +1,6 @@
 import styles from './style.module.scss'
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { Sex, Stage, UserRegister } from "../model/types";
+import { Sex, Stage } from "../model/types";
 import {Input, Button, Select, Option, InputImg, TextArea,  white2107, blue2107, pink2107, Literales, addNotify, ErrorsText } from '../../../shared';
 import { CropWidget } from '../../../widgets';
 import { UserContext } from '../../../app/providers';
@@ -43,11 +43,11 @@ export function Auth() {
     <div className={styles["input-list"]}>
         <div className={styles['input-block']}>
             <span className={styles['title']}>Имя</span>
-            <Input value={name} hook={setName}></Input>
+            <Input value={name} hook={setName} maxLength={21}></Input>
         </div>
         <div className={styles['input-block']}>
             <span className={styles['title']}>Фамилия</span>
-            <Input value={surname} hook={setSurname}></Input>
+            <Input value={surname} hook={setSurname} maxLength={21}></Input>
         </div>
     </div>
 
@@ -79,7 +79,7 @@ export function Auth() {
     <div className={styles["input-list"]}>
         <div className={styles['input-block']}>
             <span className={styles['title']}>О себе</span>
-            <TextArea value={desc} hook={setDesc}/>
+            <TextArea value={desc} hook={setDesc} maxLength={300} />
         </div>
     </div>
 
@@ -112,11 +112,17 @@ export function Auth() {
     const checkActive = (): boolean => {
         if (stage == Stage.SUBINFO && literal && sex) {
             return true
-        } else if (stage == Stage.NAME && name.length > 0 && surname.length > 0 && surname.split(' ').length  == 1 && name.split(' ').length == 1) {
+        } else if (
+            stage == Stage.NAME &&
+            name.length > 2 &&
+            surname.length > 2 &&
+            (name.split(' ').length == 1 || (name.split(' ').length > 1 && name.split(' ')[1] == '' && name.split(' ')[name.split(' ').length-1] == '')) &&
+            (surname.split(' ').length == 1 || (surname.split(' ').length > 1 && surname.split(' ')[1] == '' && surname.split(' ')[surname.split(' ').length-1] == '')))
+        {
             return true
         } else if (stage == Stage.PHOTO && image) {
             return true
-        } else if (stage == Stage.ABOUT && desc.length >= 4) {
+        } else if (stage == Stage.ABOUT && desc.length >= 4 && desc.length <= 300) {
             return true
         } else {
             return false;
@@ -131,37 +137,33 @@ export function Auth() {
                     console.log(blob)
                     setName((name) => name.trim())
                     setSurname((surname) => surname.trim())
-                    const userData: UserRegister = {
-                        name,
-                        surname,
-                        male: sex === Sex.MALE,
-                        desc,
-                        literal: literal ? literal : ''
-                    };
-                    const avatarForm = new FormData();
-                    avatarForm.append('avatar', blob)
-                    register(userData, avatarForm)
+                    const userData = new FormData();
+                    userData.append('avatar', blob)
+                    userData.append('name', name)
+                    userData.append('surname', surname)
+                    userData.append('male', sex === Sex.MALE ? "true" : "false")
+                    userData.append('desc', desc)
+                    userData.append('literal', literal ? literal : '')
+                    register(userData)
                     .then(updateUser)
                     .catch((error: AxiosError) => {
                         console.log(error)
                         if (error.response?.data) {
                             const statusCode = (error.response.data as {code: number}).code.toString()
-                            if (statusCode in ErrorsText) {
+                            if (statusCode == '3004') {
                                 addNotify({
                                     title: 'Упс...',
                                     content: ErrorsText[statusCode],
                                     btn_text: 'Перейти в канал',
-                                    btn_hook: () => Telegram.WebApp.openTelegramLink(error.response?.headers['X-Channel']),
+                                    btn_hook: () => Telegram.WebApp.openTelegramLink(error.response?.headers['x-channel']),
                                     type: "danger"
                                 })
                             }
-                            else {
-                                addNotify({
+                            else addNotify({
                                 title: 'Упс...',
-                                content: statusCode, 
+                                content: ErrorsText[statusCode] ? ErrorsText[statusCode] : statusCode, 
                                 type: "danger"
-                                })
-                            }
+                            })
                         }
                     })
                 })

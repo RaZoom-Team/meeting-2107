@@ -54,7 +54,7 @@ async def user(data: UserRequest) -> RabbitRequestResponse[GetUserResponse]:
                 f"\n<b>Описание:</b> <i>{user.desc}</i>"
                 f"\n<b>Верифицирован:</b> {'Да' if user.verify else 'Нет'}"
                 f"\n<b>Заблокирован:</b> {f'Да ({user.ban_reason})' if user.is_banned else 'Нет'}"
-                f"\n<b>Дата регистрации:</b> {user.created_at.strftime("%d.%m.%Y %H:%M:%S")}",
+                f"\n<b>Дата регистрации:</b> {user.created_at.astimezone().strftime("%d.%m.%Y %H:%M:%S")}",
             attachments = [attachment.url for attachment in user.attachments]
         )
     )

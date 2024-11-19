@@ -15,5 +15,5 @@ app = create_app(
         rabbit
     ],
     root_path=ROOT_PATH,
-    ignoring_log_endpoints=[("/system/ping", "GET")]
+    ignoring_log_endpoints=[("/system/ping", "GET"), ("/metrics", "GET")]
 )

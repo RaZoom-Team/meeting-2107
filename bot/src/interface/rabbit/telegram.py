@@ -7,7 +7,7 @@ from models import SendAdminMediaMessage, SendAdminMessage, SendMessage, SendMed
 
 router = RabbitRouter("tg_")
 
-@router.subscriber("msg", retry=True)
+@router.subscriber("msg")
 async def sendmsg(msg: SendMessage | SendAdminMessage) -> None:
     try:
         await bot.send_message(
@@ -17,7 +17,7 @@ async def sendmsg(msg: SendMessage | SendAdminMessage) -> None:
         )
     except: pass
 
-@router.subscriber("media", retry=True)
+@router.subscriber("media")
 async def sendmedia(msg: SendMediaMessage | SendAdminMediaMessage) -> None:
     await send_media(
         chat_id = msg.chat_id if msg.chat_id != -1 else TG_ADMIN_CHAT,

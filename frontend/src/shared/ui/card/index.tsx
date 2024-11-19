@@ -1,7 +1,7 @@
 import { Button, Icon} from '@gravity-ui/uikit';
 import '../../../app/index.scss';
 import styles from './style.module.scss';
-import {SealCheck, CardHeart} from '@gravity-ui/icons';
+import {SealCheck, CardHeart, Shield} from '@gravity-ui/icons';
 import { addNotify } from '../notify';
 import { FocusUser } from '../../../entities';
 
@@ -28,6 +28,14 @@ export function Card({focus, is_me_liked}: Props) {
         });
     }
 
+    const onAdmin = () => {
+        addNotify({
+            title: 'Команда дайвинчика',
+            content:'Этот пользователь состоит в команде дайвинчика',
+            type: 'utility'
+        });
+    }
+
     return (
         <div className={styles['bg']} style={{
             backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 60.239%), url(${focus.attachments[0]})`,
@@ -38,8 +46,9 @@ export function Card({focus, is_me_liked}: Props) {
                     <div className={styles['upper-container']}>
                     <span className={styles['name']}>{focus.surname} {focus.name}</span>
                     <div className={styles['status-list']}>
+                        {is_me_liked ? <Button onClick={onLike} pin='circle-circle' className={styles['liked']}><Icon data={CardHeart}/></Button> : null}
                         {focus.verify  ? <Button onClick={onVerify} pin='circle-circle'><Icon data={SealCheck}/></Button> : null}
-                        {is_me_liked ? <Button onClick={onLike} pin='circle-circle'><Icon data={CardHeart}/></Button> : null}
+                        {focus.is_admin && <Button onClick={onAdmin} pin='circle-circle'><Icon data={Shield}/></Button>}
                         </div>
                     </div>
                     <div className={styles['about']}>

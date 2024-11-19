@@ -8,8 +8,8 @@ from src.infrastructure.utils import partial_model
 
 
 class BaseUser(BaseModel):
-    name: str = Field(min_length=3, max_length=21, examples=["Иван"], description="Имя")
-    surname: str = Field(min_length=3, max_length=21, examples=["Иванов"], description="Фамилия")
+    name: str = Field(max_length=21, examples=["Иван"], description="Имя")
+    surname: str = Field(max_length=21, examples=["Иванов"], description="Фамилия")
     desc: str = Field(max_length=300, examples=["Главный айтишник класса"], description="Описание")
     literal: CLASS_LITERAL = Field(description="Класс")
     male: bool = Field(description="Пол (мужчина или нет)")
@@ -19,13 +19,14 @@ class BaseUser(BaseModel):
     def name_validator(val: str):
         val = val.strip()
         if " " in val:
-            raise HTTPException(422, "name and surname should be one word")
+            raise ValueError("name and surname should be one word")
         return val
 
     
 class UserDTO(BaseUser):
     attachments: list[str] = Field(examples=[[f"{API_URL}/attachments/abcde1234567890"]], description="Вложения пользователя")
     verify: bool = Field(description="Верифицирован-ли пользователь")
+    is_admin: bool = Field(description="Является ли пользователь модератором")
 
     @field_validator("attachments", mode="before")
     @classmethod

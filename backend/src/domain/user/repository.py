@@ -1,4 +1,4 @@
-from sqlalchemy import func
+from sqlalchemy import func, case
 from sqlalchemy.orm import joinedload
 from sqlmodel import desc, select
 from src.config import CLASS_LITERAL
@@ -21,6 +21,7 @@ class UserRepository(BaseRepository[User]):
         query = select(User) \
         .join(Like, Like.user_id == User.id) \
         .filter((Like.target_id == user.id) & (Like.is_mutually == False) & User.is_active) \
+        .order_by(Like.created_at) \
         .limit(1)
         res = await self.session.exec(query)
         return res.first()
@@ -31,7 +32,7 @@ class UserRepository(BaseRepository[User]):
             user.focus_is_liked = True
             return liked
         query = select(User).where(
-            (User.id != user.id) & (User.male != user.male) & User.is_active
+            (User.id != user.id) & (User.male != user.male) & (User.is_active)
             & (~User.id.in_(
                 select(View.target_id).where(View.user_id == user.id).scalar_subquery()
             ))
@@ -39,7 +40,7 @@ class UserRepository(BaseRepository[User]):
                 select(Like.target_id).where(Like.user_id == user.id).scalar_subquery()
             ))
         ) \
-        .order_by(func.random()) \
+        .order_by(func.random() * case((User.verify == True, 1), else_=0.5)) \
         .limit(1)
         res = await self.session.exec(query)
         return res.first()

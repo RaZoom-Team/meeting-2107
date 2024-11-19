@@ -1,7 +1,7 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { getUser, User } from "../../entities";
 import { AxiosError } from "axios";
-import { ChannelPage } from "../../pages";
+import { BanPage, ChannelPage } from "../../pages";
 
 interface IChildren {
     children: ReactNode;
@@ -20,6 +20,7 @@ export default function UserProvider({ children }: IChildren) {
     const [user, setUser] = useState<User | undefined | null>(undefined);
     const [isSub, setSub] = useState(true)
     const [link, setLink] = useState('')
+    const [ban, setBan] = useState('')
 
     const updateUser = () => {
         setUser(undefined)
@@ -27,16 +28,20 @@ export default function UserProvider({ children }: IChildren) {
         .then(setUser)
         .catch(
             (error: AxiosError) => {
-            console.log(error)
-            setUser(null)
             if (error.response?.data) {
+                console.log(error.response.headers)
                 const statusCode = (error.response.data as {code: number}).code.toString()
                 console.log(statusCode)
                 if (statusCode == '3004') {
                     setSub(false)
-                    setLink(error.response.headers['X-channel'])
+                    setLink(error.response.headers['x-channel'])
+                    console.log(error.response.headers)
+                } else if (statusCode == '3005') {
+                    setBan(decodeURI(error.response.headers['x-reason']))
                 }
+
             }
+            setUser(null)
         })
     }
 
@@ -47,13 +52,14 @@ export default function UserProvider({ children }: IChildren) {
     useEffect(() => {
         console.log(user)
     }, [user])
-    
-    if (!isSub) {
-        return <ChannelPage link={link}/>
-    }
-    return (
+
+
+        if (ban.length > 0) {
+            return <BanPage reason={ban} link={"https://t.me/pudsluhano_man"}/>
+        }
+        return (
         <UserContext.Provider value={{ user, updateUser, setUser }}>
-            {children}
+            {isSub ? children : <ChannelPage link={link} />}
         </UserContext.Provider>
     );
 }

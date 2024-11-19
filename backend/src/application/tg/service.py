@@ -29,8 +29,11 @@ class TelegramService:
         await self.send_message(text, chat_id = -1)
 
     async def send_media_to_chat(self, text: str, files: list[str]) -> None:
+        await self.send_media(-1, text, files)
+    
+    async def send_media(self, chat_id: int, text: str, files: list[str]) -> None:
         await broker.publish(
-            SendMediaTelegramMessage(chat_id = -1, text = text, files = files),
+            SendMediaTelegramMessage(chat_id = chat_id, text = text, files = files),
             "tg_media"
         )
 

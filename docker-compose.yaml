@@ -7,11 +7,14 @@ services:
       - 80
     environment:
       IS_PROD: 1
+      ENABLE_METRICS: 1
       ROOT_PATH: /api
+      TZ: Europe/Moscow
     env_file:
       - .env
     volumes:
       - backend_data:/app/data
+      - "/etc/localtime:/etc/localtime:ro"
     depends_on:
       db:
         condition: service_healthy
@@ -21,10 +24,10 @@ services:
         restart: true
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend/system/ping || exit 1"]
-      interval: 30s
+      interval: 10s
       retries: 5
-      start_period: 10s
-      timeout: 10s
+      start_period: 5s
+      timeout: 5s
 
   frontend:
     build: ./frontend
@@ -41,17 +44,22 @@ services:
     restart: unless-stopped
     environment:
       IS_PROD: 1
+      TZ: Europe/Moscow
     env_file:
       - .env
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
     depends_on:
       rabbitmq:
         condition: service_healthy
         restart: true
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 256M
+      # loki:
+      #   condition: service_started
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.3'
+    #       memory: 256M
 
   db:
     image: postgres:alpine
@@ -59,6 +67,7 @@ services:
     command: -c 'max_connections=1000'
     volumes:
       - pgdata:/var/lib/postgresql/data/
+      - "/etc/localtime:/etc/localtime:ro"
     expose:
       - 5432
     env_file:
@@ -87,6 +96,7 @@ services:
       - type: bind
         source: ./nginx.conf
         target: /etc/nginx/conf.d/default.conf
+      - "/etc/localtime:/etc/localtime:ro"
     depends_on:
       backend:
         condition: service_healthy
@@ -104,6 +114,40 @@ services:
       timeout: 5s
       retries: 3
 
+  # prometheus:
+  #   image: prom/prometheus
+  #   container_name: mt2107_prometheus
+  #   expose:
+  #     - 9090
+  #   volumes:
+  #     - type: bind
+  #       source: ./prometheus.yml
+  #       target: /etc/prometheus/prometheus.yml
+  #     - prometheus_data:/workspace
+  #     - "/etc/localtime:/etc/localtime:ro"
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   restart: unless-stopped
+
+  # loki:
+  #   image: grafana/loki
+  #   container_name: mt2107_loki
+  #   expose:
+  #     - 3100
+  #   restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    container_name: mt2107_grafana
+    ports:
+      - "127.0.0.1:8023:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - "/etc/localtime:/etc/localtime:ro"
+    restart: unless-stopped
+
 volumes:
   pgdata:
   backend_data:
+  grafana_data:
+  prometheus_data:
