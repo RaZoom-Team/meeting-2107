@@ -66,8 +66,8 @@ async def users(data: GetUsers) -> RabbitRequestResponse[GetUserResponse]:
         "banned": User.is_banned,
         "verify": User.verify,
         "male": User.male,
-        "female": not User.male,
-        "inactive": not User.is_active
+        "female": User.male == False,
+        "inactive": User.is_active == False
     }
     users = await UserRepository().get_all(data.offset, data.limit, filters[data.filter])
     total = await UserRepository().count(filters[data.filter])
