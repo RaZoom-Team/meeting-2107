@@ -56,7 +56,7 @@ class ReportUser(BaseModel):
 class GetUsers(BaseModel):
     offset: int = 0
     limit: int = Field(gt = 1, le=50)
-    filter: Literal["all", "banned", "verify"] = "all"
+    filter: Literal["all", "banned", "verify", "male", "female", "inactive"] = "all"
 
 class UserRequest(BaseModel):
     user_id: int
