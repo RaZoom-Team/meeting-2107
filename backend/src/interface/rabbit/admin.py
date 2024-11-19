@@ -48,7 +48,7 @@ async def user(data: UserRequest) -> RabbitRequestResponse[GetUserResponse]:
     return RabbitRequestResponse(
         response = GetUserResponse(
             text =
-                f"<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b>"
+                f"<b>Имя:</b> {user.mention} <b>(<code>{user.id}</code>)</b> {'[НЕАКТИВЕН]' if not user.is_active else ''}"
                 f"\n<b>Класс:</b> {user.literal}"
                 f"\n<b>Пол:</b> {'Мужской' if user.male else 'Женский'}"
                 f"\n<b>Описание:</b> <i>{user.desc}</i>"
@@ -64,7 +64,10 @@ async def users(data: GetUsers) -> RabbitRequestResponse[GetUserResponse]:
     filters = {
         "all": True,
         "banned": User.is_banned,
-        "verify": User.verify
+        "verify": User.verify,
+        "male": User.male,
+        "female": not User.male,
+        "inactive": not User.is_active
     }
     users = await UserRepository().get_all(data.offset, data.limit, filters[data.filter])
     total = await UserRepository().count(filters[data.filter])

@@ -100,10 +100,10 @@ async def user(
     )
 
 @handler.message(Command("users"), F.chat.id == TG_ADMIN_CHAT)
-async def user(
+async def users(
     msg: Message,
     state: FSMContext,
-    data: GetUsersArgs = Data(["filter"],"❕ Use: /users [FILTER: all, verify, banned]*" )
+    data: GetUsersArgs = Data(["filter"],"❕ Use: /users [FILTER: all, verify, banned, male, female, inactive]*" )
 ):
     res = await get_users(0, USERS_LIST_LIMIT, data.filter)
     if not res.success:

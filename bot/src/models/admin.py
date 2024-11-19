@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 
 class GetUsersArgs(BaseModel):
-    filter: Literal["all", "banned", "verify"] = "all"
+    filter: Literal["all", "banned", "verify", "male", "female", "inactive"] = "all"
 
 class GetUsers(GetUsersArgs):
     offset: int = 0
