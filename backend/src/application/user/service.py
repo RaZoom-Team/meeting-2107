@@ -45,10 +45,10 @@ class UserService:
         return user
 
     async def select_focus(self, user: User) -> User | None:
-        if not user.is_active:
-            return None
         user.focus_user = None
         user.focus_is_liked = False
+        if not user.is_active:
+            return None
         focus = await self.repo.get_noviewed(user)
         if not focus:
             await ViewRepository().drop_user(user)
@@ -102,36 +102,35 @@ class UserService:
                 ]:
                     user.verify = False
                 setattr(user, field, value)
-                if field == "male":
+                if field in ["male", "is_active"]:
                     await self.select_focus(user)
-                if field == "is_active":
-                    if not value:
-                        user.focus_user = None
-                    else:
-                        await self.select_focus(user)
 
     async def check_user(self, user: User, username: str) -> None:
         if not username:
-            user.is_active = False
+            await self.set_active(user, False)
             raise UsernameRequired
         if user.username != username:
             user.username = username
         if not user.focus_user and user.is_active:
             await self.select_focus(user)
         if user.is_banned:
-            user.is_active = False
+            await self.set_active(user, False)
             raise BannedException(user.ban_reason)
         
     async def check_user_subcription(self, user: User) -> None:
         if not await TelegramService().check_subscribed(user.id):
-            user.is_active = False
+            await self.set_active(user, False)
             raise SubscriptionRequiredException
         
     async def ban(self, user: User, reason: str) -> None:
         user.is_banned = True
         user.ban_reason = reason
-        user.is_active = False
+        await self.set_active(user, False)
 
     async def unban(self, user: User) -> None:
         user.is_banned = False
         user.ban_reason = None
+
+    async def set_active(self, user: User, value: bool) -> None:
+        user.is_active = value
+        await self.select_focus(user)
