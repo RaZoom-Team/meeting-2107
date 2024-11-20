@@ -4,7 +4,6 @@ import { ReactElement, useContext, useRef } from "react"
 import { UserContext } from '../../../app/providers'
 import { addNotify } from '../../../shared'
 import { editUser } from '../../../entities'
-import heic2any from 'heic2any'
 import createImgUrl from '../../../widgets/crop/urlCreater'
 
 interface Props {
