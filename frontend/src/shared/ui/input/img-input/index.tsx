@@ -1,3 +1,4 @@
+import createImgUrl from '../../../../widgets/crop/urlCreater'
 import styles from './style.module.scss'
 
 interface Props {
@@ -11,10 +12,8 @@ export function InputImg({hook, src}: Props) {
         if (e.target.files && e.target.files[0]) {
             //console.log(e.target.files[0])
             const file = e.target.files[0]
-            console.log(file)
-            if (file.type != 'image/jpg' && file.type != 'image/jpeg' && file.type != 'image/png') {
-                alert('Выберите изображение не типа HEIC')
-            } else hook(URL.createObjectURL(e.target.files[0]))
+            createImgUrl(file)
+            .then(hook)
             //console.log(URL.createObjectURL(e.target.files[0]))
         }
     }

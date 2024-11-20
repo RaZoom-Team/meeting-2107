@@ -4,6 +4,8 @@ import { ReactElement, useContext, useRef } from "react"
 import { UserContext } from '../../../app/providers'
 import { addNotify } from '../../../shared'
 import { editUser } from '../../../entities'
+import heic2any from 'heic2any'
+import createImgUrl from '../../../widgets/crop/urlCreater'
 
 interface Props {
     is_open: boolean
@@ -38,7 +40,8 @@ export function ModalEdit({is_open, close_hook, open_desc, open_litera, open_nam
 
     const imgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            set_photo(URL.createObjectURL(e.target.files[0]))
+            createImgUrl(e.target.files[0])
+            .then(set_photo)
         }
         close_hook()
     }
