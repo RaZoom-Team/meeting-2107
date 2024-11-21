@@ -91,7 +91,7 @@ services:
     container_name: mt2107_nginx
     restart: unless-stopped
     ports:
-      - 127.0.0.1:8022:80
+      - 8022:80
     volumes:
       - type: bind
         source: ./nginx.conf
