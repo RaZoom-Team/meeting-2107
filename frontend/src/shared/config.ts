@@ -1,7 +1,7 @@
 import {Option} from './ui/select'
 
 
-export const API_URL:string = "https://meeting2107.telegram-tools.ru/api"
+export const API_URL:string = import.meta.env.VITE_API_URL
 
 const scale = 0.7
 export const CROP_W = 300*scale
