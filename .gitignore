@@ -8,3 +8,4 @@ data/
 frontend/tsconfig.app.tsbuildinfo
 /.idea
 frontend/tsconfig.app.tsbuildinfo
+/.VSCodeCounter
